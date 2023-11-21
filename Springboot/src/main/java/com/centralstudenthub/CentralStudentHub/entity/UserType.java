@@ -1,8 +1,7 @@
 package com.centralstudenthub.CentralStudentHub.entity;
 
-public class UserSessionInfo {
-
-    long userId;
-
-
+public enum UserType {
+    Student,
+    Teacher,
+    Admin
 }
