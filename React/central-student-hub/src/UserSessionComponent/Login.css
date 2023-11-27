@@ -10,7 +10,8 @@
 #login-container {
     display: flex;
     flex-direction: column;
-    width: 550px;
+    width: 100%;
+    max-width: 550px;
     height: 700px;
     padding: 0 50px;
     border-radius: 6px;
@@ -20,7 +21,7 @@
 }
 
 #login-container img {
-    width: 450px;
+    width: 100%;
     margin: 50px auto 0;
     object-fit: cover;
     border-radius: 6px;
@@ -29,7 +30,7 @@
 #login-container .login-form .login-label,
 #login-container .login-form label,
 #login-container .login-form .forget-pass,
-#login-container .login-form .signUp-button button {
+#login-container .login-form .signUp-button {
     color: var(--labels-color);
     text-transform: capitalize;
 }
@@ -51,6 +52,24 @@
     outline: none;
 }
 
+#login-container .login-form .input-container {
+    position: relative;
+}
+
+#login-container .login-form .email-container::before {
+    content: attr(email-icon);
+    position: absolute;
+    top: 22px;
+    left: -17px;
+}
+
+#login-container .login-form .password-container::before {
+    content: attr(password-icon);
+    position: absolute;
+    top: 24px;
+    left: -17px;
+}
+
 #login-container .login-form input::placeholder {
     color: var(--placeholders-color);
     text-transform: capitalize;
@@ -60,6 +79,10 @@
 #login-container .login-form input:focus::placeholder {
     border-color: var(--labels-color);
     color: var(--labels-color);
+}
+
+#login-container .login-form input:hover {
+    border-color: var(--labels-color);
 }
 
 #login-container .login-form .forget-pass {
@@ -91,8 +114,8 @@
     background-color: var(--buttons-color-on-hover);
 }
 
-#login-container .login-form .google-icon,
-#login-container .login-form .signUp-button button {
+#login-container .login-form .OAuth,
+#login-container .login-form .signUp-button {
     display: block;
     width: 50%;
     margin: 10px auto 0;
@@ -105,14 +128,14 @@
     transition: all 0.3s ease;
 }
 
-#login-container .login-form .google-icon {
+#login-container .login-form .OAuth {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-#login-container .login-form .google-icon span {
+#login-container .login-form .OAuth span {
     padding-right: 5px;
     text-transform: capitalize;
     color: var(--background-color);
@@ -120,17 +143,18 @@
 
 #login-container .login-form .forget-pass,
 #login-container .login-form .login-button,
-#login-container .login-form .google-icon span,
-#login-container .login-form .signUp-button button {
+#login-container .login-form .OAuth span,
+#login-container .login-form .signUp-button {
     font-size: 14px;
 }
 
 #login-container .login-form .error {
     font-size: 12px;
+    text-transform: capitalize;
     color: red;
 }
 
-#login-container .login-form .google-icon:hover,
-#login-container .login-form .signUp-button button:hover {
+#login-container .login-form .OAuth:hover,
+#login-container .login-form .signUp-button:hover {
     background-color: var(--buttons-color-on-hover);
 }
