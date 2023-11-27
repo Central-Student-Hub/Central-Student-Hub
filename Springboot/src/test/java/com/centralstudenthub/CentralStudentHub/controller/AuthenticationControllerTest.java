@@ -1,7 +1,7 @@
 package com.centralstudenthub.CentralStudentHub.controller;
 
 import com.centralstudenthub.CentralStudentHub.config.WebSecurityConfig;
-import com.centralstudenthub.CentralStudentHub.service.SignInService;
+import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,18 +21,18 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(SignInController.class)
+@Import(AuthenticationController.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = WebSecurityConfig.class)
-@WebMvcTest(controllers = SignInController.class)
+@WebMvcTest(controllers = AuthenticationController.class)
 @WebAppConfiguration
-class SignInControllerTest {
+class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext context;
     @MockBean
-    private SignInService signInService;
+    private AuthenticationService authenticationService;
 
     @BeforeEach
     void setUp() {
@@ -48,10 +48,10 @@ class SignInControllerTest {
         String email = "ali@gmail.com";
         String password = "1234";
 
-        Mockito.when(signInService.signIn(email,password))
+        Mockito.when(authenticationService.login(email,password))
                 .thenReturn(true);
 
-        mockMvc.perform(post("/signIn")
+        mockMvc.perform(post("/login")
                 .param("email",email)
                 .param("password",password))
                 .andExpect(status().isOk());
@@ -63,10 +63,10 @@ class SignInControllerTest {
         String email = "ali@gmail.com";
         String password = "1234";
 
-        Mockito.when(signInService.signIn(email,password))
+        Mockito.when(authenticationService.login(email,password))
                 .thenReturn(false);
 
-        mockMvc.perform(post("/signIn")
+        mockMvc.perform(post("/login")
                         .param("email",email)
                         .param("password",password))
                 .andExpect(status().isOk());
