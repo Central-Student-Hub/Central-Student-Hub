@@ -49,7 +49,7 @@ class AuthenticationControllerTest {
         String password = "1234";
 
         Mockito.when(authenticationService.login(email,password))
-                .thenReturn(true);
+                .thenReturn("true");
 
         mockMvc.perform(post("/login")
                 .param("email",email)
@@ -64,7 +64,7 @@ class AuthenticationControllerTest {
         String password = "1234";
 
         Mockito.when(authenticationService.login(email,password))
-                .thenReturn(false);
+                .thenReturn("false");
 
         mockMvc.perform(post("/login")
                         .param("email",email)

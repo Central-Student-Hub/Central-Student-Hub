@@ -1,9 +1,14 @@
 package com.centralstudenthub.CentralStudentHub.controller;
 
 
+import com.centralstudenthub.CentralStudentHub.Model.LoginResponse;
+import com.centralstudenthub.CentralStudentHub.Model.SignUpRequest;
+import com.centralstudenthub.CentralStudentHub.Model.SignUpResponse;
 import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,13 +19,15 @@ public class AuthenticationController {
     AuthenticationService signinService;
 
     @PostMapping("/signUp")
-    public boolean signUp(@RequestParam String email, @RequestParam String password){
-        signinService.signUp(email,password);
-        return true;
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest){
+        SignUpResponse signUpResponse = signinService.signUp(signUpRequest);
+        return ResponseEntity.ok(signUpResponse);
     }
+
     @PostMapping("/login")
-    public boolean login(@RequestParam String email, @RequestParam String password){
-        signinService.login(email,password);
-        return true;
+    public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response){
+        String token = signinService.login(email,password);
+        response.addCookie(new Cookie("Bearer ",token));
+        return ResponseEntity.ok(new LoginResponse("User Logged In"));
     }
 }

@@ -1,4 +1,4 @@
-package com.centralstudenthub.CentralStudentHub.entity;
+package com.centralstudenthub.CentralStudentHub.Model;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

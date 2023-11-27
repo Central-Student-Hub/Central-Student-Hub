@@ -25,7 +25,7 @@ public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userAccountId;
     private String ssn;
-    private Role userType;
+    private String userType;
     private String email;
     private String passwordHash;
     private String passwordSalt;

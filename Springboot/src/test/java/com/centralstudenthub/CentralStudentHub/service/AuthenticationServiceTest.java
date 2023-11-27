@@ -1,7 +1,7 @@
 package com.centralstudenthub.CentralStudentHub.service;
 
 import com.centralstudenthub.CentralStudentHub.entity.UserAccount;
-import com.centralstudenthub.CentralStudentHub.entity.Role;
+import com.centralstudenthub.CentralStudentHub.Model.Role;
 import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class AuthenticationServiceTest {
         UserAccount userAccountRet
                 = UserAccount.builder()
                 .userAccountId(1L)
-                .userType(Role.Student)
+                .userType(String.valueOf(Role.Student))
                 .ssn("xx-xxx-xxx-xy")
                 .email(email)
                 .passwordHash(password)
@@ -49,8 +49,8 @@ class AuthenticationServiceTest {
 
         // TODO: 11/21/2023  We have to create Validator and Validator Mock
 
-        boolean res = authenticationService.login(email,password);
-        assertTrue(res);
+        String res = authenticationService.login(email,password);
+        assertTrue(Boolean.parseBoolean(res));
     }
 
     @Test
@@ -61,7 +61,7 @@ class AuthenticationServiceTest {
         Mockito.when(userSessionInfoRepository.findByEmail(email))
                 .thenReturn(null);
 
-        boolean res = authenticationService.login(email,password);
-        assertFalse(res);
+        String res = authenticationService.login(email,password);
+        assertFalse(Boolean.parseBoolean(res));
     }
 }

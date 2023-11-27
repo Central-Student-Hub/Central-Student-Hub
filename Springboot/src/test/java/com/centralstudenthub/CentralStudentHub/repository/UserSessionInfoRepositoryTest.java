@@ -1,7 +1,7 @@
 package com.centralstudenthub.CentralStudentHub.repository;
 
 import com.centralstudenthub.CentralStudentHub.entity.UserAccount;
-import com.centralstudenthub.CentralStudentHub.entity.Role;
+import com.centralstudenthub.CentralStudentHub.Model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class UserSessionInfoRepositoryTest {
 
         UserAccount userAccount
                 = UserAccount.builder()
-                .userType(Role.Student)
+                .userType(String.valueOf(Role.Student))
                 .ssn("xx-xxx-xxx-xy")
                 .email(email)
                 .passwordHash(password)
