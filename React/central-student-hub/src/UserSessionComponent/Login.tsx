@@ -27,36 +27,36 @@ export default function Login() {
 
   return (
     <div id="login-container">
+      <img 
+        src="https://cdn.discordapp.com/attachments/1169703919698587750/1178702979403100230/vik2l5e9.png?ex=65771bb1&is=6564a6b1&hm=06edc38d3e73db2f12fc0980001056c28f98fcd6e9578624b5411292bf7627a6&"
+        alt="Central Student Hub logo"
+      />
       
-      {invalid ? <p>Invalid email or password</p> : <></>}
       
       <form className="login-form" action="submit" onSubmit={(e) => onLogin(e)}>
         
         <h1 className="login-label">login</h1>
         
         <div className="email-input">
-          <label htmlFor="email">email</label>
-          <input ref={emailInput} type="email" id="email" placeholder="type you email" />
+          <input ref={emailInput} type="email" id="email" placeholder="email" />
         </div>
 
         <div className="password-input">
-          <label htmlFor="password">password</label>
-          <input ref={passwordInput} type="password" id="password" placeholder="type your password" />
+          <input ref={passwordInput} type="password" id="password" placeholder="password" />
         </div>
 
+        {invalid ? <p className="error">Invalid email or password</p> : <></>}
+        
         <a className="forget-pass" href="http://localhost:3000/forgot-my-password">forgot password?</a>
 
         <button className="login-button" type="submit">login</button>
 
-        <div className="o-auth">
-          <p>or sign up using</p>
-          <div className='google-icon'>
-            <FontAwesomeIcon icon={faGoogle} />
-          </div>
+        <div className='google-icon'>
+          <span>login with</span>
+          <FontAwesomeIcon icon={faGoogle} />
         </div>
 
         <div className="signUp-button">
-          <p>or sign up using</p>
           <button onClick={() => navigate("/signup")}>sign up</button>
         </div>
 
