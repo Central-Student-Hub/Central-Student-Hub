@@ -1,19 +1,13 @@
 package com.centralstudenthub.CentralStudentHub.service;
 
-import com.centralstudenthub.CentralStudentHub.Model.Role;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpRequest;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpResponse;
 import com.centralstudenthub.CentralStudentHub.Validator.PasswordSecurity;
 import com.centralstudenthub.CentralStudentHub.entity.UserAccount;
 import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -55,7 +49,8 @@ public class AuthenticationService {
 
 
     public String login(String email, String password){
-        Optional<UserAccount> user = userSessionInfoRepository.findByEmail(email);
+
+
 
         return "hi";
     }

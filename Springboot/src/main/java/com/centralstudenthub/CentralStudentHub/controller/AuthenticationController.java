@@ -25,9 +25,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response){
+    public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response){
         String token = signinService.login(email,password);
         response.addCookie(new Cookie("Bearer ",token));
-        return ResponseEntity.ok(new LoginResponse("User Logged In"));
+        return ResponseEntity.ok(true);
     }
 }
