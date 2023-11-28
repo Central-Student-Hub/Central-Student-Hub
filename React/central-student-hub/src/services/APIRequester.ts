@@ -4,8 +4,13 @@ import { SignupResponse, SignupRequest } from '../UserSessionComponent/Models/Si
 export class APIRequester {
     async login(request: LoginRequest): Promise<boolean> {
         try {
-            const response: Response = await fetch("http://localhost:8080/login", { mode: 'cors', body: JSON.stringify(request) });
-            return await response.json();
+            const headers: HeadersInit = { "Content-Type": "application/json" };
+            const response: Response = await fetch("http://localhost:8082/auth/login", { mode: 'cors', body: JSON.stringify(request), method: "post", headers: headers });
+            const loginResponse: LoginResponse = await response.json();
+            if (!loginResponse.accept)
+                return false;
+            document.cookie = `token=${loginResponse.token}}`
+            return true;
         } catch (error) {
             console.error(error);
             return false;
