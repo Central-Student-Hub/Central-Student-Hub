@@ -1,10 +1,9 @@
-//'user client';
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './userInfo.module.css';
 import DatePicker from 'react-datepicker' ; 
 import 'react-datepicker/dist/react-datepicker.css';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 
 type FormState = {
@@ -28,7 +27,7 @@ type UserInfoPageProps = {
   ssnNew: string;
 };
 
-export default function Home({ ssnNew }: UserInfoPageProps) {
+export default function UserInfo({ ssnNew }: UserInfoPageProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const currentDate = new Date();
   const minDate = new Date(currentDate.getFullYear() - 80, 0, 1); 
@@ -81,7 +80,6 @@ export default function Home({ ssnNew }: UserInfoPageProps) {
     const { id, value } = event.target;
     setForm((prevForm) => ({ ...prevForm, [id]: value }));
   };
- 
 
   const validatePhoneNumber = (phoneNumber: string) => {
     const phoneNumberRegex = /^\d*$/; // Regex to allow digits only
@@ -292,7 +290,8 @@ export default function Home({ ssnNew }: UserInfoPageProps) {
           <label htmlFor="birthdate">Birthdate</label>
         </div>
         <div className={styles.editInput}>
-          <DatePicker
+          {/* <input type='date' id='birthdate' value={form.birthdate} onChange={handleInputChange} /> */}
+          <DatePicker  
             selected={selectedDate}
             onChange={(date: Date) => {
               setSelectedDate(date);
@@ -313,7 +312,7 @@ export default function Home({ ssnNew }: UserInfoPageProps) {
           )}
         </div>
       </div>
-   
+
       <div className={styles.formGroup}>
         <div className={styles.editLabel}>
           <label htmlFor="country">Country</label>
@@ -389,7 +388,6 @@ export default function Home({ ssnNew }: UserInfoPageProps) {
         </div>
       </div>   
   
- 
       <div className={styles.formGroup}>
         <button type="submit" className={styles.userInfosubButton}  disabled={isSubmitted}>Submit</button>
       </div>
