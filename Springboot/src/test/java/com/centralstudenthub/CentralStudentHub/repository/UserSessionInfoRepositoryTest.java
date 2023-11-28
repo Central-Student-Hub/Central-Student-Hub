@@ -29,7 +29,7 @@ class UserSessionInfoRepositoryTest {
 
         UserAccount userAccount
                 = UserAccount.builder()
-                .userType(String.valueOf(Role.Student))
+                .userType(Role.Student)
                 .ssn("xx-xxx-xxx-xy")
                 .email(email)
                 .passwordHash(password)

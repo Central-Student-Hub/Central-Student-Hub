@@ -41,7 +41,7 @@ class AuthenticationServiceTest {
         UserAccount userAccountRet
                 = UserAccount.builder()
                 .userAccountId(1L)
-                .userType(String.valueOf(Role.Student))
+                .userType(Role.Student)
                 .ssn("xx-xxx-xxx-xy")
                 .email(email)
                 .passwordHash(password)
