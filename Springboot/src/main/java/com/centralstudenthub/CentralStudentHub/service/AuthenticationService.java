@@ -1,11 +1,14 @@
 package com.centralstudenthub.CentralStudentHub.service;
 
+import com.centralstudenthub.CentralStudentHub.Model.LoginRequest;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpRequest;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpResponse;
 import com.centralstudenthub.CentralStudentHub.Validator.PasswordSecurity;
 import com.centralstudenthub.CentralStudentHub.entity.UserAccount;
 import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.Optional;
@@ -18,6 +21,11 @@ public class AuthenticationService {
 
     @Autowired
     private PasswordSecurity passwordSecurity;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
 
     public SignUpResponse signUp(SignUpRequest signUpRequest){
 
@@ -48,11 +56,25 @@ public class AuthenticationService {
     }
 
 
-    public String login(String email, String password){
+    public String login(LoginRequest loginRequest){
 
+        Optional<UserAccount> user = userSessionInfoRepository.findByEmail(loginRequest.getEmail());
+        if(user.isEmpty()){
+            return null;
+        }
+        String salt = user.get().getPasswordSalt();
+        String pass = loginRequest.getPassword()+salt;
 
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                       loginRequest.getEmail(),
+                        pass
+                )
+        );
 
-        return "hi";
+        String token = jwtService.generateToken(user.get());
+
+        return token;
     }
 
 }

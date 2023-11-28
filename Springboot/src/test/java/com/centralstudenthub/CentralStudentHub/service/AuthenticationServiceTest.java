@@ -1,5 +1,6 @@
 package com.centralstudenthub.CentralStudentHub.service;
 
+import com.centralstudenthub.CentralStudentHub.Model.LoginRequest;
 import com.centralstudenthub.CentralStudentHub.entity.UserAccount;
 import com.centralstudenthub.CentralStudentHub.Model.Role;
 import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
@@ -32,6 +33,10 @@ class AuthenticationServiceTest {
     void signInExistingUser() {
         String email = "ali@gmail.com";
         String password = "1234";
+        LoginRequest loginRequest = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
 
         UserAccount userAccountRet
                 = UserAccount.builder()
@@ -49,19 +54,24 @@ class AuthenticationServiceTest {
 
         // TODO: 11/21/2023  We have to create Validator and Validator Mock
 
-        String res = authenticationService.login(email,password);
+        String res = authenticationService.login(loginRequest);
         assertTrue(Boolean.parseBoolean(res));
     }
 
     @Test
     void signInNonExistingUser() {
+
         String email = "maro@gmail.com";
         String password = "1234";
+        LoginRequest loginRequest = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
 
         Mockito.when(userSessionInfoRepository.findByEmail(email))
                 .thenReturn(null);
 
-        String res = authenticationService.login(email,password);
+        String res = authenticationService.login(loginRequest);
         assertFalse(Boolean.parseBoolean(res));
     }
 }
