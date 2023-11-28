@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("http://localhost:3000")
 public class AuthenticationController {
 
     @Autowired
@@ -27,14 +28,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
         String token = signinService.login(loginRequest);
         if(token != null){
-            //response.addCookie(new Cookie("token","Bearer "+token));
-            return ResponseEntity.ok(true);
+            LoginResponse loginResponse = new LoginResponse(token,true);
+            System.out.println(token);
+            return ResponseEntity.ok(loginResponse);
         }
         else{
-            return ResponseEntity.ok(false);
+            return ResponseEntity.ok(new LoginResponse("",false));
         }
     }
 }
