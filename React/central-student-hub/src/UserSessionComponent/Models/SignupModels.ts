@@ -1,4 +1,4 @@
-export type UserType = "Student" | "Teacher" | "Admin"
+export type UserType = "Student" | "Staff" | "Admin"
 
 export type SignupRequest = {
     ssn: string
