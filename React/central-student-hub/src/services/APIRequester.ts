@@ -1,5 +1,5 @@
-import { LoginResponse, LoginRequest } from '../UserSessionComponent/Models/LoginModels.ts'
-
+import { SignupRequest , SignupResponse } from './../UserSessionComponent/Models/SignupModels';
+import { LoginRequest, LoginResponse } from '../UserSessionComponent/Models/LoginModels.ts'
 
 export class APIRequester {
     async login(request: LoginRequest): Promise<boolean> {
@@ -36,7 +36,7 @@ export class APIRequester {
     async home(): Promise<string> {
         try {
             const token = document.cookie.split("=")[1];
-            const headers: HeadersInit = { "Authorization": `Bearer +${token}` };
+            const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
             const requestOptions: RequestInit = { mode: 'cors', method: "get", headers: headers };
             const response: Response = await fetch("http://localhost:8082", requestOptions);
             return await response.text();
