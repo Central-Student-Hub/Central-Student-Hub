@@ -1,12 +1,10 @@
 package com.centralstudenthub.CentralStudentHub.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
+@Builder
 public class LoginResponse {
     private String Token;
 }

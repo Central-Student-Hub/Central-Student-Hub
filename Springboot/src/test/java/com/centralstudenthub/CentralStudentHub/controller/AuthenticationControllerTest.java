@@ -1,5 +1,6 @@
 package com.centralstudenthub.CentralStudentHub.controller;
 
+import com.centralstudenthub.CentralStudentHub.Model.LoginRequest;
 import com.centralstudenthub.CentralStudentHub.config.WebSecurityConfig;
 import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,12 +44,16 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void signInExistingUser() throws Exception {
+    void loginExistingUser() throws Exception {
 
         String email = "ali@gmail.com";
         String password = "1234";
+        LoginRequest loginRequest = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
 
-        Mockito.when(authenticationService.login(email,password))
+        Mockito.when(authenticationService.login(loginRequest))
                 .thenReturn("true");
 
         mockMvc.perform(post("/login")
@@ -58,12 +63,16 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void signInNonExistingUser() throws Exception {
+    void loginNonExistingUser() throws Exception {
 
         String email = "ali@gmail.com";
         String password = "1234";
+        LoginRequest loginRequest = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
 
-        Mockito.when(authenticationService.login(email,password))
+        Mockito.when(authenticationService.login(loginRequest))
                 .thenReturn("false");
 
         mockMvc.perform(post("/login")

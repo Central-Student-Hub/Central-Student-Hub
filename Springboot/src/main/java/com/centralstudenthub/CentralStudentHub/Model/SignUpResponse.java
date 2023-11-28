@@ -1,12 +1,10 @@
 package com.centralstudenthub.CentralStudentHub.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@Builder
 public class SignUpResponse {
     private String message;
     private boolean accept;
