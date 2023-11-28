@@ -1,14 +1,12 @@
-'use client' ;
-import React, { useState, FormEvent, useRef, useEffect } from 'react';
-import styles from './page.module.css'; // Update import to match your file name
-import Link from 'next/link';
-import  UserInfo  from '@/components/userInfo';
+"use client";
+import React, { useState, FormEvent, useRef, useEffect } from "react";
+import styles from "./page.module.css"; // Update import to match your file name
+// import Link from 'next/link';
+import UserInfo from "./components/userInfo.tsx";
 
-
-
-export default function Home() {
-  const [ssn, setSsn] = useState('');
-  const [error, setError] = useState('');
+export default function SignUp() {
+  const [ssn, setSsn] = useState("");
+  const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -20,28 +18,28 @@ export default function Home() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-       
-    setError('');
+    setError("");
     setSubmitted(false);
 
     // Check if SSN is 14 digits
     if (/^\d{14}$/.test(ssn)) {
-      setError('');
+      setError("");
       setSubmitted(true);
-      console.log('SSN:', ssn);
-      
+      console.log("SSN:", ssn);
     } else {
-      setError('SSN must consist of 14 digits only');
+      setError("SSN must consist of 14 digits only");
     }
   };
 
   return (
-   <>
-    <div className={styles.container}>
+    <>
+      <div className={styles.container}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
             <div className={styles.tmp}>
-              <label htmlFor="ssn" className={styles.label}>Enter National ID </label>
+              <label htmlFor="ssn" className={styles.label}>
+                Enter National ID{" "}
+              </label>
             </div>
             <input
               type="text"
@@ -52,7 +50,11 @@ export default function Home() {
               ref={inputRef} // Assign the ref to the input element
             />
           </div>
-          <button type="submit" className={styles.subButton} disabled={submitted}>
+          <button
+            type="submit"
+            className={styles.subButton}
+            disabled={submitted}
+          >
             Submit
           </button>
           {submitted && (
@@ -63,14 +65,12 @@ export default function Home() {
           )}
           {error && <p className={styles.error}>{error}</p>}
         </form>
-      </div>  
+      </div>
       {submitted && (
-        <div >
+        <div>
           <UserInfo ssnNew={ssn} />
         </div>
       )}
-   </>
-    
- 
+    </>
   );
 }

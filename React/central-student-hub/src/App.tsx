@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import Login from './UserSessionComponent/Login.tsx';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignUp from './sign_up/SignUp.tsx';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-my-password' element={<Login />}></Route> {/* (TODO): Add forgot password component here */}
           <Route path='/' element={<Login />}></Route>
+          <Route path='/signup' element={<SignUp />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

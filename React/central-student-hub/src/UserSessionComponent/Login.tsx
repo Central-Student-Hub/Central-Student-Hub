@@ -1,4 +1,6 @@
 import React, { FormEvent, MutableRefObject, useRef, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './Login.css';
 import { useNavigate } from "react-router-dom";
 // import { APIRequester } from "../Services/APIRequester.ts";
@@ -24,30 +26,38 @@ export default function Login() {
   }
 
   return (
-    <div id="login-container">
+    <div className="login-container" id="login-container">
       <img 
-        src="https://cdn.discordapp.com/attachments/1169703919698587750/1174431449332596736/image.png?ex=6570cc05&is=655e5705&hm=72894009e4914ee56c9e99caaab334c263302ce98b16834d88b872e55f1d36c7&"
+        src="https://cdn.discordapp.com/attachments/1169703919698587750/1178702979403100230/vik2l5e9.png?ex=65771bb1&is=6564a6b1&hm=06edc38d3e73db2f12fc0980001056c28f98fcd6e9578624b5411292bf7627a6&"
         alt="Central Student Hub logo"
       />
-      <div className="login-div">
-        {invalid ? <p>Invalid email or password</p> : <></>}
-        <form className="login-form" action="submit" onSubmit={(e) => onLogin(e)}>
-          <input className="login-input" ref={emailInput} type="email" id="email" placeholder="Email address" />
-          <br />
-          <input className="login-input" ref={passwordInput} type="password" id="password" placeholder="Password" />
-          <br />
-          <button className="login-button" id="login-button" type="submit">Login</button>
-          <button onClick={() => navigate("/signup")} className="login-button">Sign-up</button>
-        </form>
 
-        <a className="login-a" href="http://localhost:3000/forgot-my-password">
-          Forgot my password
-        </a>
-        <br />
-        <button className="login-button">
-          Login with Gmail
-        </button>
-      </div>
+      <form className="login-form" action="submit" onSubmit={(e) => onLogin(e)}>
+        
+        <h1 className="login-label">login</h1>
+        
+        <div className="input-container email-container" email-icon='&#128232;'>
+          <input className="email" ref={emailInput} type="email" id="email" placeholder=" email" />
+        </div>
+        
+        <div className="input-container password-container" password-icon='&#x1F510;'>
+          <input className="password" ref={passwordInput} type="password" id="password" placeholder="password" />
+        </div>
+
+        {invalid ? <p className="error">invalid email or password</p> : <></>}
+        
+        <a className="forget-pass" href="http://localhost:3000/forgot-my-password">forgot password?</a>
+
+        <button className="login-button" type="submit">login</button>
+
+        <div className='OAuth'>
+          <span>login with</span>
+          <FontAwesomeIcon icon={faGoogle} />
+        </div>
+
+        <button className="signUp-button" onClick={() => navigate("/signup")}>sign up</button>
+
+      </form>
     </div>
   )
 }
