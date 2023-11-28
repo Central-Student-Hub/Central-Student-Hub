@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './userInfo.module.css';
+import styles from './UserInfo.module.css';
 import DatePicker from 'react-datepicker' ; 
 import 'react-datepicker/dist/react-datepicker.css';
 // import { useRouter } from 'next/router';

@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './Login.css';
 import { useNavigate } from "react-router-dom";
-// import { APIRequester } from "../Services/APIRequester.ts";
+import { APIRequester } from "../../services/APIRequester.ts";
+import { LoginRequest } from "../../UserSessionComponent/Models/LoginModels.ts";
 
-// const apiRequester = new APIRequester()
+const apiRequester = new APIRequester()
 
 export default function Login() {
   const emailInput: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -15,14 +16,16 @@ export default function Login() {
 
   async function onLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const email: string = (emailInput.current as HTMLInputElement).value;
-    const password: string = (passwordInput.current as HTMLInputElement).value;
-    // const loggedIn: boolean = await apiRequester.login(email, password);
+    const request: LoginRequest = {
+      email: (emailInput.current as HTMLInputElement).value,
+      password: (passwordInput.current as HTMLInputElement).value
+    }
 
-    // if (loggedIn)
-      // navigate("/")
-    // else
-      // setInvalid(true);
+    const loggedIn: boolean = await apiRequester.login(request);
+    if (loggedIn)
+      navigate("/")
+    else
+      setInvalid(true);
   }
 
   return (

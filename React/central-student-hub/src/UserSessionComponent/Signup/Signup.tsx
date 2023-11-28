@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, FormEvent, useRef, useEffect } from "react";
-import styles from "./page.module.css"; // Update import to match your file name
+import styles from "./Signup.module.css"; // Update import to match your file name
 // import Link from 'next/link';
-import UserInfo from "./components/userInfo.tsx";
+import UserInfo from "./UserInfo.tsx";
 
 export default function SignUp() {
   const [ssn, setSsn] = useState("");
