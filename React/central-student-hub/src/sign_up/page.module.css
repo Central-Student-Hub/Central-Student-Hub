@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.form {
+  font-size: 15px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 15px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  width: 450px; 
+  height: 130px;
+}
+
+
+.label {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+}
+
+.subButton {
+  border-radius: 5px; 
+  background-color: #4CAF50; 
+  color: white; 
+  float: right; 
+  margin-right: 20px;
+  width: 90px; 
+  height: 35px; 
+}
+
+.subButton:hover:not([disabled]){
+  background-color: rgb(20, 65, 21);
+}
+
+
+.successMessage {
+  color: green;
+  margin-top: 30px;
+}
+
+
+.tmp{
+  margin-bottom: 15px;
+}
