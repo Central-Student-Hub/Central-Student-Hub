@@ -1,5 +1,5 @@
 import { LoginResponse, LoginRequest } from '../UserSessionComponent/Models/LoginModels.ts'
-import { SignupResponse, SignupRequest } from '../UserSessionComponent/Models/SignupModels.ts'
+
 
 export class APIRequester {
     async login(request: LoginRequest): Promise<boolean> {

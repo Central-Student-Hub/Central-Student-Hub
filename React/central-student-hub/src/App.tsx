@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-my-password' element={<Login />}></Route> {/* (TODO): Add forgot password component here */}
-          <Route path='/' element={<Login />}></Route>
+          <Route path='/' element={<SignUp />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
         </Routes>
       </BrowserRouter>

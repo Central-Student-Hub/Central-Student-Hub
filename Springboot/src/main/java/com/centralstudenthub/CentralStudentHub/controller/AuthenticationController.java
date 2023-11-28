@@ -36,7 +36,7 @@ public class AuthenticationController {
             return ResponseEntity.ok(loginResponse);
         }
         else{
-            return ResponseEntity.ok(new LoginResponse("",false));
+            return ResponseEntity.ok(new LoginResponse("no Token",false));
         }
     }
 }
