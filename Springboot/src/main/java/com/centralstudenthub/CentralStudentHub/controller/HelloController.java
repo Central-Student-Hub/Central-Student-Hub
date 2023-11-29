@@ -16,10 +16,10 @@ public class HelloController {
     private JwtService jwtService;
     @GetMapping("/Hello")
     public String Hello(HttpServletRequest request, HttpServletResponse response){
-        //String authHeader = request.getHeader("Authorization");
-        //String token = authHeader.substring(7);
-        //String username = jwtService.extractUsername(token);
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader.substring(7);
+        String username = jwtService.extractUsername(token);
 
-        return "username";
+        return username;
     }
 }
