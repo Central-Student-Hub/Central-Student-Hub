@@ -1,5 +1,6 @@
 package com.centralstudenthub.CentralStudentHub.config;
 
+
 import com.centralstudenthub.CentralStudentHub.authentication.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -22,6 +25,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
     @Autowired
     private AuthenticationProvider authenticationProvider;

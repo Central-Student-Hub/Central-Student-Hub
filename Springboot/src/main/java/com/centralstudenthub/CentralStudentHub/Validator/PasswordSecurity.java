@@ -45,4 +45,18 @@ public class PasswordSecurity {
         String candidateHash = hashPassword(candidate , salt);
         return candidateHash.equals(hash);
     }
+
+   /* public static void main(String[] args) {
+
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        System.out.println(b.encode("marwan"));
+        System.out.println(b.encode("marwan"));
+        System.out.println(b.encode("marwan"));
+        System.out.println(b.encode("marwan"));
+
+        System.out.println( DigestUtils.md5DigestAsHex("marwan".getBytes()));
+        System.out.println( DigestUtils.md5DigestAsHex("marwan".getBytes()));
+        System.out.println( DigestUtils.md5DigestAsHex("marwan".getBytes()));
+        System.out.println( DigestUtils.md5DigestAsHex("marwan".getBytes()));
+    }*/
 }

@@ -47,7 +47,7 @@ class AuthenticationServiceTest {
                 .email(email)
                 .password(password)
                 .build();
-
+      
         String salt = passwordSecurity.getNextSalt();
         String hashedPassword = passwordSecurity
                 .hashPassword(password,salt);

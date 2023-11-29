@@ -2,6 +2,7 @@ package com.centralstudenthub.CentralStudentHub.controller;
 
 import com.centralstudenthub.CentralStudentHub.Model.*;
 import com.centralstudenthub.CentralStudentHub.config.ApplicationConfig;
+import com.centralstudenthub.CentralStudentHub.Model.LoginRequest;
 import com.centralstudenthub.CentralStudentHub.config.WebSecurityConfig;
 import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
 import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
@@ -82,6 +83,10 @@ class AuthenticationControllerTest {
 
         String email = "ali@gmail.com";
         String password = "1234";
+        LoginRequest loginRequest = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
 
         LoginResponse response = new LoginResponse("no token", false);
 
