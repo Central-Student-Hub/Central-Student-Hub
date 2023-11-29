@@ -6,5 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LoginResponse {
-    private String Token;
+    private String token;
+    private boolean accept;
 }

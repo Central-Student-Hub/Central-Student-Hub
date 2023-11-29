@@ -30,7 +30,8 @@ public class AuthenticationService {
     public SignUpResponse signUp(SignUpRequest signUpRequest){
 
         Optional<UserAccount> DBuser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
-        if(DBuser.isPresent() && DBuser.get().getEmail() == null){
+        boolean userPresent = DBuser.isPresent();
+        if(userPresent && DBuser.get().getEmail() == null){
 
             Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
             if(checkEmail.isEmpty()){
@@ -52,7 +53,9 @@ public class AuthenticationService {
                 return new SignUpResponse("Email Already Exists",false);
             }
         }
-        return new SignUpResponse("You don't have access",false);
+
+        if(!userPresent) return new SignUpResponse("You don't have access",false);
+        else return new SignUpResponse("You already have an account with this email",false);
     }
 
 

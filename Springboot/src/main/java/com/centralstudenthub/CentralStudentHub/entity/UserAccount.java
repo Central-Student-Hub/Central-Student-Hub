@@ -1,5 +1,6 @@
 package com.centralstudenthub.CentralStudentHub.entity;
 
+import com.centralstudenthub.CentralStudentHub.Model.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,8 @@ public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userAccountId;
     private String ssn;
-    private String userType;
+    @Enumerated(EnumType.STRING)
+    private Role userType;
     private String email;
     private String passwordHash;
     private String passwordSalt;
