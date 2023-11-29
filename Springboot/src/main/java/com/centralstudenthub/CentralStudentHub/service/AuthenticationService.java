@@ -31,8 +31,7 @@ public class AuthenticationService {
 
         Optional<UserAccount> DBuser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
         boolean userPresent = DBuser.isPresent();
-        String userEmail = DBuser.get().getEmail();
-        if(userPresent && userEmail == null){
+        if(userPresent && DBuser.get().getEmail() == null){
 
             Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
             if(checkEmail.isEmpty()){
