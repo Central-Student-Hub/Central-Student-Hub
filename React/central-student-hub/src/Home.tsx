@@ -14,9 +14,7 @@ export default function Home() {
         }
 
         const fetchEmail = async () => await apiRequester.home();
-        fetchEmail()
-            .then((email) => setEmail(email))
-            .catch((error) => console.error(error))
+        fetchEmail().then((email) => setEmail(email)).catch((error) => console.error(error))
     }, []);
 
     return (

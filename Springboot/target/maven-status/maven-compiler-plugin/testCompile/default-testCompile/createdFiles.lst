@@ -1,0 +1,5 @@
+com\centralstudenthub\CentralStudentHub\controller\AuthenticationControllerTest.class
+com\centralstudenthub\CentralStudentHub\repository\UserSessionInfoRepositoryTest.class
+com\centralstudenthub\CentralStudentHub\CentralStudentHubApplicationTests.class
+com\centralstudenthub\CentralStudentHub\controller\HelloControllerTest.class
+com\centralstudenthub\CentralStudentHub\service\AuthenticationServiceTest.class

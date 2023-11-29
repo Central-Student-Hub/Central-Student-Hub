@@ -44,7 +44,7 @@ export default function Login() {
         </div>
         
         <div className="input-container password-container" password-icon='&#x1F510;'>
-          <input className="password" ref={passwordInput} type="password" id="password" placeholder="password" />
+          <input className="password" ref={passwordInput} minLength={8} maxLength={16} type="password" id="password" placeholder="password" />
         </div>
 
         {invalid ? <p className="error">invalid email or password</p> : <></>}

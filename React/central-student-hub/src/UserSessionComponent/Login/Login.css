@@ -1,4 +1,4 @@
-:root {
+#login-container {
     --background-color: #f7f7f7;
     --labels-color: black;
     --placeholders-color: #a5a5a5;
@@ -28,7 +28,6 @@
 }
 
 #login-container .login-form .login-label,
-#login-container .login-form label,
 #login-container .login-form .forget-pass,
 #login-container .login-form .signUp-button {
     color: var(--labels-color);
@@ -60,14 +59,14 @@
     content: attr(email-icon);
     position: absolute;
     top: 22px;
-    left: -17px;
+    left: -23px;
 }
 
 #login-container .login-form .password-container::before {
     content: attr(password-icon);
     position: absolute;
     top: 24px;
-    left: -17px;
+    left: -23px;
 }
 
 #login-container .login-form input::placeholder {

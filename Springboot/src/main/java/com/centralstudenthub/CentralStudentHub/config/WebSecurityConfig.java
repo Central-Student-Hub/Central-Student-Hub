@@ -29,9 +29,6 @@ public class WebSecurityConfig {
     @Autowired
     private AuthenticationProvider authenticationProvider;
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
