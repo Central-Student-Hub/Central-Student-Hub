@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     @Autowired
-    AuthenticationService signinService;
+    private AuthenticationService signinService;
 
     @PostMapping("/signUp")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest){

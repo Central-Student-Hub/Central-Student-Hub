@@ -38,7 +38,7 @@ export class APIRequester {
         const token = document.cookie.split("=")[1];
         console.log(token);
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`};
-        const requestOptions: RequestInit = { mode: 'cors',headers:headers,method: "get"};
+        const requestOptions: RequestInit = { mode: 'cors',headers:headers,method: "get",credentials:"include"};
         console.log(requestOptions);
         const response: Response = await fetch("http://localhost:8082/Hello", requestOptions);
         return await response.text();
