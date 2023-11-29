@@ -6,10 +6,7 @@ import com.centralstudenthub.CentralStudentHub.Model.LoginResponse;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpRequest;
 import com.centralstudenthub.CentralStudentHub.Model.SignUpResponse;
 import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +33,7 @@ public class AuthenticationController {
             return ResponseEntity.ok(loginResponse);
         }
         else{
-            return ResponseEntity.ok(new LoginResponse("no Token",false));
+            return ResponseEntity.ok(new LoginResponse("no token",false));
         }
     }
 }

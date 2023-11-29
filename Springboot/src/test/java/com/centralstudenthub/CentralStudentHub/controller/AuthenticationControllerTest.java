@@ -1,10 +1,9 @@
 package com.centralstudenthub.CentralStudentHub.controller;
 
-import com.centralstudenthub.CentralStudentHub.Model.LoginRequest;
-import com.centralstudenthub.CentralStudentHub.Model.Role;
-import com.centralstudenthub.CentralStudentHub.Model.SignUpRequest;
-import com.centralstudenthub.CentralStudentHub.Model.SignUpResponse;
+import com.centralstudenthub.CentralStudentHub.Model.*;
+import com.centralstudenthub.CentralStudentHub.config.ApplicationConfig;
 import com.centralstudenthub.CentralStudentHub.config.WebSecurityConfig;
+import com.centralstudenthub.CentralStudentHub.repository.UserSessionInfoRepository;
 import com.centralstudenthub.CentralStudentHub.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,14 +26,13 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import(AuthenticationController.class)
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = WebSecurityConfig.class)
+@ContextConfiguration(classes = { WebSecurityConfig.class })
 @WebMvcTest(controllers = AuthenticationController.class)
 @WebAppConfiguration
+@ComponentScan(basePackages = "com.centralstudenthub.CentralStudentHub")
 class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
@@ -40,6 +40,9 @@ class AuthenticationControllerTest {
     private WebApplicationContext context;
     @MockBean
     private AuthenticationService authenticationService;
+
+    @MockBean
+    private UserSessionInfoRepository userSessionInfoRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -62,17 +65,16 @@ class AuthenticationControllerTest {
                 .password(password)
                 .build();
 
-        String token = "token";
+        LoginResponse response = new LoginResponse("token", true);
 
         Mockito.when(authenticationService.login(loginRequest))
-                .thenReturn(token);
+                .thenReturn("token");
 
         mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                        .andExpect(status().isOk());
-                        //.andExpect(jsonPath("$.token")
-                               // .value(token));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(response)));
     }
 
     @Test
@@ -80,6 +82,9 @@ class AuthenticationControllerTest {
 
         String email = "ali@gmail.com";
         String password = "1234";
+
+        LoginResponse response = new LoginResponse("no token", false);
+
         LoginRequest loginRequest = LoginRequest.builder()
                 .email(email)
                 .password(password)
@@ -91,7 +96,8 @@ class AuthenticationControllerTest {
         mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(response)));
     }
 
     @Test
@@ -116,10 +122,12 @@ class AuthenticationControllerTest {
                 .thenReturn(signUpResponse);
 
         mockMvc.perform(post("/auth/signUp")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(signUpResponse)));
     }
+
     @Test
     void signUpUserUsingAnAlreadyUsedEmail() throws Exception {
         String SSN = "12345678901234";
@@ -142,9 +150,10 @@ class AuthenticationControllerTest {
                 .thenReturn(signUpResponse);
 
         mockMvc.perform(post("/auth/signUp")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(signUpResponse)));
     }
 
     @Test
@@ -169,9 +178,10 @@ class AuthenticationControllerTest {
                 .thenReturn(signUpResponse);
 
         mockMvc.perform(post("/auth/signUp")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(signUpResponse)));
     }
 
     @Test
@@ -196,8 +206,9 @@ class AuthenticationControllerTest {
                 .thenReturn(signUpResponse);
 
         mockMvc.perform(post("/auth/signUp")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(signUpResponse)));
     }
 }

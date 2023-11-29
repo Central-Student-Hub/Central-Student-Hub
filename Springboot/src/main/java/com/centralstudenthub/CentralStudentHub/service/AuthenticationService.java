@@ -50,7 +50,7 @@ public class AuthenticationService {
                 return new SignUpResponse("Account Created Successfully",true);
             }
             else{
-                return new SignUpResponse("Email is Used",false);
+                return new SignUpResponse("Email Already Exists",false);
             }
         }
 
