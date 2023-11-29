@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import styles from '../Signup/Signup.module.css';
+import { APIRequester } from '../../services/APIRequester.ts';
 
-type FormState = {
+export type FormState = {
   SSN: string;
   email: string;
   password: string;
@@ -10,11 +11,13 @@ type FormState = {
 };
 
 export default function Home() {
+
+  const apiRequester = new APIRequester();
   const [form, setForm] = useState<FormState>({
     SSN: '',
     email: '',
     password: '',
-    type: 'student', // Default type
+    type: 'Student', // Default type
   });
   const [errors, setErrors] = useState<FormState>({
     SSN: '',
@@ -23,6 +26,8 @@ export default function Home() {
     type: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [successMessage, setsuccessMessage] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = event.target;
@@ -51,11 +56,14 @@ export default function Home() {
     return !Object.values(newErrors).some((error) => error !== '');
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateForm()) {
+      const haga = await apiRequester.signup(form);
+      console.log(haga.message);
+      setsuccessMessage(haga.message);
       console.log('Form is valid, submit the data', form);
-      setIsSubmitted(true);
+      setIsSubmitted(haga.accept);
     } else {
       console.log('Form is invalid, do not submit', errors);
       setIsSubmitted(false);
@@ -91,9 +99,9 @@ export default function Home() {
       <div className={styles.formGroup}>
         <label htmlFor="type">Type</label>
         <select id="type" value={form.type} onChange={handleInputChange}>
-          <option value="staff">Staff</option>
-          <option value="student">Student</option>
-          <option value="admin">Admin</option>
+          <option value="Staff">Staff</option>
+          <option value="Student">Student</option>
+          <option value="Admin">Admin</option>
         </select>
       </div>
 
@@ -103,7 +111,8 @@ export default function Home() {
       </div>
 
       {/* Success Message */}
-      {isSubmitted && <div className={styles.successMessage}>Signup successful!</div>}
+      {isSubmitted && <div className={styles.successMessage}>{successMessage}</div>}
+
     </form>
   );
 }
