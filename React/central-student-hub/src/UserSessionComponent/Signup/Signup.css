@@ -1,0 +1,112 @@
+#signUp-container {
+  --background-color: #f7f7f7;
+  --labels-color: black;
+  --placeholders-color: #a5a5a5;
+  --buttons-color: #1F1F1F;
+  --buttons-color-on-hover: #5f5f5f;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#signUp-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 550px;
+  height: 700px;
+  padding: 0 50px;
+  border-radius: 6px;
+  background-color: var(--background-color);
+  box-shadow: 1px 2px 11px 0px #456a8c59;
+  user-select: none;
+}
+
+#signUp-container img {
+  width: 100%;
+  margin: 50px auto 0;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+#signUp-container .signUp-form .signUp-label {
+  font-size: 24px;
+  width: fit-content;
+  margin: 30px auto 0;
+  color: var(--labels-color);
+}
+
+#signUp-container .signUp-form input {
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px 5px 5px;
+  border: none;
+  border-bottom: var(--placeholders-color) solid 1px;
+  border-radius: 3px;
+  outline: none;
+  cursor: default;
+  background-color: inherit;
+}
+
+#signUp-container .signUp-form input::placeholder {
+  text-transform: capitalize;
+  color: var(--placeholders-color);
+}
+
+#signUp-container .signUp-form input:focus,
+#signUp-container .signUp-form input:focus::placeholder {
+  color: var(--labels-color);
+  border-color: var(--labels-color);
+}
+
+#signUp-container .signUp-form input:hover {
+  border-color: var(--labels-color);
+}
+
+#signUp-container .signUp-form .input-container .error {
+  margin-top: 2px;
+  margin-left: 2px;
+  font-size: 14px;
+  color: red;
+  text-transform: capitalize;
+}
+
+#signUp-container .signUp-form .select-and-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+#signUp-container .signUp-form .select-and-button-container select {
+  width: 120px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 6px;
+  outline: none;
+  background-color: inherit;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+#signUp-container .signUp-form .select-and-button-container button {
+  width: 120px;
+  height: 40px;
+  padding: 5px;
+  border: none;
+  border-radius: 20px;
+  color: var(--background-color);
+  background-color: var(--buttons-color);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#signUp-container .signUp-form .select-and-button-container button:hover {
+  background-color: var(--buttons-color-on-hover);
+}
+
+#signUp-container .signUp-form .success-message {
+  color: green;
+  text-transform: capitalize;
+  margin-top: 20px;
+  margin-left: 2px;
+  font-size: 14px;
+}

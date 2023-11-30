@@ -90,11 +90,6 @@ class AuthenticationControllerTest {
 
         LoginResponse response = new LoginResponse("no token", false);
 
-        LoginRequest loginRequest = LoginRequest.builder()
-                .email(email)
-                .password(password)
-                .build();
-
         Mockito.when(authenticationService.login(loginRequest))
                 .thenReturn(null);
 

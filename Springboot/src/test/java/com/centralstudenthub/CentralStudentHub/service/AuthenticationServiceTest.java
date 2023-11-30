@@ -170,7 +170,7 @@ class AuthenticationServiceTest {
         Mockito.when(userSessionInfoRepository.findByEmail(email))
                 .thenReturn(Optional.ofNullable(checkEmail));
 
-        String message = "Email is Used";
+        String message = "Email Already Exists";
         boolean acc = false;
         SignUpResponse signUpResponse = new SignUpResponse(message,acc);
 

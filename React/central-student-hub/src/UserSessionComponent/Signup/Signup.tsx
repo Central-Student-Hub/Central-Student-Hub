@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import styles from '../Signup/Signup.module.css';
+import './Signup.css';
 import { APIRequester } from '../../services/APIRequester.ts';
 
 export type FormState = {
@@ -71,48 +71,43 @@ export default function Home() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      {/* SSN Field */}
-      <div className={styles.formGroup}>
-        <label htmlFor="SSN">SSN</label>
-        <div className={styles.inputContainer}>
-          <input type="text" id="SSN" value={form.SSN} onChange={handleInputChange} />
-          {errors.SSN && <span className={styles.error}>{errors.SSN}</span>}
+    <div className='signUp-container' id='signUp-container'>
+      <img 
+        src="https://cdn.discordapp.com/attachments/1169703919698587750/1178702979403100230/vik2l5e9.png?ex=65771bb1&is=6564a6b1&hm=06edc38d3e73db2f12fc0980001056c28f98fcd6e9578624b5411292bf7627a6&"
+        alt="Central Student Hub logo"
+      />
+      
+      <form onSubmit={handleSubmit} className='signUp-form'>
+        <h1 className='signUp-label'>Sign Up</h1>
+
+        <div className='input-container'>
+            <input type="text" id="SSN" value={form.SSN} onChange={handleInputChange} placeholder='ssn' />
+            {errors.SSN && <span className='error'>{errors.SSN}</span>}
         </div>
-      </div>
 
-      {/* Email Field */}
-      <div className={styles.formGroup}>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" value={form.email} onChange={handleInputChange} />
-        {errors.email && <span className={styles.error}>{errors.email}</span>}
-      </div>
+        <div className='input-container'>
+          <input type="email" id="email" value={form.email} onChange={handleInputChange} placeholder='email' />
+          {errors.email && <span className='error'>{errors.email}</span>}
+        </div>
 
-      {/* Password Field */}
-      <div className={styles.formGroup}>
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" value={form.password} onChange={handleInputChange} />
-        {errors.password && <span className={styles.error}>{errors.password}</span>}
-      </div>
+        <div className='input-container'>
+          <input type="password" id="password" minLength={8} maxLength={16} value={form.password} onChange={handleInputChange} placeholder='password' />
+          {errors.password && <span className='error'>{errors.password}</span>}
+        </div>
 
-      {/* Type Dropdown */}
-      <div className={styles.formGroup}>
-        <label htmlFor="type">Type</label>
-        <select id="type" value={form.type} onChange={handleInputChange}>
-          <option value="Staff">Staff</option>
-          <option value="Student">Student</option>
-          <option value="Admin">Admin</option>
-        </select>
-      </div>
+        <div className='select-and-button-container'>
+          <select id="type" value={form.type} onChange={handleInputChange}>
+            <option value="Staff">staff</option>
+            <option value="Student">student</option>
+            <option value="Admin">admin</option>
+          </select>
 
-      {/* Submit Button */}
-      <div className={styles.formGroup}>
-        <button type="submit" className={styles.subButton} disabled={isSubmitted}>Submit</button>
-      </div>
+          <button type="submit" className='subButton' disabled={isSubmitted}>submit</button>
+        </div>
 
-      {/* Success Message */}
-      {isSubmitted && <div className={styles.successMessage}>{successMessage}</div>}
+        {isSubmitted && <div className='success-message'>{successMessage}</div>}
 
-    </form>
+      </form>
+    </div>
   );
 }
