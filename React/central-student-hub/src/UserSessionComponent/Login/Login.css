@@ -60,14 +60,14 @@
     content: attr(email-icon);
     position: absolute;
     top: 22px;
-    left: -17px;
+    left: -23px;
 }
 
 #login-container .login-form .password-container::before {
     content: attr(password-icon);
     position: absolute;
     top: 24px;
-    left: -17px;
+    left: -23px;
 }
 
 #login-container .login-form input::placeholder {
