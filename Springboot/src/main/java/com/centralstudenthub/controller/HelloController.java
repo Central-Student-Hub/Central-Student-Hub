@@ -15,7 +15,7 @@ public class HelloController {
     @Autowired
     private JwtService jwtService;
     @GetMapping("/Hello")
-    public String Hello(HttpServletRequest request, HttpServletResponse response){
+    public String Hello(HttpServletRequest request, HttpServletResponse response) {
         String authHeader = request.getHeader("Authorization");
         String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);

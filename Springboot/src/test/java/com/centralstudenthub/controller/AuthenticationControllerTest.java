@@ -1,11 +1,10 @@
 package com.centralstudenthub.controller;
 
-import com.centralstudenthub.CentralStudentHub.Model.*;
+import com.centralstudenthub.Model.*;
 import com.centralstudenthub.Model.LoginRequest;
 import com.centralstudenthub.config.WebSecurityConfig;
 import com.centralstudenthub.repository.UserSessionInfoRepository;
 import com.centralstudenthub.service.AuthenticationService;
-import com.centralstudenthub.Model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,11 +86,6 @@ class AuthenticationControllerTest {
                 .build();
 
         LoginResponse response = new LoginResponse("no token", false);
-
-        LoginRequest loginRequest = LoginRequest.builder()
-                .email(email)
-                .password(password)
-                .build();
 
         Mockito.when(authenticationService.login(loginRequest))
                 .thenReturn(null);
