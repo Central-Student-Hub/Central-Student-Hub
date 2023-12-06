@@ -1,4 +1,4 @@
-import { SignupRequest , SignupResponse } from './../UserSessionComponent/Models/SignupModels';
+import { SignupRequest, SignupResponse } from './../UserSessionComponent/Models/SignupModels';
 import { LoginRequest, LoginResponse } from '../UserSessionComponent/Models/LoginModels.ts'
 import { FormState } from '../UserSessionComponent/Signup/Signup.tsx';
 
@@ -27,18 +27,18 @@ export class APIRequester {
             return await response.json();
         } catch (error) {
             console.error(error);
-            return { 
+            return {
                 message: "Network Error!",
                 accept: false
             };
         }
     }
 
-    async home(): Promise<string> {  
+    async home(): Promise<string> {
         const token = document.cookie.split("=")[1];
         console.log(token);
-        const headers: HeadersInit = { "Authorization": `Bearer ${token}`};
-        const requestOptions: RequestInit = { mode: 'cors',headers:headers,method: "get",credentials:"include"};
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
         console.log(requestOptions);
         const response: Response = await fetch("http://localhost:8082/Hello", requestOptions);
         return await response.text();
