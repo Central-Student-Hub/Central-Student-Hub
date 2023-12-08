@@ -4,16 +4,19 @@ use `central-student-hub`;
 
 create table `userAccount`
 (
-    `userAccountId` int         not null auto_increment,
+    `userAccountId` bigint      not null auto_increment,
     `ssn`           varchar(20) not null,
-    `userType`      varchar(20)   default null,
-    `email`         varchar(50)   default null,
-    `passwordHash`  varchar(2000) default null,
-    `passwordSalt`  varchar(2000) default null,
-    `passwordDate`  date          default null,
+    `userType`      enum ('Student', 'Staff', 'Admin') default null,
+    `email`         varchar(50)                        default null,
+    `passwordHash`  varchar(2000)                      default null,
+    `passwordSalt`  varchar(2000)                      default null,
+    `passwordDate`  date                               default null,
     primary key (`userAccountId`, `ssn`),
     unique key (`ssn`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE officeHours
 (
@@ -22,7 +25,10 @@ CREATE TABLE officeHours
     toTime   INT,
     weekDay  VARCHAR(20),
     location VARCHAR(255)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE TeachingStaffProfileInfo
 (
@@ -32,7 +38,10 @@ CREATE TABLE TeachingStaffProfileInfo
     biography         VARCHAR(255),
     profilePictureURL VARCHAR(255),
     department        VARCHAR(255)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE StudentProfileInfo
 (
@@ -46,7 +55,10 @@ CREATE TABLE StudentProfileInfo
     level             INT NOT NULL,
     noOfHours         INT DEFAULT 0,
     GPA               FLOAT
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE Warning
 (
@@ -55,7 +67,10 @@ CREATE TABLE Warning
     reason    VARCHAR(255),
     date      DATE,
     FOREIGN KEY (studentId) REFERENCES StudentProfileInfo (studentId)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE course
 (
@@ -67,16 +82,22 @@ CREATE TABLE course
     `semester`    varchar(255) default null,
     primary key (`courseId`),
     unique key (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE course_prerequisites
 (
-    `courseId`     int not null,
+    `courseId`     int          not null,
     `prerequisite` varchar(255) not null,
     primary key (`courseId`, `prerequisite`),
     key `fk_courseId1` (`courseId`),
     constraint `fk_courseId1` foreign key (`courseId`) references course (`courseId`) on delete restrict on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semesterCourse
 (
@@ -87,7 +108,10 @@ CREATE TABLE semesterCourse
     key `fk_courseId2` (`courseId`),
     constraint `fk_courseId2` foreign key (`courseId`) references course (`courseId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_grades
 (
@@ -101,27 +125,36 @@ CREATE TABLE semCourse_grades
         on update cascade,
     constraint `fk_studentId1` foreign key (`studentId`) references StudentProfileInfo (`studentId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_materialPaths
 (
-    `semCourseId`  bigint not null,
+    `semCourseId`  bigint       not null,
     `materialPath` varchar(255) not null,
     primary key (`semCourseId`, `materialPath`),
     key `fk_semCourseId2` (`semCourseId`),
     constraint `fk_semCourseId2` foreign key (`semCourseId`) references semesterCourse (`semCourseId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_members
 (
     `semCourseId` bigint not null,
-    `member`      int not null,
+    `member`      int    not null,
     primary key (`semCourseId`, `member`),
     key `fk_semCourseId3` (`semCourseId`),
     constraint `fk_semCourseId3` foreign key (`semCourseId`) references semesterCourse (`semCourseId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE assignment
 (
@@ -130,17 +163,23 @@ CREATE TABLE assignment
     `description`    varchar(255) default null,
     `dueDate`        date         default null,
     primary key (`assignmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE assignment_materialPaths
 (
-    `assignmentId` bigint not null,
+    `assignmentId` bigint       not null,
     `materialPath` varchar(255) not null,
     primary key (`assignmentId`, `materialPath`),
     key `fk_assignmentId1` (`assignmentId`),
     constraint `fk_assignmentId1` foreign key (`assignmentId`) references assignment (`assignmentId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE assignmentAns
 (
@@ -151,17 +190,23 @@ CREATE TABLE assignmentAns
     key `fk_studentId2` (`studentId`),
     constraint `fk_studentId2` foreign key (`studentId`) references StudentProfileInfo (`studentId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE assignmentAns_ansPaths
 (
-    `assignmentAnsId` bigint not null,
+    `assignmentAnsId` bigint       not null,
     `answerPath`      varchar(255) not null,
     primary key (`assignmentAnsId`, `answerPath`),
     key `fk_assignmentAnsId1` (`assignmentAnsId`),
     constraint `fk_assignmentAnsId1` foreign key (`assignmentAnsId`) references assignmentAns (`assignmentAnsId`)
         on delete restrict on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE announcement
 (
@@ -169,14 +214,20 @@ CREATE TABLE announcement
     `announcementName` varchar(255) default null,
     `description`      varchar(255) default null,
     primary key (`announcementId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE feedback
 (
     `feedbackId` bigint not null auto_increment,
     `content`    varchar(255) default null,
     primary key (`feedbackId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE session
 (
@@ -184,9 +235,12 @@ CREATE TABLE session
     `teacher`     varchar(255)                        default null,
     `period`      int                                 default null,
     `weekDay`     varchar(255)                        default null,
-    `sessionType` enum ('lecture', 'tutorial', 'lab') default null,
+    `sessionType` enum ('Lecture', 'Tutorial', 'Lab') default null,
     primary key (`sessionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE location
 (
@@ -194,7 +248,10 @@ CREATE TABLE location
     `building` int not null,
     capacity   int default null,
     primary key (`room`, `building`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 # HAS relationship relations
 
@@ -209,7 +266,10 @@ CREATE TABLE semCourse_announcements
         on update cascade,
     constraint `fk_announcementId1` foreign key (`announcementId`) references announcement (`announcementId`)
         on delete restrict on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_feedbacks
 (
@@ -222,7 +282,10 @@ CREATE TABLE semCourse_feedbacks
         on update cascade,
     constraint `fk_feedbackId1` foreign key (`feedbackId`) references feedback (`feedbackId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_assignments
 (
@@ -235,7 +298,10 @@ CREATE TABLE semCourse_assignments
         on update cascade,
     constraint `fk_assignmentId2` foreign key (`assignmentId`) references assignment (`assignmentId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE semCourse_sessions
 (
@@ -248,7 +314,10 @@ CREATE TABLE semCourse_sessions
         on update cascade,
     constraint `fk_sessionId1` foreign key (`sessionId`) references session (`sessionId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 CREATE TABLE assignmentAns_assignment
 (
@@ -261,15 +330,18 @@ CREATE TABLE assignmentAns_assignment
         on delete restrict on update cascade,
     constraint `fk_assignmentId3` foreign key (`assignmentId`) references assignment (`assignmentId`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 # IN relationship relation
 
 CREATE TABLE session_location
 (
     `sessionId` bigint not null,
-    `room`      int not null,
-    `building`  int not null,
+    `room`      int    not null,
+    `building`  int    not null,
     primary key (`sessionId`, `room`, `building`),
     key `fk_sessionId2` (`sessionId`),
     key `fk_loc1` (`room`, `building`),
@@ -277,4 +349,7 @@ CREATE TABLE session_location
         on update cascade,
     constraint `fk_loc1` foreign key (`room`, `building`) references location (`room`, `building`) on delete restrict
         on update cascade
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
