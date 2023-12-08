@@ -18,7 +18,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="useraccount")
+@Table(name = "user_account")
 public class UserAccount implements UserDetails {
 
     @Id
@@ -31,6 +31,7 @@ public class UserAccount implements UserDetails {
     private String passwordHash;
     private String passwordSalt;
     private Date passwordDate;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
