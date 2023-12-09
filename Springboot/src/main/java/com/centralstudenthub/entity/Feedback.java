@@ -13,10 +13,9 @@ public class Feedback {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long feedbackId;
 
-    @Column
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

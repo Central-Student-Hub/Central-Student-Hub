@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity;
 
+import com.centralstudenthub.Model.Semester;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -15,38 +16,40 @@ public class SemesterCourse {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long semCourseId;
-
-    @Column
-    private Integer maxSeats;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "semCourse")
-    private Set<StudentSemesterCourseGrade> semCourseStudentSemesterCourseGrades;
+    @Enumerated(EnumType.STRING)
+    private Semester semester;
+
+    private Integer maxSeats;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<SemesterCourseMaterialPath> semCourseSemesterCourseMaterialPaths;
+    private Set<StudentCourseGrade> grades;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<SemesterCourseMember> semCourseSemesterCourseMembers;
+    private Set<CourseMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Assignment> semCourseAssignments;
+    private Set<CourseMember> members;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Announcement> semCourseAnnouncements;
+    private Set<Assignment> assignments;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Feedback> semCourseFeedbacks;
+    private Set<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Session> semCourseSessions;
+    private Set<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Registration> semCourseRegistrations;
+    private Set<Session> sessions;
+
+    @OneToMany(mappedBy = "semCourse")
+    private Set<Registration> registrations;
 
 }

@@ -8,17 +8,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "course_prerequisite")
-public class CoursePrerequisite {
-
-    @Id
-    @Column(nullable = false, updatable = false)
-    private String prerequisite;
+@Table(name = "student_course_grade")
+public class StudentCourseGrade {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courseId", nullable = false)
-    private Course course;
+    @JoinColumn(name = "semCourseId", nullable = false)
+    private SemesterCourse semCourse;
+
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "studentId", nullable = false)
+    private StudentProfile student;
+
+    private Double studentGrade;
 
     @Override
     public boolean equals(Object obj) {

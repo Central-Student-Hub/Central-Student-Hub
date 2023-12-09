@@ -15,28 +15,20 @@ public class Course {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer courseId;
 
     @Column(nullable = false, unique = true)
     private String code;
 
-    @Column
+    private String name;
+    private String description;
     private Integer creditHours;
 
-    @Column
-    private String name;
-
-    @Column(name = "\"description\"")
-    private String description;
-
-    @Column
-    private String semester;
+    @OneToMany(mappedBy = "course")
+    private Set<CoursePrerequisite> prerequisites;
 
     @OneToMany(mappedBy = "course")
-    private Set<CoursePrerequisite> courseCoursePrerequisites;
-
-    @OneToMany(mappedBy = "course")
-    private Set<SemesterCourse> courseSemesterCourses;
+    private Set<SemesterCourse> semesterCourses;
 
 }

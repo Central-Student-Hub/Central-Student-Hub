@@ -15,13 +15,10 @@ public class Warning {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer warningId;
 
-    @Column
     private String reason;
-
-    @Column
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)

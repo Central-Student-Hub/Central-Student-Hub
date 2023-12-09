@@ -15,17 +15,11 @@ import lombok.Setter;
 public class Assignment {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long assignmentId;
 
-    @Column
     private String assignmentName;
-
-    @Column(name = "\"description\"")
     private String description;
-
-    @Column
     private LocalDate dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,9 +27,9 @@ public class Assignment {
     private SemesterCourse semCourse;
 
     @OneToMany(mappedBy = "assignment")
-    private Set<AssignmentMaterialPath> assignmentAssignmentMaterialPaths;
+    private Set<AssignmentMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "assignment")
-    private Set<AssignmentAnswer> assignmentAssignmentAnswers;
+    private Set<StudentAssignmentAnswer> answers;
 
 }

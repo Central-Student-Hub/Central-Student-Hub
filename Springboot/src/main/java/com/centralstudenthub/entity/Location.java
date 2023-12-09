@@ -15,17 +15,25 @@ public class Location {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer room;
 
     @Id
     @Column(nullable = false)
     private Integer building;
 
-    @Column
     private Integer capacity;
 
     @OneToMany(mappedBy = "location")
-    private Set<Session> roomSessions;
+    private Set<Session> sessions;
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

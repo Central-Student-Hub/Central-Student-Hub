@@ -15,28 +15,19 @@ public class TeachingStaffProfile {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer teacherId;
 
-    @Column
     private String firstName;
-
-    @Column
     private String lastName;
-
-    @Column
     private String biography;
-
-    @Column
     private String profilePictureUrl;
-
-    @Column
     private String department;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<OfficeHour> teacherOfficeHours;
+    private Set<OfficeHour> officeHours;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<TeachingStaffContact> teacherTeachingStaffContacts;
+    private Set<TeachingStaffContact> contacts;
 
 }
