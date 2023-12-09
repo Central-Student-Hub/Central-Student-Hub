@@ -1,8 +1,8 @@
 package com.centralstudenthub.Model.Request;
 
-import com.centralstudenthub.entity.AssignmentAnswer;
 import com.centralstudenthub.entity.AssignmentMaterialPath;
 import com.centralstudenthub.entity.SemesterCourse;
+import com.centralstudenthub.entity.StudentAssignmentAnswer;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,5 +15,5 @@ public class AssignmentRequest {
     private LocalDate dueDate;
     private SemesterCourse semCourse;
     private List<AssignmentMaterialPath> assignmentAssignmentMaterialPaths;
-    private List<AssignmentAnswer> assignmentAssignmentAnswers;
+    private List<StudentAssignmentAnswer> assignmentAssignmentAnswers;
 }
