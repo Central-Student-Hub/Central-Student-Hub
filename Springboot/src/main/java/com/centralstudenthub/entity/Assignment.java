@@ -3,7 +3,7 @@ package com.centralstudenthub.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +19,8 @@ public class Assignment {
     private Long assignmentId;
 
     private String assignmentName;
+
+    @Column(name = "description")
     private String description;
     private LocalDate dueDate;
 
@@ -27,9 +29,9 @@ public class Assignment {
     private SemesterCourse semCourse;
 
     @OneToMany(mappedBy = "assignment")
-    private Set<AssignmentMaterialPath> materialPaths;
+    private List<AssignmentMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "assignment")
-    private Set<StudentAssignmentAnswer> answers;
+    private List<StudentAssignmentAnswer> answers;
 
 }
