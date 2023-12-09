@@ -15,7 +15,6 @@ public class StudentContact {
     @Column(nullable = false, updatable = false)
     private String label;
 
-    @Column
     private String data;
 
     @Id
@@ -23,4 +22,13 @@ public class StudentContact {
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

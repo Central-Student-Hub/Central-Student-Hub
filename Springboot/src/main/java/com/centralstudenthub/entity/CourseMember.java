@@ -8,8 +8,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "student_semester_course_grade")
-public class StudentSemesterCourseGrade {
+@Table(name = "course_member")
+public class CourseMember {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,6 +21,13 @@ public class StudentSemesterCourseGrade {
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
 
-    @Column
-    private Double studentGrade;
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

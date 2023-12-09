@@ -1,8 +1,7 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +21,16 @@ public class Registration {
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @Column
-    private LocalDate paymentDeadline;
-
-    @Column
+    private Date paymentDeadline;
     private Double paymentFees;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -14,7 +14,7 @@ public class Session {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sessionId;
 
     @Column
@@ -29,9 +29,6 @@ public class Session {
     @Column
     @Enumerated(EnumType.STRING)
     private SessionType sessionType;
-
-    @Column(insertable=false, updatable=false)
-    private Integer building;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)
