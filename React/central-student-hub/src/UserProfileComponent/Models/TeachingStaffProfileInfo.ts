@@ -1,4 +1,5 @@
 import { OfficeHours } from "./OfficeHours"
+import { ContactInfo } from "./ContactInfo"
 
 export type TeachingStaffProfileInfo = {
     teacherId: number,
