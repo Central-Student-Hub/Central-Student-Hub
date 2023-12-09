@@ -2,7 +2,11 @@ package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
+
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "course")
+@Builder
+@Data
 public class Course {
 
     @Id
