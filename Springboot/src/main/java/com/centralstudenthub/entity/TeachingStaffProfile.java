@@ -1,14 +1,17 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-
+import java.util.List;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Table(name = "teaching_staff_profile")
 public class TeachingStaffProfile {
@@ -34,9 +37,8 @@ public class TeachingStaffProfile {
     private String department;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<OfficeHour> teacherOfficeHours;
+    private List<OfficeHour> teacherOfficeHours;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<TeachingStaffContact> teacherTeachingStaffContacts;
-
+    private List<TeachingStaffContact> teacherTeachingStaffContacts;
 }

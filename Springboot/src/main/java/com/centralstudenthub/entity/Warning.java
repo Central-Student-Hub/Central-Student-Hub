@@ -3,13 +3,16 @@ package com.centralstudenthub.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "warning")
 public class Warning {
 
