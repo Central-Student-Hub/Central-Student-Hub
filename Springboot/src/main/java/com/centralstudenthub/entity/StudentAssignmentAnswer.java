@@ -1,37 +1,22 @@
 package com.centralstudenthub.entity;
-
 import jakarta.persistence.*;
-
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "student_assignment_answer")
 public class StudentAssignmentAnswer {
 
+    @EmbeddedId
+    private StudentAssignmentAnswerId studentAssignmentAnswerId;
+
     private String answerPath;
     private Double grade;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studentId", nullable = false)
-    private StudentProfile student;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignmentId", nullable = false)
-    private Assignment assignment;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
+

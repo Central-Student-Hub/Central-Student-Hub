@@ -4,13 +4,15 @@ import com.centralstudenthub.Model.Semester;
 import jakarta.persistence.*;
 
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "semester_course")
 public class SemesterCourse {
 

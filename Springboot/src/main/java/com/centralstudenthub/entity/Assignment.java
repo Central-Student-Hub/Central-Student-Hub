@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "assignment")
 public class Assignment {
 
@@ -19,8 +21,6 @@ public class Assignment {
     private Long assignmentId;
 
     private String assignmentName;
-
-    @Column(name = "description")
     private String description;
     private LocalDate dueDate;
 
@@ -28,10 +28,10 @@ public class Assignment {
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @OneToMany(mappedBy = "assignment")
+    @OneToMany(mappedBy = "assignmentMaterialPathId.assignment")
     private List<AssignmentMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "assignment")
+    @OneToMany(mappedBy = "studentAssignmentAnswerId.assignment")
     private List<StudentAssignmentAnswer> answers;
 
 }

@@ -1,19 +1,15 @@
 package com.centralstudenthub.Model.Request;
-
-import com.centralstudenthub.entity.AssignmentMaterialPath;
-import com.centralstudenthub.entity.SemesterCourse;
-import com.centralstudenthub.entity.StudentAssignmentAnswer;
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AssignmentRequest {
-    private Long assignmentId;
     private String assignmentName;
     private String description;
     private LocalDate dueDate;
-    private SemesterCourse semCourse;
-    private List<AssignmentMaterialPath> assignmentAssignmentMaterialPaths;
-    private List<StudentAssignmentAnswer> assignmentAssignmentAnswers;
+    private Long semCourseId;
 }
