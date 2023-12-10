@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.centralstudenthub.repository.CoursesRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,6 +53,10 @@ public class SearchService {
     }
 
     public List<Course> filterCourses(String searchKey) {
+        if (searchKey == null || searchKey.isEmpty()) {
+            return null;
+        }
+
         List<Course> allCourses = coursesRepository.findAll();
         allCourses.sort((a, b) -> courseLevenshteinDistance(a, searchKey) - courseLevenshteinDistance(b, searchKey));
         return allCourses;

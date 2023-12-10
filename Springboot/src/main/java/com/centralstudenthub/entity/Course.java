@@ -12,8 +12,6 @@ import lombok.Setter;
 
 
 @Entity
-@Getter
-@Setter
 @Table(name = "course")
 @Builder
 @Data

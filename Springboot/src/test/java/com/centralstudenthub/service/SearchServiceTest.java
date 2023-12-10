@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class SearchServiceTest {
@@ -67,8 +68,7 @@ public class SearchServiceTest {
         String s1 = "Hello!";
         String s2 = "Hello";
 
-        int result = searchService.levenshteinDistance(s1, s2);
-        assertEquals(result, 1);
+        assertEquals(searchService.levenshteinDistance(s1, s2), 1);
     }
 
     @Test
@@ -76,10 +76,9 @@ public class SearchServiceTest {
         String s1 = "Hello!";
         String s2 = "Hllo";
 
-        int result = searchService.levenshteinDistance(s1, s2);
-        assertEquals(result, 2);
+        assertEquals(searchService.levenshteinDistance(s1, s2), 2);
     }
-
+    
     @Test
     void searchByCompleteCode() {
         String searchKey = "CSE 327";
@@ -105,9 +104,33 @@ public class SearchServiceTest {
     }
 
     @Test
-    void searchByDescription() {
+    void searchByDescriptionWord() {
         String searchKey = "concurrency";
         assertEquals(searchService.filterCourses(searchKey).get(0), operatingSystems);
+    }
+
+    @Test
+    void searchByDescriptionIncompleteWord() {
+        String searchKey = "concur";
+        assertEquals(searchService.filterCourses(searchKey).get(0), operatingSystems);
+    }
+
+    @Test
+    void searchByDescriptionIncorrectSpellingWord() {
+        String searchKey = "sinkronisation";
+        assertEquals(searchService.filterCourses(searchKey).get(0), operatingSystems);
+    }
+
+    @Test
+    void searchEmptyString() {
+        String searchKey = "";
+        assertNull(searchService.filterCourses(searchKey));
+    }
+
+    @Test
+    void searchNull() {
+        String searchKey = null;
+        assertNull(searchService.filterCourses(searchKey));
     }
 
 }
