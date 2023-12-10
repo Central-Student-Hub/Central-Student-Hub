@@ -1,15 +1,16 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
-@Table(name = "student_semester_course_grade")
-public class StudentSemesterCourseGrade {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "course_member")
+public class CourseMember {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -20,7 +21,4 @@ public class StudentSemesterCourseGrade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
-
-    @Column
-    private Double studentGrade;
 }

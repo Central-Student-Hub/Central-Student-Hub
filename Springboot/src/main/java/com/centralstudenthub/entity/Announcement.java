@@ -1,25 +1,22 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "announcement")
 public class Announcement {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long announcementId;
 
-    @Column
     private String announcementName;
-
-    @Column
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

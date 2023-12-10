@@ -1,15 +1,16 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
-import java.time.LocalDate;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "registration")
 public class Registration {
     @Id
@@ -22,9 +23,6 @@ public class Registration {
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @Column
-    private LocalDate paymentDeadline;
-
-    @Column
+    private Date paymentDeadline;
     private Double paymentFees;
 }

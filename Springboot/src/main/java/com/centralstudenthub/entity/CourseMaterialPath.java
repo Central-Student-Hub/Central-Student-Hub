@@ -1,24 +1,23 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
-@Table(name = "semester_course_member")
-public class SemesterCourseMember {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "course_material_path")
+public class CourseMaterialPath {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer memberId;
+    private String materialPath;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
-
 }

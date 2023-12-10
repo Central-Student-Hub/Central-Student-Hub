@@ -3,25 +3,24 @@ package com.centralstudenthub.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "warning")
 public class Warning {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer warningId;
 
-    @Column
     private String reason;
-
-    @Column
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)

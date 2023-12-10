@@ -1,52 +1,57 @@
 package com.centralstudenthub.entity;
 
+import com.centralstudenthub.Model.Semester;
 import jakarta.persistence.*;
 
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "semester_course")
 public class SemesterCourse {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long semCourseId;
-
-    @Column
-    private Integer maxSeats;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "semCourse")
-    private Set<StudentSemesterCourseGrade> semCourseStudentSemesterCourseGrades;
+    @Enumerated(EnumType.STRING)
+    private Semester semester;
+
+    private Integer maxSeats;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<SemesterCourseMaterialPath> semCourseSemesterCourseMaterialPaths;
+    private List<StudentCourseGrade> grades;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<SemesterCourseMember> semCourseSemesterCourseMembers;
+    private List<CourseMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Assignment> semCourseAssignments;
+    private List<CourseMember> members;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Announcement> semCourseAnnouncements;
+    private List<Assignment> assignments;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Feedback> semCourseFeedbacks;
+    private List<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Session> semCourseSessions;
+    private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Registration> semCourseRegistrations;
+    private List<Session> sessions;
+
+    @OneToMany(mappedBy = "semCourse")
+    private List<Registration> registrations;
 
 }

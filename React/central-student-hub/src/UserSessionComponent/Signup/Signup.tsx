@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import './Signup.css';
-import { APIRequester } from '../../services/APIRequester.ts';
+import { ApiRequester } from '../../services/ApiRequester.ts';
 
 export type FormState = {
   SSN: string;
@@ -12,7 +12,7 @@ export type FormState = {
 
 export default function Home() {
 
-  const apiRequester = new APIRequester();
+  const apiRequester = new ApiRequester();
   const [form, setForm] = useState<FormState>({
     SSN: '',
     email: '',

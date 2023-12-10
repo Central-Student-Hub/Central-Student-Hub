@@ -1,4 +1,4 @@
-package com.centralstudenthub.Model;
+package com.centralstudenthub.Model.Response;
 
 import lombok.*;
 

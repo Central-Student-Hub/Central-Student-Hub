@@ -1,13 +1,14 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "course_prerequisite")
 public class CoursePrerequisite {
 
@@ -19,5 +20,4 @@ public class CoursePrerequisite {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
-
 }

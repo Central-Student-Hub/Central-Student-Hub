@@ -1,4 +1,4 @@
-package com.centralstudenthub.Model;
+package com.centralstudenthub.Model.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

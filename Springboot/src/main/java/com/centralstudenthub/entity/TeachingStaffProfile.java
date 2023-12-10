@@ -2,41 +2,34 @@ package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "teaching_staff_profile")
 public class TeachingStaffProfile {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer teacherId;
 
-    @Column
     private String firstName;
-
-    @Column
     private String lastName;
-
-    @Column
     private String biography;
-
-    @Column
     private String profilePictureUrl;
-
-    @Column
     private String department;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<OfficeHour> teacherOfficeHours;
+    private List<OfficeHour> officeHours;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<TeachingStaffContact> teacherTeachingStaffContacts;
+    private List<TeachingStaffContact> contacts;
 
 }

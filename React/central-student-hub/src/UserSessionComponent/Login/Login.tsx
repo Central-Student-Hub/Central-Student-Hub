@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './Login.css';
 import { useNavigate } from "react-router-dom";
-import { APIRequester } from "../../services/APIRequester.ts";
+import { ApiRequester } from "../../services/ApiRequester.ts";
 import { LoginRequest } from "../../UserSessionComponent/Models/LoginModels.ts";
 
-const apiRequester = new APIRequester()
+const apiRequester = new ApiRequester();
 
 export default function Login() {
   const emailInput: MutableRefObject<HTMLInputElement | null> = useRef(null);

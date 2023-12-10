@@ -2,19 +2,20 @@ package com.centralstudenthub.entity;
 
 import com.centralstudenthub.Model.SessionType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "session")
 public class Session {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sessionId;
 
     @Column
@@ -29,9 +30,6 @@ public class Session {
     @Column
     @Enumerated(EnumType.STRING)
     private SessionType sessionType;
-
-    @Column(insertable=false, updatable=false)
-    private Integer building;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)

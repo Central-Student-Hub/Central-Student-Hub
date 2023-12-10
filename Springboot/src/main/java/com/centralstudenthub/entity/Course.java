@@ -2,45 +2,35 @@ package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Table(name = "course")
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Table(name = "course")
 @Data
 public class Course {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer courseId;
 
     @Column(nullable = false, unique = true)
     private String code;
 
-    @Column
+    private String name;
+    private String description;
     private Integer creditHours;
 
-    @Column
-    private String name;
-
-    @Column(name = "\"description\"")
-    private String description;
-
-    @Column
-    private String semester;
+    @OneToMany(mappedBy = "course")
+    private List<CoursePrerequisite> prerequisites;
 
     @OneToMany(mappedBy = "course")
-    private Set<CoursePrerequisite> courseCoursePrerequisites;
-
-    @OneToMany(mappedBy = "course")
-    private Set<SemesterCourse> courseSemesterCourses;
+    private List<SemesterCourse> semesterCourses;
 
 }
