@@ -29,13 +29,13 @@ public class AuthenticationService {
 
     public SignUpResponse signUp(SignUpRequest signUpRequest){
 
-        Optional<UserAccount> DBuser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
-        boolean userPresent = DBuser.isPresent();
-        if(userPresent && DBuser.get().getEmail() == null){
+        Optional<UserAccount> DBUser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
+        boolean userPresent = DBUser.isPresent();
+        if(userPresent && DBUser.get().getEmail() == null){
 
             Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
             if(checkEmail.isEmpty()){
-                UserAccount user = DBuser.get();
+                UserAccount user = DBUser.get();
                 String salt = passwordSecurity.getNextSalt();
                 String hashedPassword = passwordSecurity
                         .hashPassword(signUpRequest.getPassword(),salt);
