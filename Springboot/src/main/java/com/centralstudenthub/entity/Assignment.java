@@ -3,14 +3,16 @@ package com.centralstudenthub.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "assignment")
 public class Assignment {
 
@@ -26,10 +28,10 @@ public class Assignment {
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @OneToMany(mappedBy = "assignment")
-    private Set<AssignmentMaterialPath> materialPaths;
+    @OneToMany(mappedBy = "assignmentMaterialPathId.assignment")
+    private List<AssignmentMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "assignment")
-    private Set<StudentAssignmentAnswer> answers;
+    @OneToMany(mappedBy = "studentAssignmentAnswerId.assignment")
+    private List<StudentAssignmentAnswer> answers;
 
 }

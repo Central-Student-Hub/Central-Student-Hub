@@ -3,13 +3,15 @@ package com.centralstudenthub.entity;
 import jakarta.persistence.*;
 
 import java.sql.Time;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "office_hour")
 public class OfficeHour {
 

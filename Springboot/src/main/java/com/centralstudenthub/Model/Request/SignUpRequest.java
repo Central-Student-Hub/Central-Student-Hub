@@ -1,5 +1,6 @@
-package com.centralstudenthub.Model;
+package com.centralstudenthub.Model.Request;
 
+import com.centralstudenthub.Model.Role;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.*;
 

@@ -2,14 +2,16 @@ package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "course")
 public class Course {
 
@@ -26,9 +28,9 @@ public class Course {
     private Integer creditHours;
 
     @OneToMany(mappedBy = "course")
-    private Set<CoursePrerequisite> prerequisites;
+    private List<CoursePrerequisite> prerequisites;
 
     @OneToMany(mappedBy = "course")
-    private Set<SemesterCourse> semesterCourses;
+    private List<SemesterCourse> semesterCourses;
 
 }
