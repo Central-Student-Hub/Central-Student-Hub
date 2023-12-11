@@ -29,7 +29,7 @@ public class TeachingStaffProfile {
     @OneToMany(mappedBy = "teacher")
     private List<OfficeHour> officeHours;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "id.teacher")
     private List<TeachingStaffContact> contacts;
 
 }

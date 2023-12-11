@@ -30,7 +30,7 @@ public class StudentProfile {
     private Integer noOfHours;
     private Double gpa;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "id.student")
     private List<StudentContact> contacts;
 
     @OneToMany(mappedBy = "student")

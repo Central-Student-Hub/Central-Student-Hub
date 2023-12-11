@@ -1,4 +1,4 @@
-package com.centralstudenthub.Model;
+package com.centralstudenthub.Model.Request;
 
 import com.centralstudenthub.entity.StudentProfile;
 import lombok.AllArgsConstructor;

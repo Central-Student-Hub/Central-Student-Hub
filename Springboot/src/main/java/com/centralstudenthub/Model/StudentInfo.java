@@ -23,9 +23,9 @@ public class StudentInfo {
     private Integer level;
     private Integer noOfHours;
     private Double gpa;
-    private List<StudentContact> studentStudentContacts;
+    private List<StudentContact> studentContacts;
     private List<Warning> studentWarnings;
-    private List<StudentSemesterCourseGrade> studentSemesterCourseGrades;
-    private List<AssignmentAnswer> studentAssignmentAnswers;
+    private List<StudentCourseGrade> studentSemesterCourseGrades;
+    private List<StudentAssignmentAnswer> studentAssignmentAnswers;
     private List<Registration> studentRegistrations;
 }

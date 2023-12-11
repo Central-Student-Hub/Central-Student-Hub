@@ -8,8 +8,6 @@ import com.centralstudenthub.repository.*;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,14 +19,10 @@ public class AssignmentService {
     private SemesterCourseRepository courseRepository;
     @Autowired
     private StudentAssignmentAnswerRepository studentAssignmentAnswerRepository;
-
     @Autowired
     private AssignmentMaterialPathRepository assignmentMaterialPathRepository;
-
-
-    //todo @Autowired
-     //todo private StudentProfileRepository studentProfileRepository
-
+    @Autowired
+     private StudentProfileRepository studentProfileRepository;
 
 
     public boolean addAssignment(AssignmentRequest assignmentRequest){
@@ -55,21 +49,21 @@ public class AssignmentService {
 
         Optional<Assignment> assignment = assignmentRepository.findById(assignmentId);
 
-        if(assignment.isPresent()) return assignment.get();
-        else return null;
+        return assignment.orElse(null);
     }
 
     public boolean addAssignmentAnswer(StudentAssignmentAnswerRequest ansRequest) {
 
-        // todo  dont forget to change the primarykey
-/*
         Optional<Assignment> assignment = assignmentRepository.findById(ansRequest.getAssignmentId());
         Optional<StudentProfile> student = studentProfileRepository.findById(ansRequest.getStudentProfileId());
         if(assignment.isPresent() && student.isPresent()){
-            StudentAssignmentAnswer studentAssignmentAnswer = StudentAssignmentAnswer.builder()
-                    .answerPath(ansRequest.getAnswerPath())
+            StudentAssignmentAnswerId studentAssignmentAnswerId = StudentAssignmentAnswerId.builder()
                     .assignment(assignment.get())
                     .student(student.get())
+                    .build();
+            StudentAssignmentAnswer studentAssignmentAnswer = StudentAssignmentAnswer.builder()
+                    .studentAssignmentAnswerId(studentAssignmentAnswerId)
+                    .answerPath(ansRequest.getAnswerPath())
                     .grade(ansRequest.getGrade())
                     .build();
             studentAssignmentAnswerRepository.save(studentAssignmentAnswer);
@@ -78,11 +72,6 @@ public class AssignmentService {
         else{
             return false;
         }
-
- */
-
-        return true;
-
     }
 
     public boolean addAssignmentMaterialPath(AssignmentMaterialPathRequest materialPassRequest) {

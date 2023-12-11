@@ -2,7 +2,7 @@ package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.StudentInfo;
 import com.centralstudenthub.Model.TeachingStaffInfo;
-import com.centralstudenthub.Model.WarningRequest;
+import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.entity.StudentProfile;
 import com.centralstudenthub.entity.TeachingStaffProfile;
 import com.centralstudenthub.entity.Warning;
@@ -18,57 +18,58 @@ public class UserProfileService {
     @Autowired
     StudentProfileRepository studentProfileRepository;
     @Autowired
-    private OfficeHourRepository officeHourRepository;
-    @Autowired
-    private TeachingStaffContactRepository teachingStaffContactRepository;
-    @Autowired
     private WarningRepository warningRepository;
 
     public void updateTeachingStaffData(TeachingStaffInfo request) {
-        TeachingStaffProfile teacher = new TeachingStaffProfile();
-        teacher.setTeacherId(request.getTeacherId());
-        teacher.setFirstName(request.getFirstName());
-        teacher.setLastName(request.getLastName());
-        teacher.setBiography(request.getBiography());
-        teacher.setProfilePictureUrl(request.getProfilePictureUrl());
-        teacher.setDepartment(request.getDepartment());
-        teacher.setTeacherOfficeHours(request.getTeacherOfficeHours());
-        teacher.setTeacherTeachingStaffContacts(request.getTeacherTeachingStaffContacts());
+        TeachingStaffProfile teacher = TeachingStaffProfile.builder()
+                .teacherId(request.getTeacherId())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .biography(request.getBiography())
+                .profilePictureUrl(request.getProfilePictureUrl())
+                .department(request.getDepartment())
+                .officeHours(request.getTeacherOfficeHours())
+                .contacts(request.getTeacherTeachingStaffContacts())
+                .build();
+
         teachingStaffProfileRepository.save(teacher);
     }
 
     public void updateStudentData(StudentInfo request){
-        StudentProfile student = new StudentProfile();
-        student.setStudentId(request.getStudentId());
-        student.setFirstName(request.getFirstName());
-        student.setLastName(request.getLastName());
-        student.setBiography(request.getBiography());
-        student.setProfilePictureUrl(request.getProfilePictureUrl());
-        student.setMajor(request.getMajor());
-        student.setMinor(request.getMinor());
-        student.setLevel(request.getLevel());
-        student.setNoOfHours(request.getNoOfHours());
-        student.setGpa(request.getGpa());
-        student.setStudentStudentContacts(request.getStudentStudentContacts());
-        student.setStudentWarnings(request.getStudentWarnings());
-        student.setStudentStudentSemesterCourseGrades(request.getStudentSemesterCourseGrades());
-        student.setStudentAssignmentAnswers(request.getStudentAssignmentAnswers());
-        student.setStudentRegistrations(request.getStudentRegistrations());
+        StudentProfile student = StudentProfile.builder()
+                .studentId(request.getStudentId())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .biography(request.getBiography())
+                .profilePictureUrl(request.getProfilePictureUrl())
+                .major(request.getMajor())
+                .minor(request.getMinor())
+                .level(request.getLevel())
+                .noOfHours(request.getNoOfHours())
+                .gpa(request.getGpa())
+                .contacts(request.getStudentContacts())
+                .warnings(request.getStudentWarnings())
+                .grades(request.getStudentSemesterCourseGrades())
+                .assignmentAnswers(request.getStudentAssignmentAnswers())
+                .registrations(request.getStudentRegistrations())
+                .build();
+
         studentProfileRepository.save(student);
     }
 
     public TeachingStaffInfo getTeachingStaffInfo(Integer id) {
         Optional<TeachingStaffProfile> DBUser = teachingStaffProfileRepository.findById(id);
         if(DBUser.isPresent()) {
-            TeachingStaffInfo teacher = new TeachingStaffInfo();
-            teacher.setTeacherId(DBUser.get().getTeacherId());
-            teacher.setFirstName(DBUser.get().getFirstName());
-            teacher.setLastName(DBUser.get().getLastName());
-            teacher.setBiography(DBUser.get().getBiography());
-            teacher.setProfilePictureUrl(DBUser.get().getProfilePictureUrl());
-            teacher.setDepartment(DBUser.get().getDepartment());
-            teacher.setTeacherOfficeHours(DBUser.get().getTeacherOfficeHours());
-            teacher.setTeacherTeachingStaffContacts(DBUser.get().getTeacherTeachingStaffContacts());
+            TeachingStaffInfo teacher = TeachingStaffInfo.builder()
+                    .teacherId(DBUser.get().getTeacherId())
+                    .firstName(DBUser.get().getFirstName())
+                    .lastName(DBUser.get().getLastName())
+                    .biography(DBUser.get().getBiography())
+                    .profilePictureUrl(DBUser.get().getProfilePictureUrl())
+                    .department(DBUser.get().getDepartment())
+                    .teacherOfficeHours(DBUser.get().getOfficeHours())
+                    .teacherTeachingStaffContacts(DBUser.get().getContacts())
+                    .build();
             return teacher;
         }
         return null;
@@ -77,22 +78,23 @@ public class UserProfileService {
     public StudentInfo getStudentInfo(Integer id) {
         Optional<StudentProfile> DBUser = studentProfileRepository.findById(id);
         if(DBUser.isPresent()) {
-            StudentInfo student = new StudentInfo();
-            student.setStudentId(DBUser.get().getStudentId());
-            student.setFirstName(DBUser.get().getFirstName());
-            student.setLastName(DBUser.get().getLastName());
-            student.setBiography(DBUser.get().getBiography());
-            student.setProfilePictureUrl(DBUser.get().getProfilePictureUrl());
-            student.setMajor(DBUser.get().getMajor());
-            student.setMinor(DBUser.get().getMinor());
-            student.setLevel(DBUser.get().getLevel());
-            student.setNoOfHours(DBUser.get().getNoOfHours());
-            student.setGpa(DBUser.get().getGpa());
-            student.setStudentStudentContacts(DBUser.get().getStudentStudentContacts());
-            student.setStudentWarnings(DBUser.get().getStudentWarnings());
-            student.setStudentSemesterCourseGrades(DBUser.get().getStudentStudentSemesterCourseGrades());
-            student.setStudentAssignmentAnswers(DBUser.get().getStudentAssignmentAnswers());
-            student.setStudentRegistrations(DBUser.get().getStudentRegistrations());
+            StudentInfo student = StudentInfo.builder()
+                    .studentId(DBUser.get().getStudentId())
+                    .firstName(DBUser.get().getFirstName())
+                    .lastName(DBUser.get().getLastName())
+                    .biography(DBUser.get().getBiography())
+                    .profilePictureUrl(DBUser.get().getProfilePictureUrl())
+                    .major(DBUser.get().getMajor())
+                    .minor(DBUser.get().getMinor())
+                    .level(DBUser.get().getLevel())
+                    .noOfHours(DBUser.get().getNoOfHours())
+                    .gpa(DBUser.get().getGpa())
+                    .studentContacts(DBUser.get().getContacts())
+                    .studentWarnings(DBUser.get().getWarnings())
+                    .studentSemesterCourseGrades(DBUser.get().getGrades())
+                    .studentAssignmentAnswers(DBUser.get().getAssignmentAnswers())
+                    .studentRegistrations(DBUser.get().getRegistrations())
+                    .build();
             return student;
         }
         return null;
