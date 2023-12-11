@@ -12,13 +12,6 @@ import lombok.*;
 @Table(name = "course_prerequisite")
 public class CoursePrerequisite {
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prerequisiteId", nullable = false)
-    private Course prerequisite;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courseId", nullable = false)
-    private Course course;
+    @EmbeddedId
+    private CoursePrerequisiteId id;
 }
