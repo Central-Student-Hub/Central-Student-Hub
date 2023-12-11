@@ -13,15 +13,9 @@ import lombok.*;
 @Builder
 @Table(name = "registration")
 public class Registration {
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studentId", nullable = false)
-    private StudentProfile student;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "semCourseId", nullable = false)
-    private SemesterCourse semCourse;
+    @EmbeddedId
+    private RegistrationId id;
 
     private Date paymentDeadline;
     private Double paymentFees;

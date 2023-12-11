@@ -15,14 +15,8 @@ import lombok.*;
 @Table(name = "location")
 public class Location {
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer room;
-
-    @Id
-    @Column(nullable = false)
-    private Integer building;
+    @EmbeddedId
+    private LocationId id;
 
     private Integer capacity;
 

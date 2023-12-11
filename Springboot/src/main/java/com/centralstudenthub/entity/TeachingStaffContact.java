@@ -12,15 +12,8 @@ import lombok.*;
 @Table(name = "teaching_staff_contact")
 public class TeachingStaffContact {
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    private String label;
+    @EmbeddedId
+    private TeachingStaffContactId id;
 
     private String data;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherId", nullable = false)
-    private TeachingStaffProfile teacher;
-
 }

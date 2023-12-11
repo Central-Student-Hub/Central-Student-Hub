@@ -12,15 +12,8 @@ import lombok.*;
 @Table(name = "student_course_grade")
 public class StudentCourseGrade {
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "semCourseId", nullable = false)
-    private SemesterCourse semCourse;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studentId", nullable = false)
-    private StudentProfile student;
+    @EmbeddedId
+    private StudentCourseGradeId id;
 
     private Double studentGrade;
 }
