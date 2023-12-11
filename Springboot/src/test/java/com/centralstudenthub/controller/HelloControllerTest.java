@@ -1,6 +1,6 @@
 package com.centralstudenthub.controller;
 
-import com.centralstudenthub.Model.LoginRequest;
+import com.centralstudenthub.Model.Request.LoginRequest;
 import com.centralstudenthub.Model.Role;
 import com.centralstudenthub.Validator.PasswordSecurity;
 import com.centralstudenthub.config.WebSecurityConfig;

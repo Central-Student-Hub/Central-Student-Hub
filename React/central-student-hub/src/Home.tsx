@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { APIRequester } from "./services/APIRequester.ts";
+import { ApiRequester } from "./services/ApiRequester.ts";
 import { useNavigate } from "react-router";
 
 export default function Home() {
     const [email, setEmail] = useState('');
-    const apiRequester = new APIRequester();
+    const apiRequester = new ApiRequester();
     const navigate = useNavigate();
 
     useEffect(() => {

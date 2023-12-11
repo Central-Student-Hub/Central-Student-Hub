@@ -1,7 +1,10 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.*;
-import com.centralstudenthub.Model.LoginRequest;
+import com.centralstudenthub.Model.Request.LoginRequest;
+import com.centralstudenthub.Model.Request.SignUpRequest;
+import com.centralstudenthub.Model.Response.LoginResponse;
+import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.config.WebSecurityConfig;
 import com.centralstudenthub.repository.UserSessionInfoRepository;
 import com.centralstudenthub.service.AuthenticationService;

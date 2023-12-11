@@ -2,14 +2,16 @@ package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "student_profile")
 public class StudentProfile {
 
@@ -29,18 +31,18 @@ public class StudentProfile {
     private Double gpa;
 
     @OneToMany(mappedBy = "student")
-    private Set<StudentContact> contacts;
+    private List<StudentContact> contacts;
 
     @OneToMany(mappedBy = "student")
-    private Set<Warning> warnings;
+    private List<Warning> warnings;
 
     @OneToMany(mappedBy = "student")
-    private Set<StudentCourseGrade> grades;
+    private List<StudentCourseGrade> grades;
+
+    @OneToMany(mappedBy = "studentAssignmentAnswerId.student")
+    private List<StudentAssignmentAnswer> assignmentAnswers;
 
     @OneToMany(mappedBy = "student")
-    private Set<StudentAssignmentAnswer> assignmentAnswers;
-
-    @OneToMany(mappedBy = "student")
-    private Set<Registration> registrations;
+    private List<Registration> registrations;
 
 }

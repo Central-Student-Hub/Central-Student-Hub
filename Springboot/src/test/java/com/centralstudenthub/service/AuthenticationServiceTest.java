@@ -1,8 +1,8 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.LoginRequest;
-import com.centralstudenthub.Model.SignUpRequest;
-import com.centralstudenthub.Model.SignUpResponse;
+import com.centralstudenthub.Model.Request.LoginRequest;
+import com.centralstudenthub.Model.Request.SignUpRequest;
+import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.Validator.PasswordSecurity;
 import com.centralstudenthub.entity.UserAccount;
 import com.centralstudenthub.Model.Role;

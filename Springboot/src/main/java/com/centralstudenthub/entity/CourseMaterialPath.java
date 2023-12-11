@@ -1,13 +1,14 @@
 package com.centralstudenthub.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "course_material_path")
 public class CourseMaterialPath {
 
@@ -19,14 +20,4 @@ public class CourseMaterialPath {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

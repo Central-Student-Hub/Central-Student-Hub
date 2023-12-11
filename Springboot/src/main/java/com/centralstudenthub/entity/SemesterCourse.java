@@ -3,14 +3,16 @@ package com.centralstudenthub.entity;
 import com.centralstudenthub.Model.Semester;
 import jakarta.persistence.*;
 
-import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
+import lombok.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "semester_course")
 public class SemesterCourse {
 
@@ -29,27 +31,27 @@ public class SemesterCourse {
     private Integer maxSeats;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<StudentCourseGrade> grades;
+    private List<StudentCourseGrade> grades;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<CourseMaterialPath> materialPaths;
+    private List<CourseMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<CourseMember> members;
+    private List<CourseMember> members;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Assignment> assignments;
+    private List<Assignment> assignments;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Announcement> announcements;
+    private List<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Feedback> feedbacks;
+    private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Session> sessions;
+    private List<Session> sessions;
 
     @OneToMany(mappedBy = "semCourse")
-    private Set<Registration> registrations;
+    private List<Registration> registrations;
 
 }

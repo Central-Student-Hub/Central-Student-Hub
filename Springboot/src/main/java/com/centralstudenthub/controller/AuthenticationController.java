@@ -1,10 +1,10 @@
 package com.centralstudenthub.controller;
 
 
-import com.centralstudenthub.Model.LoginRequest;
-import com.centralstudenthub.Model.LoginResponse;
-import com.centralstudenthub.Model.SignUpRequest;
-import com.centralstudenthub.Model.SignUpResponse;
+import com.centralstudenthub.Model.Request.LoginRequest;
+import com.centralstudenthub.Model.Response.LoginResponse;
+import com.centralstudenthub.Model.Request.SignUpRequest;
+import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
