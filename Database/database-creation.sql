@@ -116,12 +116,14 @@ CREATE TABLE course
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin;
 
+DROP TABLE IF EXISTS `course_prerequisite`;
 CREATE TABLE course_prerequisite
 (
-    `courseId`     int          not null,
-    `prerequisite` varchar(255) not null,
-    primary key (`courseId`, `prerequisite`),
-    foreign key (`courseId`) references course (`courseId`) on delete restrict on update cascade
+    `courseId`       int not null,
+    `prerequisiteId` int not null,
+    primary key (`courseId`, `prerequisiteId`),
+    foreign key (`courseId`) references course (`courseId`) on delete restrict on update cascade,
+    foreign key (`prerequisiteId`) references course (`courseId`) on delete restrict on update cascade
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4

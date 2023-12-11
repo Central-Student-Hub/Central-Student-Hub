@@ -12,8 +12,9 @@ import lombok.Setter;
 public class CoursePrerequisite {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    private String prerequisite;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prerequisiteId", nullable = false)
+    private Course prerequisite;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
