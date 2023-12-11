@@ -8,11 +8,11 @@ import lombok.*;
 
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Table(name = "course")
+@Data
 public class Course {
 
     @Id
