@@ -68,10 +68,8 @@ public class CourseService {
         return courseOptional.get().toCourseResponse();
     }
 
-    public List<CourseResponse> getAllCourses() throws CourseNotFoundException {
+    public List<CourseResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-        if (courses.isEmpty())
-            throw new CourseNotFoundException("No courses found...");
         List<CourseResponse> courseResponses = new ArrayList<>();
         for(Course course: courses)
             courseResponses.add(course.toCourseResponse());
