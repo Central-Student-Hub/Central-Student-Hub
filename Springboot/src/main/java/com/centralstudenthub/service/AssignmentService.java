@@ -3,13 +3,15 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
-import com.centralstudenthub.entity.*;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.assignment_material_paths.AssignmentMaterialPath;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.assignment_material_paths.AssignmentMaterialPathId;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.repository.*;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

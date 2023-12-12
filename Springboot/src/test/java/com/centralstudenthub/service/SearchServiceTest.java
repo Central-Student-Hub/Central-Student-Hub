@@ -1,7 +1,7 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.entity.Course;
-import com.centralstudenthub.repository.CoursesRepository;
+import com.centralstudenthub.entity.student_profile.course.Course;
+import com.centralstudenthub.repository.CourseRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class SearchServiceTest {
     SearchService searchService;
 
     @MockBean
-    CoursesRepository coursesRepository;
+    CourseRepository courseRepository;
 
     static Course softwareEngineering = Course.builder()
             .courseId(1)
@@ -60,7 +60,7 @@ public class SearchServiceTest {
 
     @BeforeEach
     void mockCourses() {
-        Mockito.when(coursesRepository.findAll()).thenReturn(allCourses);
+        Mockito.when(courseRepository.findAll()).thenReturn(allCourses);
     }
 
     @Test

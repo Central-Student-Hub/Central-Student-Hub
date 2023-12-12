@@ -1,10 +1,9 @@
 package com.centralstudenthub.repository;
 
-import com.centralstudenthub.entity.StudentAssignmentAnswer;
-import com.centralstudenthub.entity.StudentAssignmentAnswerId;
+import com.centralstudenthub.entity.student_profile.student_assignment_answers.StudentAssignmentAnswer;
+import com.centralstudenthub.entity.student_profile.student_assignment_answers.StudentAssignmentAnswerId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public interface StudentAssignmentAnswerRepository extends JpaRepository<StudentAssignmentAnswer, StudentAssignmentAnswerId> {

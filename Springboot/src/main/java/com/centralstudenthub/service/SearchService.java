@@ -1,9 +1,9 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.entity.Course;
+import com.centralstudenthub.entity.student_profile.course.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.centralstudenthub.repository.CoursesRepository;
+import com.centralstudenthub.repository.CourseRepository;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class SearchService {
 
     @Autowired
-    CoursesRepository coursesRepository;
+    CourseRepository courseRepository;
 
     public int levenshteinDistance(String s1, String s2) {
         int[][] memo = new int[s1.length() + 1][s2.length() + 1];
@@ -57,7 +57,7 @@ public class SearchService {
             return null;
         }
 
-        List<Course> allCourses = coursesRepository.findAll();
+        List<Course> allCourses = courseRepository.findAll();
         allCourses.sort((a, b) -> courseLevenshteinDistance(a, searchKey) - courseLevenshteinDistance(b, searchKey));
         return allCourses;
     }

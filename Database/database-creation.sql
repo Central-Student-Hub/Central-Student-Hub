@@ -6,10 +6,10 @@ CREATE TABLE `user_account`
 (
     `userAccountId` bigint                             not null auto_increment,
     `ssn`           varchar(20)                        not null,
-    `userType`      enum ('STUDENT', 'STAFF', 'ADMIN') not null,
-    `email`         varchar(50)                        not null,
-    `passwordHash`  varchar(2000)                      not null,
-    `passwordSalt`  varchar(2000)                      not null,
+    `userType`      enum ('Student', 'Staff', 'Admin') default null,
+    `email`         varchar(50)                        default null,
+    `passwordHash`  varchar(2000)                      default null,
+    `passwordSalt`  varchar(2000)                      default null,
     `passwordDate`  date,
     primary key (`userAccountId`, `ssn`),
     unique key (`ssn`)
@@ -144,11 +144,11 @@ CREATE TABLE semester_course
 
 CREATE TABLE student_course_grade
 (
-    `semCourseId`  bigint      not null,
+    `courseId`     int         not null,
     `studentId`    int         not null,
     `studentGrade` float(3, 3) not null,
-    primary key (`semCourseId`, `studentId`),
-    foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete restrict on update cascade,
+    primary key (`courseId`, `studentId`),
+    foreign key (`courseId`) references course (`courseId`) on delete restrict on update cascade,
     foreign key (`studentId`) references student_profile (`studentId`) on delete restrict on update cascade
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1

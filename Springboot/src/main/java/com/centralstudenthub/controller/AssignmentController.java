@@ -3,7 +3,7 @@ package com.centralstudenthub.controller;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
-import com.centralstudenthub.entity.Assignment;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
