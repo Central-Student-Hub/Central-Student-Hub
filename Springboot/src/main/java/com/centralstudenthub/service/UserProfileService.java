@@ -2,14 +2,16 @@ package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
 import com.centralstudenthub.Model.Request.TeachingStaffProfileRequest;
+import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
+import com.centralstudenthub.entity.student_profile.Warning;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.repository.StudentProfileRepository;
 import com.centralstudenthub.repository.TeachingStaffProfileRepository;
+import com.centralstudenthub.repository.WarningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,8 @@ public class UserProfileService {
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+    @Autowired
+    private WarningRepository warningRepository;
 
 
     public void updateTeachingStaffData(TeachingStaffProfileRequest request) {
@@ -64,18 +68,20 @@ public class UserProfileService {
         return student.orElse(null);
     }
 
-    //Todo: addContactData
-
-    //Todo: RemoveContactData
-
-    //Todo: addOfficeHour
-
-    //Todo: removeOfficeHour
-
     public List<OfficeHour> getOfficeHour(Integer id) {
         Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
         return teacher.map(TeachingStaffProfile::getOfficeHours).orElse(null);
     }
 
-    //Todo: addWarning
+    public Integer addWarning(Integer id , WarningRequest request) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(id);
+        if(student.isEmpty())
+            return null;
+        Warning warning = Warning.builder()
+                .reason(request.getReason())
+                .date(request.getDate())
+                .student(student.get())
+                .build();
+        return warningRepository.save(warning).getWarningId();
+    }
 }
