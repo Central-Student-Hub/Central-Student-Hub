@@ -3,7 +3,7 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisiteId;
-import com.centralstudenthub.exception.ConflictException;
+import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.exception.CourseAlreadyExistsException;
 import com.centralstudenthub.exception.CourseNotFoundException;
 import com.centralstudenthub.repository.CoursePrerequisiteRepository;
@@ -29,14 +29,14 @@ public class CoursePrerequisiteService {
     }
 
     public boolean addCoursePrerequisite(int courseId, int prerequisiteId) throws CourseNotFoundException,
-            ConflictException, CourseAlreadyExistsException {
+            DatabaseLogicalConstraintException, CourseAlreadyExistsException {
         Optional<Course> course = courseRepository.findById(courseId);
         Optional<Course> prerequisite = courseRepository.findById(prerequisiteId);
         if (course.isEmpty() || prerequisite.isEmpty())
             throw new CourseNotFoundException("Course or Prerequisite not found");
 
         if (Objects.equals(course.get().getCourseId(), prerequisite.get().getCourseId()))
-            throw new ConflictException("Course and Prerequisite cannot be same");
+            throw new DatabaseLogicalConstraintException("Course and Prerequisite cannot be same");
 
         CoursePrerequisiteId coursePrerequisiteId = CoursePrerequisiteId.builder().course(course.get())
                 .prerequisite(prerequisite.get()).build();

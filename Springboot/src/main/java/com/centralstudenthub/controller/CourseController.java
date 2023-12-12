@@ -3,7 +3,7 @@ package com.centralstudenthub.controller;
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Response.CourseResponse;
 import com.centralstudenthub.exception.AllCoursesAlreadyExistsException;
-import com.centralstudenthub.exception.ConflictException;
+import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.exception.CourseAlreadyExistsException;
 import com.centralstudenthub.exception.CourseNotFoundException;
 import com.centralstudenthub.service.CoursePrerequisiteService;
@@ -74,7 +74,7 @@ public class CourseController {
 
     @PostMapping("/addCoursePrerequisite")
     public boolean addCoursePrerequisite(@RequestParam int courseId, @RequestParam int prerequisiteId) throws
-            CourseNotFoundException, ConflictException, CourseAlreadyExistsException {
+            CourseNotFoundException, DatabaseLogicalConstraintException, CourseAlreadyExistsException {
         logger.info("Class: CourseController, Method: addCoursePrerequisite");
         return coursePrerequisiteService.addCoursePrerequisite(courseId, prerequisiteId);
     }
