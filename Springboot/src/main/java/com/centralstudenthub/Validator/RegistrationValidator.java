@@ -22,7 +22,7 @@ public class RegistrationValidator {
             throw new NullSemesterCourseException();
         }
 
-        int takenSeats = semesterCourse.getMembers().size();
+        int takenSeats = semesterCourse.getRegistrations().size();
         int maxSeats = semesterCourse.getMaxSeats();
 
         if (takenSeats != maxSeats) {
