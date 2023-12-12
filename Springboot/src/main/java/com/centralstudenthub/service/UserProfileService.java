@@ -73,8 +73,8 @@ public class UserProfileService {
         return teacher.map(TeachingStaffProfile::getOfficeHours).orElse(null);
     }
 
-    public Integer addWarning(Integer id , WarningRequest request) {
-        Optional<StudentProfile> student = studentProfileRepository.findById(id);
+    public Integer addWarning(WarningRequest request) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(request.getStudentId());
         if(student.isEmpty())
             return null;
         Warning warning = Warning.builder()

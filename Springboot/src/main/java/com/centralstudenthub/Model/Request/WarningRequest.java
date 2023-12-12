@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WarningRequest {
+    private Integer studentId;
     private String reason;
     private LocalDate date;
 }
