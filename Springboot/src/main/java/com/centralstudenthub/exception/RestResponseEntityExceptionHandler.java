@@ -1,4 +1,4 @@
-package com.centralstudenthub.error;
+package com.centralstudenthub.exception;
 
 import com.centralstudenthub.Model.Response.ErrorResponse;
 import org.springframework.http.HttpStatus;

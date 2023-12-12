@@ -2,10 +2,10 @@ package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Response.CourseResponse;
-import com.centralstudenthub.error.AllCoursesAlreadyExistsException;
-import com.centralstudenthub.error.ConflictException;
-import com.centralstudenthub.error.CourseAlreadyExistsException;
-import com.centralstudenthub.error.CourseNotFoundException;
+import com.centralstudenthub.exception.AllCoursesAlreadyExistsException;
+import com.centralstudenthub.exception.ConflictException;
+import com.centralstudenthub.exception.CourseAlreadyExistsException;
+import com.centralstudenthub.exception.CourseNotFoundException;
 import com.centralstudenthub.service.CoursePrerequisiteService;
 import com.centralstudenthub.service.CourseService;
 import jakarta.validation.Valid;
