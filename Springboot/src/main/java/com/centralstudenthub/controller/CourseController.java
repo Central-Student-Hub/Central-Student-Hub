@@ -3,9 +3,9 @@ package com.centralstudenthub.controller;
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Response.CourseResponse;
 import com.centralstudenthub.exception.AllCoursesAlreadyExistsException;
-import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.exception.CourseAlreadyExistsException;
 import com.centralstudenthub.exception.CourseNotFoundException;
+import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.service.CoursePrerequisiteService;
 import com.centralstudenthub.service.CourseService;
 import jakarta.validation.Valid;
@@ -48,7 +48,7 @@ public class CourseController {
     }
 
     @GetMapping("/getAllCourses")
-    public List<CourseResponse> getAllCourses() throws CourseNotFoundException {
+    public List<CourseResponse> getAllCourses() {
         logger.info("Class: CourseController, Method: getAllCourses");
         return courseService.getAllCourses();
     }
@@ -79,4 +79,9 @@ public class CourseController {
         return coursePrerequisiteService.addCoursePrerequisite(courseId, prerequisiteId);
     }
 
+    @GetMapping("/getCoursePrerequisites/{id}")
+    public List<Integer> getCoursePrerequisites(@PathVariable("id") int id) throws CourseNotFoundException {
+        logger.info("Class: CourseController, Method: getCoursePrerequisites");
+        return coursePrerequisiteService.getCoursePrerequisites(id);
+    }
 }
