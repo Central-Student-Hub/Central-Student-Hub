@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StudentAssignmentAnswerRequest {
     private String answerPath;
-    private Double grade;
-    private Long studentProfileId;
+    private double grade;
+    private int studentProfileId;
     private Long assignmentId;
 }
