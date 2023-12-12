@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.teacher_profile;
 
+import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import jakarta.persistence.*;
 
@@ -32,5 +33,8 @@ public class TeachingStaffProfile {
 
     @OneToMany(mappedBy = "id.teacher")
     private List<TeachingStaffContact> contacts;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Session> sessions;
 
 }
