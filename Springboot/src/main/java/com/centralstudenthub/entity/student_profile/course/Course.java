@@ -31,13 +31,13 @@ public class Course {
     private String description;
     private Integer creditHours;
 
-    @OneToMany(mappedBy = "id.course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.course")
     private List<CoursePrerequisite> prerequisites;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course")
     private List<SemesterCourse> semesterCourses;
 
-    @OneToMany(mappedBy = "id.course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.course")
     private List<StudentCourseGrade> grades;
 
     public CourseResponse toCourseResponse() {
