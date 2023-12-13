@@ -100,6 +100,19 @@ const Registration: React.FC = () => {
     setShowDetails(true);
   };
 
+  const removeSelectedCourse = (courseId: number) => {
+    setSelectedCourses(selectedCourses.filter(course => course.id !== courseId));
+  };
+
+  // Function to handle checkout - sending the list of selected courses to the backend
+  const handleCheckout = async () => {
+    console.log('Selected Courses for Checkout:', selectedCourses);
+    // TODO: Replace with actual API call to send selected courses
+    // const response = await fetch('/api/checkout', { method: 'POST', body: JSON.stringify(selectedCourses) });
+    // const data = await response.json();
+    // Handle the response as needed
+  };
+
   const renderCoursesTable = () => (
     <div className="mt-4 p-4 border-2 border-gray-500 rounded-md" style={{ width: '60%' }}>
       <table className="w-full">
@@ -150,13 +163,19 @@ const Registration: React.FC = () => {
       <h2 className="text-lg font-semibold mb-2">Selected Courses:</h2>
       <div className="flex flex-wrap">
         {selectedCourses.map(course => (
-          <div key={course.id} className="border border-blue-400 rounded-md p-2 mr-2 mb-2">
+          <div
+            key={course.id}
+            className="border border-blue-400 rounded-md p-2 mr-2 mb-2 cursor-pointer"
+            onClick={() => removeSelectedCourse(course.id)}
+            title="Click to remove"
+          >
             {course.name}
           </div>
         ))}
       </div>
     </div>
   );
+
 
   const renderCourseDetails = () => (
     showDetails && detailedCourse && (
@@ -210,6 +229,12 @@ const Registration: React.FC = () => {
       />
 
       {renderSelectedCourses()}
+       <button
+         onClick={handleCheckout}
+         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Checkout
+      </button>
       {renderCoursesTable()}
       {renderCourseDetails()}
     </div>
