@@ -6,6 +6,7 @@ import TeachingStaffProfile from './UserProfileComponent/TeachingStaffProfile/Te
 import SignUp from './UserSessionComponent/Signup/Signup.tsx';
 import Home from './Home.tsx';
 
+
 function App() {
   return (
     <BrowserRouter>
