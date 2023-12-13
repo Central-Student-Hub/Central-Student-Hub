@@ -3,9 +3,8 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Response.CourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
-import com.centralstudenthub.exception.AllCoursesAlreadyExistsException;
-import com.centralstudenthub.exception.CourseAlreadyExistsException;
-import com.centralstudenthub.exception.CourseNotFoundException;
+import com.centralstudenthub.exception.AlreadyExistsException;
+import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +22,9 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public CourseResponse addCourse(CourseRequest course) throws CourseAlreadyExistsException {
-        Optional<Course> courseOptional = courseRepository.findByCode(course.getCode());
-        if(courseOptional.isPresent())
-            throw new CourseAlreadyExistsException("Course already exists...");
+    public CourseResponse addCourse(CourseRequest course) throws AlreadyExistsException {
+        if(courseRepository.existsByCode(course.getCode()))
+            throw new AlreadyExistsException("Course already exists...");
 
         Course savedCourse = Course.builder()
                 .code(course.getCode())
@@ -38,12 +36,11 @@ public class CourseService {
         return savedCourse.toCourseResponse();
     }
 
-    public List<CourseResponse> addCourses(CourseRequest[] courses) throws AllCoursesAlreadyExistsException {
+    public List<CourseResponse> addCourses(CourseRequest[] courses) throws AlreadyExistsException {
         int addedCoursesCount = 0;
         List<CourseResponse> savedCourses = new ArrayList<>();
         for(CourseRequest course: courses) {
-            Optional<Course> courseOptional = courseRepository.findByCode(course.getCode());
-            if(courseOptional.isPresent()) continue;
+            if(courseRepository.existsByCode(course.getCode())) continue;
 
             Course savedCourse = Course.builder()
                     .code(course.getCode())
@@ -56,32 +53,30 @@ public class CourseService {
             addedCoursesCount++;
         }
         if (addedCoursesCount == 0)
-            throw new AllCoursesAlreadyExistsException("All courses already exists...");
+            throw new AlreadyExistsException("All courses already exists...");
         return savedCourses;
     }
 
-    public CourseResponse getCourse(int id) throws CourseNotFoundException {
+    public CourseResponse getCourse(int id) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
-            throw new CourseNotFoundException("Course not found...");
+            throw new NotFoundException("Course not found...");
 
         return courseOptional.get().toCourseResponse();
     }
 
-    public List<CourseResponse> getAllCourses() throws CourseNotFoundException {
+    public List<CourseResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-        if (courses.isEmpty())
-            throw new CourseNotFoundException("No courses found...");
         List<CourseResponse> courseResponses = new ArrayList<>();
         for(Course course: courses)
             courseResponses.add(course.toCourseResponse());
         return courseResponses;
     }
 
-    public CourseResponse updateCourse(int id, CourseRequest courseUpdates) throws CourseNotFoundException {
+    public CourseResponse updateCourse(int id, CourseRequest courseUpdates) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
-            throw new CourseNotFoundException("Course not found...");
+            throw new NotFoundException("Course not found...");
 
         Course dbCourse = courseOptional.get();
         dbCourse.setCode(courseUpdates.getCode());
@@ -92,10 +87,10 @@ public class CourseService {
         return dbCourse.toCourseResponse();
     }
 
-    public boolean deleteCourse(int id) throws CourseNotFoundException {
+    public boolean deleteCourse(int id) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
-            throw new CourseNotFoundException("Course not found...");
+            throw new NotFoundException("Course not found...");
         courseRepository.delete(courseOptional.get());
         return true;
     }
