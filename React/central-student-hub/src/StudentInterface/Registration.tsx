@@ -46,10 +46,11 @@ const Registration: React.FC = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    if (debouncedTerm) {
-      console.log(`Search for: ${debouncedTerm}`);
-      // TODO: Replace with actual API call to search courses
-    }
+    // API call with debouncedTerm
+    // If the search term is cleared, this sends an empty string to the backend
+    console.log(`Search for: ${debouncedTerm}`);
+    // TODO: Replace with actual API call to search courses
+    // This could either fetch all courses or reset the course list depending on your API's behavior
   }, [debouncedTerm]);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const Registration: React.FC = () => {
 
     fetchCourses();
     fetchAvailableHours();
-  }, [searchTerm]);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
