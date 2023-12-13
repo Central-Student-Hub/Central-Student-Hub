@@ -3,7 +3,6 @@ package com.centralstudenthub.entity.student_profile.course.semester_courses;
 import com.centralstudenthub.Model.Semester;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.course_material_paths.CourseMaterialPath;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.course_members.CourseMember;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import com.centralstudenthub.entity.student_profile.course.Course;
@@ -38,9 +37,6 @@ public class SemesterCourse {
 
     @OneToMany(mappedBy = "id.semCourse")
     private List<CourseMaterialPath> materialPaths;
-
-    @OneToMany(mappedBy = "id.semCourse")
-    private List<CourseMember> members;
 
     @OneToMany(mappedBy = "semCourse")
     private List<Assignment> assignments;

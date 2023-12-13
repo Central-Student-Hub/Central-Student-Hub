@@ -3,6 +3,7 @@ package com.centralstudenthub.entity.student_profile.course.semester_courses.ses
 import com.centralstudenthub.Model.SessionType;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
+import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,22 +21,19 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sessionId;
 
-    @Column
-    private String teacher;
-
-    @Column
     private Integer period;
-
-    @Column
     private String weekDay;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private SessionType sessionType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacherId", nullable = false)
+    private TeachingStaffProfile teacher;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room", nullable = false)

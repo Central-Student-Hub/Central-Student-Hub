@@ -3,15 +3,16 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisiteId;
-import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.exception.CourseAlreadyExistsException;
 import com.centralstudenthub.exception.CourseNotFoundException;
+import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.repository.CoursePrerequisiteRepository;
 import com.centralstudenthub.repository.CourseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -47,5 +48,13 @@ public class CoursePrerequisiteService {
 
         coursePrerequisiteRepository.save(CoursePrerequisite.builder().id(coursePrerequisiteId).build());
         return true;
+    }
+
+    public List<Integer> getCoursePrerequisites(int id) throws CourseNotFoundException {
+        Optional<Course> course = courseRepository.findById(id);
+        if (course.isEmpty())
+            throw new CourseNotFoundException("Course not found");
+
+        return coursePrerequisiteRepository.findAllPrerequisites(id);
     }
 }
