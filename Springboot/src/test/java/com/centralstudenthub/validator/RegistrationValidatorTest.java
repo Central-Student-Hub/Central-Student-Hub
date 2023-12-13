@@ -6,7 +6,7 @@ import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisiteId;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.course_members.CourseMember;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGradeId;
@@ -37,28 +37,28 @@ public class RegistrationValidatorTest {
         void testSeatsAvailable() throws NullSemesterCourseException {
             int maxSeats = 5;
 
-            List<CourseMember> members = new ArrayList<>();
+            List<Registration> members = new ArrayList<>();
             for (int i = 0; i < maxSeats - 1; i++)
-                members.add(new CourseMember());
+                members.add(new Registration());
 
             SemesterCourse registeringCourse = new SemesterCourse();
             registeringCourse.setMaxSeats(maxSeats);
-            registeringCourse.setMembers(members);
+            registeringCourse.setRegistrations(members);
 
             assertEquals("Seats Available", registrationValidator.validateSeatsAvailable(registeringCourse));
         }
 
         @Test
         void testSeatsUnavailable() throws NullSemesterCourseException {
-            List<CourseMember> members = new ArrayList<>();
+            List<Registration> members = new ArrayList<>();
             SemesterCourse semesterCourse = new SemesterCourse();
 
             int maxSeats = 5;
             for (int i = 0; i < maxSeats; i++)
-                members.add(new CourseMember());
+                members.add(new Registration());
 
             semesterCourse.setMaxSeats(maxSeats);
-            semesterCourse.setMembers(members);
+            semesterCourse.setRegistrations(members);
 
             assertEquals("Seats Unavailable", registrationValidator.validateSeatsAvailable(semesterCourse));
         }
