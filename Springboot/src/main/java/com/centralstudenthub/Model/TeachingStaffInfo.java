@@ -1,6 +1,7 @@
 package com.centralstudenthub.Model;
 
-import com.centralstudenthub.entity.OfficeHour;
+import com.centralstudenthub.entity.teacher_profile.OfficeHour;
+import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
