@@ -70,7 +70,7 @@ CREATE TABLE student_profile
     minor             VARCHAR(255),
     level             INT          NOT NULL NOT NULL,
     noOfHours         INT          NOT NULL,
-    GPA               FLOAT(3, 3)  NOT NULL,
+    GPA               double  NOT NULL,
     PRIMARY KEY (studentId)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -116,7 +116,6 @@ CREATE TABLE course
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin;
 
-DROP TABLE IF EXISTS `course_prerequisite`;
 CREATE TABLE course_prerequisite
 (
     `courseId`       int not null,
@@ -146,7 +145,7 @@ CREATE TABLE student_course_grade
 (
     `courseId`     int         not null,
     `studentId`    int         not null,
-    `studentGrade` float(3, 3) not null,
+    `studentGrade` double not null,
     primary key (`courseId`, `studentId`),
     foreign key (`courseId`) references course (`courseId`) on delete cascade on update cascade,
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade
@@ -196,7 +195,7 @@ CREATE TABLE student_assignment_answer
     `studentId`    int          not null,
     `assignmentId` bigint       not null,
     `answerPath`   varchar(255) not null,
-    `grade`        float(3, 3)  not null,
+    `grade`        double  not null,
     primary key (`studentId`, `assignmentId`),
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
     foreign key (`assignmentId`) references assignment (`assignmentId`) on delete cascade on update cascade
@@ -265,7 +264,7 @@ CREATE TABLE registration
     `studentId`       int          not null,
     `semCourseId`     bigint       not null,
     `paymentDeadline` date         not null,
-    `paymentFees`     float(10, 7) not null,
+    `paymentFees`     double not null,
     primary key (`studentId`, `semCourseId`),
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade

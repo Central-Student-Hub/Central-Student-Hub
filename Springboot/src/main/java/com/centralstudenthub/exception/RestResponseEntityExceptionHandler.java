@@ -12,29 +12,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(CourseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> courseNotFoundExceptionHandler(CourseNotFoundException exception) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handler(NotFoundException exception) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(CourseAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> courseAlreadyExistsExceptionHandler(CourseAlreadyExistsException
-                                                                                         exception) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-    @ExceptionHandler(AllCoursesAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> allCoursesAlreadyExistsExceptionHandler(AllCoursesAlreadyExistsException
-                                                                                             exception) {
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handler(AlreadyExistsException exception) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(DatabaseLogicalConstraintException.class)
-    public ResponseEntity<ErrorResponse> databaseLogicalConstraintExceptionHandler(DatabaseLogicalConstraintException
-                                                                                               exception) {
+    public ResponseEntity<ErrorResponse> handler(DatabaseLogicalConstraintException exception) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
