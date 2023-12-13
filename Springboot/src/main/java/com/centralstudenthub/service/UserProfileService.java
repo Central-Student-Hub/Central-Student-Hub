@@ -24,7 +24,6 @@ public class UserProfileService {
     @Autowired
     private WarningRepository warningRepository;
 
-
     public void updateTeachingStaffData(TeachingStaffProfileRequest request) {
         TeachingStaffProfile teacher = TeachingStaffProfile.builder()
                 .teacherId(request.getTeacherId())
