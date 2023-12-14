@@ -160,7 +160,7 @@ const Registration: React.FC = () => {
 
   const renderSelectedCourses = () => (
     <div className="mb-4">
-      <h2 className="text-lg font-semibold mb-2">Selected Courses:</h2>
+      <h2 style={{ fontSize: '22px' }}className=" font-bold mb-4">Selected Courses:</h2>
       <div className="flex flex-wrap">
         {selectedCourses.map(course => (
           <div
@@ -216,8 +216,7 @@ const Registration: React.FC = () => {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Registration Page</h1>
-      <div className="mb-4">Available Hours: {availableHours}</div>
+      <div className="mb-4 font-bold" style={{ fontSize: '22px' }}>Available Hours: {availableHours}</div>
       <input 
         type="text" 
         value={searchTerm}
