@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = { WebSecurityConfig.class })
 @WebMvcTest(controllers = AuthenticationController.class)
 @WebAppConfiguration
-@ComponentScan(basePackages = "com.centralstudenthub.CentralStudentHub")
+@ComponentScan(basePackages = "com.centralstudenthub")
 class AuthenticationControllerTest {
     private MockMvc mockMvc;
 

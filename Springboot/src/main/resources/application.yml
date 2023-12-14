@@ -1,18 +1,11 @@
 server:
   port: 8082
 
-#spring.h2.console.enabled=true
-#spring.datasource.url=jdbc:h2:mem:dcbapp
-#spring.datasource.driverClassName=org.h2.Driver
-#spring.datasource.username=sa
-#spring.datasource.password=password
-#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: admin
+    password: marwan1234#
     url: jdbc:mysql://localhost:3306/central-student-hub
   jpa:
     hibernate:
@@ -35,6 +28,8 @@ logging:
       springframework:
         security: DEBUG
 
+
+
 application:
   security:
     jwt:
@@ -42,3 +37,4 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+

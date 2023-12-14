@@ -1,6 +1,11 @@
 package com.centralstudenthub.Model;
 
-import com.centralstudenthub.entity.*;
+
+import com.centralstudenthub.entity.student_profile.Warning;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
+import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers.StudentAssignmentAnswer;
+import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

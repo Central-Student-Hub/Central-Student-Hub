@@ -1,4 +1,4 @@
-package com.centralstudenthub.entity.student_profile.student_assignment_answers;
+package com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
 package com.centralstudenthub.Model.Request;
 
-import com.centralstudenthub.entity.StudentProfile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

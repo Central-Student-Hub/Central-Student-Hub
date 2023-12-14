@@ -51,25 +51,25 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
 
                 )
-                .formLogin(withDefaults())
-                .oauth2Login(oauth -> oauth
-                        .authorizationEndpoint(authorization -> authorization
-                                .baseUri("/login/oauth2/authorization/google")
-                        )
-                        .redirectionEndpoint(redirection -> redirection
-                                .baseUri("/login/oauth2/code/google")
-                        )
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oauthUserService)
-                        )
-                        .defaultSuccessUrl("/auth/google",true)
+//                .formLogin(withDefaults())
+//                .oauth2Login(oauth -> oauth
+//                        .authorizationEndpoint(authorization -> authorization
+//                                .baseUri("/login/oauth2/authorization/google")
+//                        )
+//                        .redirectionEndpoint(redirection -> redirection
+//                                .baseUri("/login/oauth2/code/google")
+//                        )
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .userService(oauthUserService)
+//                        )
+//                        .defaultSuccessUrl("/auth/google",true)
 //                        .successHandler((request, response, authentication) -> {
 //                            //String gmail = ((OAuth2User)authentication.getPrincipal()).getAttribute("email");
 //                            //response.sendRedirect("/auth/google/"+gmail);
 //                            response.sendRedirect("/auth/google");
 //                        })
 
-                )
+ //               )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
