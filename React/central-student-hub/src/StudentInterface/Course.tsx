@@ -30,7 +30,6 @@ const Course: React.FC = () => {
     getCourses()
       .then((courses) => setCourses(courses))
       .catch((error) => console.error(error));
-
   }, []);
 
   return (

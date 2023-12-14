@@ -73,7 +73,7 @@ const Registration: React.FC = () => {
 
     fetchCourses();
     fetchAvailableHours();
-  }, [searchTerm]);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -107,6 +107,19 @@ const Registration: React.FC = () => {
   const viewCourseDetails = (course: Course) => {
     setDetailedCourse(course);
     setShowDetails(true);
+  };
+
+  const removeSelectedCourse = (courseId: number) => {
+    setSelectedCourses(selectedCourses.filter(course => course.id !== courseId));
+  };
+
+  // Function to handle checkout - sending the list of selected courses to the backend
+  const handleCheckout = async () => {
+    console.log('Selected Courses for Checkout:', selectedCourses);
+    // TODO: Replace with actual API call to send selected courses
+    // const response = await fetch('/api/checkout', { method: 'POST', body: JSON.stringify(selectedCourses) });
+    // const data = await response.json();
+    // Handle the response as needed
   };
 
   const renderCoursesTable = () => (
@@ -156,16 +169,22 @@ const Registration: React.FC = () => {
 
   const renderSelectedCourses = () => (
     <div className="mb-4">
-      <h2 className="text-lg font-semibold mb-2">Selected Courses:</h2>
+      <h2 style={{ fontSize: '22px' }}className=" font-bold mb-4">Selected Courses:</h2>
       <div className="flex flex-wrap">
         {selectedCourses.map(course => (
-          <div key={course.id} className="border border-blue-400 rounded-md p-2 mr-2 mb-2">
+          <div
+            key={course.id}
+            className="border border-blue-400 rounded-md p-2 mr-2 mb-2 cursor-pointer"
+            onClick={() => removeSelectedCourse(course.id)}
+            title="Click to remove"
+          >
             {course.name}
           </div>
         ))}
       </div>
     </div>
   );
+
 
   const renderCourseDetails = () => (
     showDetails && detailedCourse && (
@@ -206,8 +225,7 @@ const Registration: React.FC = () => {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Registration Page</h1>
-      <div className="mb-4">Available Hours: {availableHours}</div>
+      <div className="mb-4 font-bold" style={{ fontSize: '22px' }}>Available Hours: {availableHours}</div>
       <input 
         type="text" 
         value={searchTerm}
@@ -219,6 +237,12 @@ const Registration: React.FC = () => {
       />
 
       {renderSelectedCourses()}
+       <button
+         onClick={handleCheckout}
+         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Checkout
+      </button>
       {renderCoursesTable()}
       {renderCourseDetails()}
     </div>
