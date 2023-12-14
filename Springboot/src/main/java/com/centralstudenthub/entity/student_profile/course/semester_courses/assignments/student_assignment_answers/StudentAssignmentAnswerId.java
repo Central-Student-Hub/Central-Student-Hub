@@ -1,4 +1,4 @@
-package com.centralstudenthub.entity.student_profile.student_assignment_answers;
+package com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers;
 
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;

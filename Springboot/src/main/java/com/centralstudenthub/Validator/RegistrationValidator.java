@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class RegistrationValidator {
 
-    public String validateSeatsAvailable(SemesterCourse semesterCourse) throws NullSemesterCourseException {
+    public boolean validateSeatsAvailable(SemesterCourse semesterCourse) throws NullSemesterCourseException {
         if (semesterCourse == null) {
             throw new NullSemesterCourseException();
         }
@@ -26,9 +26,9 @@ public class RegistrationValidator {
         int maxSeats = semesterCourse.getMaxSeats();
 
         if (takenSeats != maxSeats) {
-            return "Seats Available";
+            return true;
         } else {
-            return "Seats Unavailable";
+            return false;
         }
     }
 
@@ -63,7 +63,7 @@ public class RegistrationValidator {
         return "Prerequisites Satisfied";
     }
 
-    public String validateCreditHoursLimit(StudentProfile student, Course course, int currentCreditHours)
+    public boolean validateCreditHoursLimit(StudentProfile student, Course course, int currentCreditHours)
             throws NullStudentProfileException, NullCourseException {
         if (student == null) {
             throw new NullStudentProfileException();
@@ -83,13 +83,13 @@ public class RegistrationValidator {
         }
 
         if (course.getCreditHours() + currentCreditHours <= maxCreditHours) {
-            return "Credit Hours Limit Satisfied";
+            return true;
         } else {
-            return "Credit Hours Limit Unsatisfied";
+            return false;
         }
     }
 
-    public String validateSessionTimes(List<Session> registeredSessions, Session newSession)
+    public boolean validateSessionTimes(List<Session> registeredSessions, Session newSession)
             throws NullRegisteredSessionsException, NullSemesterCourseException {
         if (registeredSessions == null) {
             throw new NullRegisteredSessionsException();
@@ -104,9 +104,9 @@ public class RegistrationValidator {
         ).toList();
 
         if (conflictingSessions.isEmpty()) {
-            return "No Conflicting Session Times";
+            return true;
         } else {
-            return "Conflicting Session Times";
+            return false;
         }
     }
 }
