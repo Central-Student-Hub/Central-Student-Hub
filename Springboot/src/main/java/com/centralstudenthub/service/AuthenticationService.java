@@ -6,10 +6,19 @@ import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.Validator.PasswordSecurity;
 import com.centralstudenthub.entity.UserAccount;
 import com.centralstudenthub.repository.UserSessionInfoRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.security.Principal;
 import java.sql.Date;
 import java.util.Optional;
 
@@ -21,6 +30,7 @@ public class AuthenticationService {
 
     @Autowired
     private PasswordSecurity passwordSecurity;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -29,13 +39,13 @@ public class AuthenticationService {
 
     public SignUpResponse signUp(SignUpRequest signUpRequest){
 
-        Optional<UserAccount> DBuser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
-        boolean userPresent = DBuser.isPresent();
-        if(userPresent && DBuser.get().getEmail() == null){
+        Optional<UserAccount> DBUser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
+        boolean userPresent = DBUser.isPresent();
+        if(userPresent && DBUser.get().getEmail() == null){
 
             Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
             if(checkEmail.isEmpty()){
-                UserAccount user = DBuser.get();
+                UserAccount user = DBUser.get();
                 String salt = passwordSecurity.getNextSalt();
                 String hashedPassword = passwordSecurity
                         .hashPassword(signUpRequest.getPassword(),salt);
@@ -80,4 +90,12 @@ public class AuthenticationService {
         return token;
     }
 
+    public String processOAuthPostLogin(OAuth2AuthenticationToken authentication) {
+
+        String gmail = ((OAuth2User)authentication.getPrincipal()).getAttribute("email");
+        Optional<UserAccount> existUser = userSessionInfoRepository.findByGmail(gmail);
+        if (existUser.isEmpty()) return null;
+
+        return jwtService.generateToken(existUser.get());
+    }
 }

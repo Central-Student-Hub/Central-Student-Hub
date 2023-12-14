@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { ApiRequester } from '../services/ApiRequester.ts';
 
-type Location = {
+export type Location = {
   building: number;
   room: number;
 };
 
-type Session = {
+export type Session = {
   id: number;
   period: number;
   weekday: string;
@@ -14,7 +15,7 @@ type Session = {
   location: Location;
 };
 
-type Course = {
+export type Course = {
   id: number;
   name: string;
   description?: string;
@@ -34,6 +35,7 @@ const Registration: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
+  const apiRequester = new ApiRequester();
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -46,11 +48,14 @@ const Registration: React.FC = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    // API call with debouncedTerm
-    // If the search term is cleared, this sends an empty string to the backend
-    console.log(`Search for: ${debouncedTerm}`);
-    // TODO: Replace with actual API call to search courses
-    // This could either fetch all courses or reset the course list depending on your API's behavior
+    if (debouncedTerm) {
+      console.log(`Search for: ${debouncedTerm}`);
+
+      const getCourses = async () => await apiRequester.getCourses(debouncedTerm);
+      getCourses()
+        .then((courses) => setCourses(courses))
+        .catch((error) => console.error(error));
+    }
   }, [debouncedTerm]);
 
   useEffect(() => {
@@ -83,15 +88,19 @@ const Registration: React.FC = () => {
   };
 
   const handleCourseSelect = async (course: Course) => {
-    const response = await fetch(`/api/register-course/${course.id}`); // Replace with your endpoint
-    const data = await response.json();
+    const response = await apiRequester.verifyCourse({
+      courseId: course.id,
+      creditHours: availableHours,
+      sessions: selectedCourses.flatMap(course => course.sessions),
+      newSession: course.sessions[0]
+    })
 
-    if (data.canRegister) {
+    if (response) {
       setSelectedCourses([...selectedCourses, course]);
       // Optionally, update available hours here
     } else {
       // Handle registration failure (e.g., prerequisites not met)
-      console.error('Registration failed:', data.errorMessage);
+      // console.error('Registration failed:', data.errorMessage);
     }
   };
 

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { ApiRequester } from '../services/ApiRequester.ts';
 
-type Assignment = {
+export type Assignment = {
+  id: number;
   assignmentName: string;
   courseName: string;
-  dueDate: string;
+  dueDate: Date;
   description: string;
   assignmentLinks: string[];
   answerLinks: string[];
@@ -46,12 +48,33 @@ const Timeline: React.FC = () => {
 
   const handleToggleActive = () => {
     setShowActiveOnly(!showActiveOnly);
+=======
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [showActiveOnly, setShowActiveOnly] = useState<boolean>(false);
+  const apiRequester = new ApiRequester();
+
+  useEffect(() => {
+    const getAssignments = async () => apiRequester.getAllAssignments();
+    getAssignments()
+      .then((assignments) => setAssignments(assignments))
+      .catch((error) => console.error(error));
+  }, [])
+
+  const handleToggleActive = () => {
+    setShowActiveOnly(!showActiveOnly);
+    if (showActiveOnly) {
+      const getActiveAssignments = async () => apiRequester.getActiveAssignments();
+      getActiveAssignments()
+        .then((assignments) => setAssignments(assignments))
+        .catch((error) => console.error(error));
+    }
   };
 
   const handleSubmit = (assignmentIndex: number) => {
     const assignment = assignments[assignmentIndex];
     console.log(`Submitting assignment: ${assignment.assignmentName} with links:`, assignment.answerLinks);
     // TODO: Send submitted assignment to backend
+    assignment.answerLinks.map((link) => apiRequester.submitAssignemntAnswer({ assignmentId: assignments[assignmentIndex].id, answerUrl: link }));
   };
 
   const handleAnswerLinkChange = (assignmentIndex: number, linkIndex: number, value: string) => {
@@ -79,7 +102,7 @@ const Timeline: React.FC = () => {
           <div key={assignmentIndex} className="bg-white p-4 my-4 rounded shadow-lg" style={{ width: 'calc(100% - 530px)' }}>
             <h3 className="font-bold text-xl">{assignment.assignmentName}</h3>
             <p className="text-base">{assignment.courseName}</p>
-            <p className="text-base">Due: {assignment.dueDate}</p>
+            <p className="text-base">Due: {assignment.dueDate.toTimeString()}</p>
             <p className="text-base">{assignment.description}</p>
             {assignment.assignmentLinks.map((link, linkIndex) => (
               <div key={linkIndex} className="my-1">

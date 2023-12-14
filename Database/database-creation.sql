@@ -20,13 +20,15 @@ CREATE TABLE `user_account`
 
 CREATE TABLE teaching_staff_profile
 (
-    teacherId         INT          NOT NULL AUTO_INCREMENT,
-    firstName         VARCHAR(255) NOT NULL,
-    lastName          VARCHAR(255) NOT NULL,
-    biography         VARCHAR(255),
-    profilePictureURL VARCHAR(255),
-    department        VARCHAR(255) NOT NULL,
-    PRIMARY KEY (teacherId)
+    teacherId         INT not null AUTO_INCREMENT,
+    userAccountId     BIGINT,
+    firstName         VARCHAR(255) DEFAULT NULL,
+    lastName          VARCHAR(255) DEFAULT NULL,
+    biography         VARCHAR(255) DEFAULT NULL,
+    profilePictureURL VARCHAR(255) DEFAULT NULL,
+    department        VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (teacherId),
+    FOREIGN KEY (userAccountId) REFERENCES user_account (userAccountId) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
@@ -34,12 +36,12 @@ CREATE TABLE teaching_staff_profile
 
 CREATE TABLE office_hour
 (
-    officeHourId INT          NOT NULL AUTO_INCREMENT,
-    teacherId    INT          NOT NULL,
-    fromTime     TIME         NOT NULL,
-    toTime       TIME         NOT NULL,
-    weekDay      VARCHAR(20)  NOT NULL,
-    location     VARCHAR(255) NOT NULL,
+    officeHourId INT not null AUTO_INCREMENT,
+    teacherId    INT,
+    fromTime     TIME,
+    toTime       TIME,
+    weekDay      VARCHAR(20),
+    location     VARCHAR(255),
     PRIMARY KEY (officeHourId),
     FOREIGN KEY (teacherId) REFERENCES teaching_staff_profile (teacherId) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
@@ -49,8 +51,8 @@ CREATE TABLE office_hour
 
 CREATE TABLE teaching_staff_contact
 (
-    teacherId INT          NOT NULL,
-    label     VARCHAR(255) NOT NULL,
+    teacherId INT          not null,
+    label     VARCHAR(255) not null,
     data      VARCHAR(255),
     PRIMARY KEY (teacherId, label),
     FOREIGN KEY (teacherId) REFERENCES teaching_staff_profile (teacherId) ON DELETE CASCADE ON UPDATE CASCADE
@@ -61,17 +63,19 @@ CREATE TABLE teaching_staff_contact
 
 CREATE TABLE student_profile
 (
-    studentId         INT          NOT NULL AUTO_INCREMENT,
-    firstName         VARCHAR(255) NOT NULL,
-    lastName          VARCHAR(255) NOT NULL,
-    biography         VARCHAR(255),
-    profilePictureURL VARCHAR(255),
-    major             VARCHAR(255) NOT NULL,
-    minor             VARCHAR(255),
-    level             INT          NOT NULL NOT NULL,
-    noOfHours         INT          NOT NULL,
-    GPA               FLOAT(3, 3)  NOT NULL,
-    PRIMARY KEY (studentId)
+    studentId         INT not null AUTO_INCREMENT,
+    userAccountId     BIGINT,
+    firstName         VARCHAR(255) DEFAULT NULL,
+    lastName          VARCHAR(255) DEFAULT NULL,
+    biography         VARCHAR(255) DEFAULT NULL,
+    profilePictureURL VARCHAR(255) DEFAULT NULL,
+    major             VARCHAR(255) DEFAULT NULL,
+    minor             VARCHAR(255) DEFAULT NULL,
+    level             INT          DEFAULT NULL,
+    noOfHours         INT          DEFAULT NULL,
+    GPA               double       DEFAULT NULL,
+    PRIMARY KEY (studentId),
+    FOREIGN KEY (userAccountId) REFERENCES user_account (userAccountId) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
@@ -79,8 +83,8 @@ CREATE TABLE student_profile
 
 CREATE TABLE student_contact
 (
-    studentId INT          NOT NULL,
-    label     VARCHAR(255) NOT NULL,
+    studentId INT          not null,
+    label     VARCHAR(255) not null,
     data      VARCHAR(255),
     PRIMARY KEY (studentId, label),
     FOREIGN KEY (studentId) REFERENCES student_profile (studentId) ON DELETE CASCADE ON UPDATE CASCADE
@@ -91,9 +95,9 @@ CREATE TABLE student_contact
 
 CREATE TABLE warning
 (
-    warningId INT          NOT NULL AUTO_INCREMENT,
-    studentId INT          NOT NULL,
-    reason    VARCHAR(255) NOT NULL,
+    warningId INT not null AUTO_INCREMENT,
+    studentId INT,
+    reason    VARCHAR(255),
     date      DATE,
     PRIMARY KEY (warningId),
     FOREIGN KEY (studentId) REFERENCES student_profile (studentId)
@@ -104,11 +108,11 @@ CREATE TABLE warning
 
 CREATE TABLE course
 (
-    `courseId`    int          not null auto_increment,
-    `code`        varchar(255) not null,
-    `name`        varchar(255) not null,
+    `courseId`    int not null auto_increment,
+    `code`        varchar(255),
+    `name`        varchar(255),
     `description` varchar(255),
-    `creditHours` int          not null,
+    `creditHours` int,
     primary key (`courseId`),
     unique key (`code`)
 ) ENGINE = InnoDB
@@ -116,7 +120,6 @@ CREATE TABLE course
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin;
 
-DROP TABLE IF EXISTS `course_prerequisite`;
 CREATE TABLE course_prerequisite
 (
     `courseId`       int not null,
@@ -131,10 +134,10 @@ CREATE TABLE course_prerequisite
 
 CREATE TABLE semester_course
 (
-    `semCourseId` bigint                            not null auto_increment,
-    `courseId`    int                               not null,
-    `semester`    enum ('FALL', 'SPRING', 'SUMMER') not null,
-    `maxSeats`    int                               not null,
+    `semCourseId` bigint not null auto_increment,
+    `courseId`    int,
+    `semester`    enum ('FALL', 'SPRING', 'SUMMER'),
+    `maxSeats`    int,
     primary key (`semCourseId`),
     foreign key (`courseId`) references course (`courseId`) on delete cascade on update cascade
 ) ENGINE = InnoDB
@@ -144,9 +147,9 @@ CREATE TABLE semester_course
 
 CREATE TABLE student_course_grade
 (
-    `courseId`     int         not null,
-    `studentId`    int         not null,
-    `studentGrade` float(3, 3) not null,
+    `courseId`     int not null,
+    `studentId`    int not null,
+    `studentGrade` double,
     primary key (`courseId`, `studentId`),
     foreign key (`courseId`) references course (`courseId`) on delete cascade on update cascade,
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade
@@ -168,11 +171,11 @@ CREATE TABLE course_material_path
 
 CREATE TABLE assignment
 (
-    `assignmentId`   bigint       not null auto_increment,
-    `semCourseId`    bigint       not null,
-    `assignmentName` varchar(255) not null,
-    `description`    varchar(255) not null,
-    `dueDate`        date         not null,
+    `assignmentId`   bigint not null auto_increment,
+    `semCourseId`    bigint,
+    `assignmentName` varchar(255),
+    `description`    varchar(255),
+    `dueDate`        date,
     primary key (`assignmentId`),
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade
 ) ENGINE = InnoDB
@@ -193,10 +196,10 @@ CREATE TABLE assignment_material_path
 
 CREATE TABLE student_assignment_answer
 (
-    `studentId`    int          not null,
-    `assignmentId` bigint       not null,
-    `answerPath`   varchar(255) not null,
-    `grade`        float(3, 3)  not null,
+    `studentId`    int    not null,
+    `assignmentId` bigint not null,
+    `answerPath`   varchar(255),
+    `grade`        double,
     primary key (`studentId`, `assignmentId`),
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
     foreign key (`assignmentId`) references assignment (`assignmentId`) on delete cascade on update cascade
@@ -207,10 +210,10 @@ CREATE TABLE student_assignment_answer
 
 CREATE TABLE announcement
 (
-    `announcementId`   bigint       not null auto_increment,
-    `semCourseId`      bigint       not null,
-    `announcementName` varchar(255) not null,
-    `description`      varchar(255) not null,
+    `announcementId`   bigint not null auto_increment,
+    `semCourseId`      bigint,
+    `announcementName` varchar(255),
+    `description`      varchar(255),
     primary key (`announcementId`),
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade
 ) ENGINE = InnoDB
@@ -220,9 +223,9 @@ CREATE TABLE announcement
 
 CREATE TABLE feedback
 (
-    `feedbackId`  bigint       not null auto_increment,
-    `semCourseId` bigint       not null,
-    `content`     varchar(255) not null,
+    `feedbackId`  bigint not null auto_increment,
+    `semCourseId` bigint,
+    `content`     varchar(255),
     primary key (`feedbackId`),
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade
 ) ENGINE = InnoDB
@@ -243,14 +246,14 @@ CREATE TABLE location
 
 CREATE TABLE session
 (
-    `sessionId`   bigint                              not null auto_increment,
-    `semCourseId` bigint                              not null,
-    `teacherId`   int                                 not null,
-    `room`        int                                 not null,
-    `building`    int                                 not null,
-    `period`      int                                 not null,
-    `weekDay`     varchar(255)                        not null,
-    `sessionType` enum ('LECTURE', 'TUTORIAL', 'LAB') not null,
+    `sessionId`   bigint not null auto_increment,
+    `semCourseId` bigint,
+    `teacherId`   int,
+    `room`        int,
+    `building`    int,
+    `period`      int,
+    `weekDay`     varchar(255),
+    `sessionType` enum ('LECTURE', 'TUTORIAL', 'LAB'),
     primary key (`sessionId`),
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade,
     foreign key (`teacherId`) references teaching_staff_profile (`teacherId`) on delete cascade on update cascade,
@@ -262,10 +265,10 @@ CREATE TABLE session
 
 CREATE TABLE registration
 (
-    `studentId`       int          not null,
-    `semCourseId`     bigint       not null,
-    `paymentDeadline` date         not null,
-    `paymentFees`     float(10, 7) not null,
+    `studentId`       int    not null,
+    `semCourseId`     bigint not null,
+    `paymentDeadline` date,
+    `paymentFees`     double,
     primary key (`studentId`, `semCourseId`),
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
     foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade

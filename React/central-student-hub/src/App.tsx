@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TeachingStaffProfile from './UserProfileComponent/TeachingStaffProfile/TeachingStaffProfile.tsx';
 import SignUp from './UserSessionComponent/Signup/Signup.tsx';
 import Home from './Home.tsx';
+import SideBar from './StudentInterface/SideBar.tsx';
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/forgot-my-password' element={<Login />}></Route> {/* (TODO): Add forgot password component here */}
-        <Route path='/' element={<Home />}></Route>
+        <Route path='/' element={<SideBar />}></Route>
         <Route path='/signup' element={<SignUp />}></Route>
         <Route path='/teaching-staff-profile/:id' element={<TeachingStaffProfile />}></Route>
       </Routes>

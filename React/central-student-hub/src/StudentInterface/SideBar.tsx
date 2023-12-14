@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react';
 import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse } from 'react-icons/bs';
-import UserProfile from './UserProfile';
-import Registration from './Registration';
-import Schedule from './Schedule';
-import Fees from './Fees';
-import Grades from './Grades';
-import Course from './Course';
-import Timeline from './Timeline';
+import UserProfile from './UserProfile.tsx';
+import Registration from './Registration.tsx';
+import Schedule from './Schedule.tsx';
+import Fees from './Fees.tsx';
+import Grades from './Grades.tsx';
+import Course from './Course.tsx';
+import Timeline from './Timeline.tsx';
 
 const SideBar: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState<string>('');
