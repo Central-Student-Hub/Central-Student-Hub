@@ -2,7 +2,7 @@ package com.centralstudenthub.controller;
 
 
 import com.centralstudenthub.Model.Request.AnnouncementRequest;
-import com.centralstudenthub.entity.Announcement;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.Announcement;
 import com.centralstudenthub.service.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

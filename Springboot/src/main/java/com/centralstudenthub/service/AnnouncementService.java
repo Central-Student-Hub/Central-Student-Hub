@@ -1,9 +1,8 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.AnnouncementRequest;
-import com.centralstudenthub.entity.Announcement;
-import com.centralstudenthub.entity.Assignment;
-import com.centralstudenthub.entity.SemesterCourse;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.Announcement;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.repository.AnnouncementRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
