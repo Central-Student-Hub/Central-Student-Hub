@@ -1,6 +1,5 @@
 package com.centralstudenthub.controller;
 
-import com.centralstudenthub.Model.Request.CoursePrerequisiteRequest;
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Request.StudentCourseGradeRequest;
 import com.centralstudenthub.Model.Response.CourseResponse;
@@ -47,7 +46,7 @@ public class CourseController {
     }
 
     @GetMapping("/getCourse/{id}")
-    public CourseResponse getCourse(@PathVariable("id") int id) throws NotFoundException {
+    public CourseResponse getCourse(@PathVariable("id") Integer id) throws NotFoundException {
         logger.info("Class: CourseController, Method: getCourse");
         return courseService.getCourse(id);
     }
@@ -59,14 +58,14 @@ public class CourseController {
     }
 
     @PutMapping("/updateCourse/{id}")
-    public CourseResponse updateCourse(@PathVariable("id") int id, @RequestBody CourseRequest courseUpdates) throws
+    public CourseResponse updateCourse(@PathVariable("id") Integer id, @RequestBody CourseRequest courseUpdates) throws
             NotFoundException {
         logger.info("Class: CourseController, Method: updateCourse");
         return courseService.updateCourse(id, courseUpdates);
     }
 
     @DeleteMapping("/deleteCourse/{id}")
-    public boolean deleteCourse(@PathVariable("id") int id) throws NotFoundException {
+    public boolean deleteCourse(@PathVariable("id") Integer id) throws NotFoundException {
         logger.info("Class: CourseController, Method: deleteCourse");
         return courseService.deleteCourse(id);
     }
@@ -78,22 +77,22 @@ public class CourseController {
     }
 
     @PostMapping("/addCoursePrerequisite")
-    public boolean addCoursePrerequisite(@RequestBody CoursePrerequisiteRequest request) throws
+    public boolean addCoursePrerequisite(@RequestParam Integer courseId, @RequestParam Integer prerequisiteId) throws
             NotFoundException, DatabaseLogicalConstraintException, AlreadyExistsException {
         logger.info("Class: CourseController, Method: addCoursePrerequisite");
-        return coursePrerequisiteService.addCoursePrerequisite(request.getCourseId(), request.getPrerequisiteId());
+        return coursePrerequisiteService.addCoursePrerequisite(courseId, prerequisiteId);
     }
 
     @GetMapping("/getCoursePrerequisites/{courseId}")
-    public List<CourseResponse> getCoursePrerequisites(@PathVariable("courseId") int courseId) throws NotFoundException
+    public List<CourseResponse> getCoursePrerequisites(@PathVariable("courseId") Integer courseId) throws NotFoundException
     {
         logger.info("Class: CourseController, Method: getCoursePrerequisites");
         return coursePrerequisiteService.getCoursePrerequisites(courseId);
     }
 
     @DeleteMapping("/deleteCoursePrerequisite/{courseId}/{prerequisiteId}")
-    public boolean deleteCoursePrerequisite(@PathVariable("courseId") int courseId,
-                                            @PathVariable("prerequisiteId") int prerequisiteId) throws NotFoundException
+    public boolean deleteCoursePrerequisite(@PathVariable("courseId") Integer courseId,
+                                            @PathVariable("prerequisiteId") Integer prerequisiteId) throws NotFoundException
     {
         logger.info("Class: CourseController, Method: deleteCoursePrerequisite");
         return coursePrerequisiteService.deleteCoursePrerequisite(courseId, prerequisiteId);
@@ -108,35 +107,35 @@ public class CourseController {
     }
 
     @GetMapping("/getStudentCourseGrade/{studentId}/{courseId}")
-    public Double getStudentCourseGrade(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId)
+    public Double getStudentCourseGrade(@PathVariable("studentId") Integer studentId, @PathVariable("courseId") Integer courseId)
             throws NotFoundException {
         logger.info("Class: CourseController, Method: getStudentCourseGrade");
         return studentCourseGradeService.getStudentCourseGrade(studentId, courseId);
     }
 
     @GetMapping("/getStudentGrades/{studentId}")
-    public List<Pair<CourseResponse, Double>> getStudentGrades(@PathVariable("studentId") int studentId) throws
+    public List<Pair<CourseResponse, Double>> getStudentGrades(@PathVariable("studentId") Integer studentId) throws
             NotFoundException {
         logger.info("Class: CourseController, Method: getStudentGrades");
         return studentCourseGradeService.getStudentGrades(studentId);
     }
 
     @GetMapping("/getCourseGrades/{courseId}")
-    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(@PathVariable("courseId") int courseId) throws
+    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(@PathVariable("courseId") Integer courseId) throws
             NotFoundException {
         logger.info("Class: CourseController, Method: getCourseGrades");
         return studentCourseGradeService.getCourseGrades(courseId);
     }
 
     @PutMapping("updateCourseGrade/{studentId}/{courseId}")
-    public boolean updateCourseGrade(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
+    public boolean updateCourseGrade(@PathVariable("studentId") Integer studentId, @PathVariable("courseId") Integer courseId,
                                      @RequestParam double newGrade) throws NotFoundException {
         logger.info("Class: CourseController, Method: updateCourseGrade");
         return studentCourseGradeService.updateCourseGrade(studentId, courseId, newGrade);
     }
 
     @DeleteMapping("deleteCourseGrade/{studentId}/{courseId}")
-    public boolean deleteCourseGrade(@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId)
+    public boolean deleteCourseGrade(@PathVariable("studentId") Integer studentId, @PathVariable("courseId") Integer courseId)
             throws NotFoundException {
         logger.info("Class: CourseController, Method: deleteCourseGrade");
         return studentCourseGradeService.deleteCourseGrade(studentId, courseId);

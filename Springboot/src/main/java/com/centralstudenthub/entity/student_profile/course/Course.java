@@ -40,7 +40,7 @@ public class Course {
     @OneToMany(mappedBy = "id.course")
     private List<StudentCourseGrade> grades;
 
-    public CourseResponse toCourseResponse() {
+    public CourseResponse toResponse() {
         return CourseResponse.builder()
                 .courseId(courseId)
                 .code(code)

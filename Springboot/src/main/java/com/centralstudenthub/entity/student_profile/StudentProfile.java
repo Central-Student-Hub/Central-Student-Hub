@@ -50,7 +50,7 @@ public class StudentProfile {
     @OneToMany(mappedBy = "id.student")
     private List<Registration> registrations;
 
-    public StudentProfileResponse toStudentProfileResponse() {
+    public StudentProfileResponse toResponse() {
         return StudentProfileResponse.builder().studentId(studentId).firstName(firstName).lastName(lastName)
                 .biography(biography).profilePictureUrl(profilePictureUrl).major(major).minor(minor).level(level)
                 .noOfHours(noOfHours).gpa(gpa).build();
