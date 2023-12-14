@@ -3,10 +3,13 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
+import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.assignment_material_paths.AssignmentMaterialPath;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.assignment_material_paths.AssignmentMaterialPathId;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers.StudentAssignmentAnswer;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers.StudentAssignmentAnswerId;
 import com.centralstudenthub.repository.*;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +26,10 @@ public class AssignmentService {
     private SemesterCourseRepository courseRepository;
     @Autowired
     private StudentAssignmentAnswerRepository studentAssignmentAnswerRepository;
-
     @Autowired
     private AssignmentMaterialPathRepository assignmentMaterialPathRepository;
-
-
-    //todo @Autowired
-     //todo private StudentProfileRepository studentProfileRepository
-
+    @Autowired
+     private StudentProfileRepository studentProfileRepository;
 
 
     public boolean addAssignment(AssignmentRequest assignmentRequest){
@@ -57,21 +56,21 @@ public class AssignmentService {
 
         Optional<Assignment> assignment = assignmentRepository.findById(assignmentId);
 
-        if(assignment.isPresent()) return assignment.get();
-        else return null;
+        return assignment.orElse(null);
     }
 
     public boolean addAssignmentAnswer(StudentAssignmentAnswerRequest ansRequest) {
 
-        // todo  dont forget to change the primarykey
-/*
         Optional<Assignment> assignment = assignmentRepository.findById(ansRequest.getAssignmentId());
         Optional<StudentProfile> student = studentProfileRepository.findById(ansRequest.getStudentProfileId());
         if(assignment.isPresent() && student.isPresent()){
-            StudentAssignmentAnswer studentAssignmentAnswer = StudentAssignmentAnswer.builder()
-                    .answerPath(ansRequest.getAnswerPath())
+            StudentAssignmentAnswerId studentAssignmentAnswerId = StudentAssignmentAnswerId.builder()
                     .assignment(assignment.get())
                     .student(student.get())
+                    .build();
+            StudentAssignmentAnswer studentAssignmentAnswer = StudentAssignmentAnswer.builder()
+                    .studentAssignmentAnswerId(studentAssignmentAnswerId)
+                    .answerPath(ansRequest.getAnswerPath())
                     .grade(ansRequest.getGrade())
                     .build();
             studentAssignmentAnswerRepository.save(studentAssignmentAnswer);
@@ -80,11 +79,6 @@ public class AssignmentService {
         else{
             return false;
         }
-
- */
-
-        return true;
-
     }
 
     public boolean addAssignmentMaterialPath(AssignmentMaterialPathRequest materialPassRequest) {
