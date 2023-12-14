@@ -26,6 +26,7 @@ public class Assignment {
     private String assignmentName;
     private String description;
     private LocalDate dueDate;
+    private LocalDate submissionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semCourseId", nullable = false)
