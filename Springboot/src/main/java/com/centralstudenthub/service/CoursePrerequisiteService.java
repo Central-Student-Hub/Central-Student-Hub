@@ -5,8 +5,8 @@ import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisiteId;
 import com.centralstudenthub.exception.AlreadyExistsException;
-import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
+import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CoursePrerequisiteRepository;
 import com.centralstudenthub.repository.CourseRepository;
 import jakarta.transaction.Transactional;
@@ -31,7 +31,7 @@ public class CoursePrerequisiteService {
         this.coursePrerequisiteRepository = coursePrerequisiteRepository;
     }
 
-    public boolean addCoursePrerequisite(int courseId, int prerequisiteId) throws NotFoundException,
+    public boolean addCoursePrerequisite(Integer courseId, Integer prerequisiteId) throws NotFoundException,
             DatabaseLogicalConstraintException, AlreadyExistsException {
         Optional<Course> course = courseRepository.findById(courseId);
         Optional<Course> prerequisite = courseRepository.findById(prerequisiteId);
@@ -51,23 +51,23 @@ public class CoursePrerequisiteService {
         return true;
     }
 
-    public List<CourseResponse> getCoursePrerequisites(int courseId) throws NotFoundException {
+    public List<CourseResponse> getCoursePrerequisites(Integer courseId) throws NotFoundException {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isEmpty())
             throw new NotFoundException("Course not found");
 
-        List<Integer> coursePrerequisitesIds = coursePrerequisiteRepository.findAllPrerequisites(courseId);
+        List<Integer> coursePrerequisitesIds = coursePrerequisiteRepository.findAllPrerequisitesByCourseId(courseId);
         List<CourseResponse> coursePrerequisites = new ArrayList<>();
         for (Integer coursePrerequisiteId : coursePrerequisitesIds) {
             course = courseRepository.findById(coursePrerequisiteId);
             if (course.isEmpty())
                 continue;
-            coursePrerequisites.add(course.get().toCourseResponse());
+            coursePrerequisites.add(course.get().toResponse());
         }
         return coursePrerequisites;
     }
 
-    public boolean deleteCoursePrerequisite(int courseId, int prerequisiteId) throws NotFoundException {
+    public boolean deleteCoursePrerequisite(Integer courseId, Integer prerequisiteId) throws NotFoundException {
         Optional<Course> course = courseRepository.findById(courseId);
         Optional<Course> prerequisite = courseRepository.findById(prerequisiteId);
         if (course.isEmpty() || prerequisite.isEmpty())

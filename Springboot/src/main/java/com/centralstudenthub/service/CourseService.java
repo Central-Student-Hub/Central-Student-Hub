@@ -33,7 +33,7 @@ public class CourseService {
                 .creditHours(course.getCreditHours())
                 .build();
         courseRepository.save(savedCourse);
-        return savedCourse.toCourseResponse();
+        return savedCourse.toResponse();
     }
 
     public List<CourseResponse> addCourses(CourseRequest[] courses) throws AlreadyExistsException {
@@ -49,7 +49,7 @@ public class CourseService {
                     .creditHours(course.getCreditHours())
                     .build();
             courseRepository.save(savedCourse);
-            savedCourses.add(savedCourse.toCourseResponse());
+            savedCourses.add(savedCourse.toResponse());
             addedCoursesCount++;
         }
         if (addedCoursesCount == 0)
@@ -57,37 +57,42 @@ public class CourseService {
         return savedCourses;
     }
 
-    public CourseResponse getCourse(int id) throws NotFoundException {
+    public CourseResponse getCourse(Integer id) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
             throw new NotFoundException("Course not found...");
 
-        return courseOptional.get().toCourseResponse();
+        return courseOptional.get().toResponse();
     }
 
     public List<CourseResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
         List<CourseResponse> courseResponses = new ArrayList<>();
         for(Course course: courses)
-            courseResponses.add(course.toCourseResponse());
+            courseResponses.add(course.toResponse());
         return courseResponses;
     }
 
-    public CourseResponse updateCourse(int id, CourseRequest courseUpdates) throws NotFoundException {
+    public CourseResponse updateCourse(Integer id, CourseRequest courseUpdates) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
             throw new NotFoundException("Course not found...");
 
         Course dbCourse = courseOptional.get();
-        dbCourse.setCode(courseUpdates.getCode());
-        dbCourse.setName(courseUpdates.getName());
-        dbCourse.setDescription(courseUpdates.getDescription());
-        dbCourse.setCreditHours(courseUpdates.getCreditHours());
+        if (courseUpdates.getCode() != null)
+            dbCourse.setCode(courseUpdates.getCode());
+        if (courseUpdates.getName() != null)
+            dbCourse.setName(courseUpdates.getName());
+        if (courseUpdates.getDescription() != null)
+            dbCourse.setDescription(courseUpdates.getDescription());
+        if (courseUpdates.getCreditHours() != null)
+            dbCourse.setCreditHours(courseUpdates.getCreditHours());
+
         courseRepository.save(dbCourse);
-        return dbCourse.toCourseResponse();
+        return dbCourse.toResponse();
     }
 
-    public boolean deleteCourse(int id) throws NotFoundException {
+    public boolean deleteCourse(Integer id) throws NotFoundException {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty())
             throw new NotFoundException("Course not found...");
