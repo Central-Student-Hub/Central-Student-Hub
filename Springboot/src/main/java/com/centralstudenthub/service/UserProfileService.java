@@ -1,14 +1,18 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.StudentInfo;
-import com.centralstudenthub.Model.TeachingStaffInfo;
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Request.TeachingStaffProfileRequest;
 import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
+import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
-import com.centralstudenthub.repository.*;
+import com.centralstudenthub.repository.StudentProfileRepository;
+import com.centralstudenthub.repository.TeachingStaffProfileRepository;
+import com.centralstudenthub.repository.WarningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,11 +20,11 @@ public class UserProfileService {
     @Autowired
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
     @Autowired
-    StudentProfileRepository studentProfileRepository;
+    private StudentProfileRepository studentProfileRepository;
     @Autowired
     private WarningRepository warningRepository;
 
-    public void updateTeachingStaffData(TeachingStaffInfo request) {
+    public void updateTeachingStaffData(TeachingStaffProfileRequest request) {
         TeachingStaffProfile teacher = TeachingStaffProfile.builder()
                 .teacherId(request.getTeacherId())
                 .firstName(request.getFirstName())
@@ -28,16 +32,13 @@ public class UserProfileService {
                 .biography(request.getBiography())
                 .profilePictureUrl(request.getProfilePictureUrl())
                 .department(request.getDepartment())
-                .officeHours(request.getTeacherOfficeHours())
-                .contacts(request.getTeacherTeachingStaffContacts())
-                .build();
-
+                .officeHours(request.getOfficeHours())
+                .contacts(request.getContacts()).build();
         teachingStaffProfileRepository.save(teacher);
     }
 
-    public void updateStudentData(StudentInfo request){
+    public void updateStudentData(StudentProfileRequest request) {
         StudentProfile student = StudentProfile.builder()
-                .studentId(request.getStudentId())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .biography(request.getBiography())
@@ -47,71 +48,39 @@ public class UserProfileService {
                 .level(request.getLevel())
                 .noOfHours(request.getNoOfHours())
                 .gpa(request.getGpa())
-                .contacts(request.getStudentContacts())
-                .warnings(request.getStudentWarnings())
-                .grades(request.getStudentSemesterCourseGrades())
-                .assignmentAnswers(request.getStudentAssignmentAnswers())
-                .registrations(request.getStudentRegistrations())
+                .contacts(request.getContacts())
+                .warnings(request.getWarnings())
+                .grades(request.getGrades())
+                .assignmentAnswers(request.getAssignmentAnswers())
+                .registrations(request.getRegistrations())
                 .build();
-
         studentProfileRepository.save(student);
     }
 
-    public TeachingStaffInfo getTeachingStaffInfo(Integer id) {
-        Optional<TeachingStaffProfile> DBUser = teachingStaffProfileRepository.findById(id);
-        if(DBUser.isPresent()) {
-            TeachingStaffInfo teacher = TeachingStaffInfo.builder()
-                    .teacherId(DBUser.get().getTeacherId())
-                    .firstName(DBUser.get().getFirstName())
-                    .lastName(DBUser.get().getLastName())
-                    .biography(DBUser.get().getBiography())
-                    .profilePictureUrl(DBUser.get().getProfilePictureUrl())
-                    .department(DBUser.get().getDepartment())
-                    .teacherOfficeHours(DBUser.get().getOfficeHours())
-                    .teacherTeachingStaffContacts(DBUser.get().getContacts())
-                    .build();
-            return teacher;
-        }
-        return null;
+    public TeachingStaffProfile getTeachingStaffProfileInfo(Integer id) {
+        Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
+        return teacher.orElse(null);
     }
 
-    public StudentInfo getStudentInfo(Integer id) {
-        Optional<StudentProfile> DBUser = studentProfileRepository.findById(id);
-        if(DBUser.isPresent()) {
-            StudentInfo student = StudentInfo.builder()
-                    .studentId(DBUser.get().getStudentId())
-                    .firstName(DBUser.get().getFirstName())
-                    .lastName(DBUser.get().getLastName())
-                    .biography(DBUser.get().getBiography())
-                    .profilePictureUrl(DBUser.get().getProfilePictureUrl())
-                    .major(DBUser.get().getMajor())
-                    .minor(DBUser.get().getMinor())
-                    .level(DBUser.get().getLevel())
-                    .noOfHours(DBUser.get().getNoOfHours())
-                    .gpa(DBUser.get().getGpa())
-                    .studentContacts(DBUser.get().getContacts())
-                    .studentWarnings(DBUser.get().getWarnings())
-                    .studentSemesterCourseGrades(DBUser.get().getGrades())
-                    .studentAssignmentAnswers(DBUser.get().getAssignmentAnswers())
-                    .studentRegistrations(DBUser.get().getRegistrations())
-                    .build();
-            return student;
-        }
-        return null;
+    public StudentProfile getStudentProfileInfo(Integer id) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(id);
+        return student.orElse(null);
     }
 
-    public Boolean addWarning(Integer id , WarningRequest request) {
-        Optional<StudentProfile> DBUser = studentProfileRepository.findById(id);
-        if(DBUser.isEmpty()) {
-            return false;
-        }
-        Optional<Warning> DBUser2 = warningRepository.findById(request.getWarningId());
-        if (DBUser2.isPresent()){
-            return false;
-        }
-        Warning newWarning = Warning.builder().warningId(request.getWarningId()).reason(request.getReason())
-                .date(request.getDate()).student(DBUser.get()).build();
-        warningRepository.save(newWarning);
-        return true;
+    public List<OfficeHour> getOfficeHour(Integer id) {
+        Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
+        return teacher.map(TeachingStaffProfile::getOfficeHours).orElse(null);
+    }
+
+    public Integer addWarning(WarningRequest request) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(request.getStudentId());
+        if(student.isEmpty())
+            return null;
+        Warning warning = Warning.builder()
+                .reason(request.getReason())
+                .date(request.getDate())
+                .student(student.get())
+                .build();
+        return warningRepository.save(warning).getWarningId();
     }
 }
