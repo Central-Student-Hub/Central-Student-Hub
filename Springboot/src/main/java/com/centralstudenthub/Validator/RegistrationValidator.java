@@ -41,6 +41,8 @@ public class RegistrationValidator {
             throw new NullCourseException();
         }
 
+        if(course.getPrerequisites() == null)return "Prerequisites Satisfied";
+
         List<StudentCourseGrade> grades = student.getGrades();
         for (CoursePrerequisite prerequisite : course.getPrerequisites()) {
             List<StudentCourseGrade> filteredGrades = grades.stream().filter((grade) ->

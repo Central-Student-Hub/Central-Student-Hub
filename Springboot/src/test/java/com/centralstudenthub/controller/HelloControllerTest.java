@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ContextConfiguration(classes = { WebSecurityConfig.class })
 @WebMvcTest(controllers = HelloController.class)
 @WebAppConfiguration
-@ComponentScan(basePackages = "com.centralstudenthub.CentralStudentHub")
+@ComponentScan(basePackages = "com.centralstudenthub")
 class HelloControllerTest {
     private MockMvc mockMvc;
 
