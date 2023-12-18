@@ -14,41 +14,6 @@ export type Assignment = {
 
 const Timeline: React.FC = () => {
   // Updated mock data with arrays for links
-  const mockAssignments: Assignment[] = [
-    {
-      assignmentName: 'Assignment 1',
-      courseName: 'Course 101',
-      dueDate: '2023-12-20',
-      description: 'Description for Assignment 1',
-      assignmentLinks: ['http://example.com/assignment1','http://example.com/assignment1','http://example.com/assignment1','http://example.com/assignment1','http://example.com/assignment1','http://example.com/assignment1'],
-      answerLinks: [''],
-      submissionDate: '2023-12-05'
-    }, {
-      assignmentName: 'Assignment 2',
-      courseName: 'Course 102',
-      dueDate: '2023-12-22',
-      description: 'Description for Assignment 2',
-      assignmentLinks: ['http://example.com/assignment2', 'http://example.com/assignment2'],
-      answerLinks: [''],
-      submissionDate: '2023-12-06'
-    },
-    {
-      assignmentName: 'Assignment 3',
-      courseName: 'Course 103',
-      dueDate: '2023-12-25',
-      description: 'Description for Assignment 3',
-      assignmentLinks: ['http://example.com/assignment3', 'http://example.com/assignment3'],
-      answerLinks: [''],
-      submissionDate: '2023-12-08'
-    },
-  ];
-
-  const [assignments, setAssignments] = useState<Assignment[]>(mockAssignments);
-  const [showActiveOnly, setShowActiveOnly] = useState<boolean>(false);
-
-  const handleToggleActive = () => {
-    setShowActiveOnly(!showActiveOnly);
-=======
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [showActiveOnly, setShowActiveOnly] = useState<boolean>(false);
   const apiRequester = new ApiRequester();

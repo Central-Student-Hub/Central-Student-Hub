@@ -60,7 +60,7 @@ export class ApiRequester {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/proasdfile?searchKey=${searchKey}`, requestOptions); // TODO: Change this to the correct endpoint
+        const response: Response = await fetch(`http://localhost:8082/getAvailableCourses?searchKey=${searchKey}`, requestOptions); // TODO: Change this to the correct endpoint
         return await response.json();
     }
 
@@ -76,7 +76,7 @@ export class ApiRequester {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/sadsadsadsadsa`, requestOptions); // TODO: Change this to the correct endpoint
+        const response: Response = await fetch(`http://localhost:8082/getAllCourses`, requestOptions); // TODO: Change this to the correct endpoint
         return await response.json();
     }
 
