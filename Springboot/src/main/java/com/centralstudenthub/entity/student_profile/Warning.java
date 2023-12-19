@@ -20,7 +20,6 @@ public class Warning {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer warningId;
 
-    private String data;
     private String reason;
     private LocalDate date;
 

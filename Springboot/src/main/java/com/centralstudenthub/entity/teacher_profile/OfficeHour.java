@@ -29,5 +29,4 @@ public class OfficeHour {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacherId", nullable = false)
     private TeachingStaffProfile teacher;
-
 }

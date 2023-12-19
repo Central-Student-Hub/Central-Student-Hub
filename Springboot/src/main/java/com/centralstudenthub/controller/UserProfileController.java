@@ -1,13 +1,16 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
-import com.centralstudenthub.Model.Request.TeachingStaffProfileRequest;
+import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
 import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
+import com.centralstudenthub.service.JwtService;
 import com.centralstudenthub.service.UserProfileService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,23 +20,27 @@ import java.util.List;
 public class UserProfileController {
     @Autowired
     private UserProfileService userProfileService;
+    @Autowired
+    private JwtService jwtService;
 
-    @PostMapping("/updateTeacherProfile")
-    public void updateTeachingStaffData(@RequestBody TeachingStaffProfileRequest request) {
-        userProfileService.updateTeachingStaffData(request);
+    @PutMapping("/updateTeacherProfile")
+    public void updateTeachingStaffData(@RequestBody TeachingStaffProfileReqAndRes request, HttpServletRequest httpServletRequest) {
+        int id = jwtService.extractId(jwtService.token(httpServletRequest));
+        userProfileService.updateTeachingStaffData(id,request);
     }
 
-    @PostMapping("/updateStudentProfile")
-    public void updateStudentData(@RequestBody StudentProfileRequest request) {
-        userProfileService.updateStudentData(request);
+    @PutMapping("/updateStudentProfile")
+    public void updateStudentData(@RequestBody StudentProfileRequest request,HttpServletRequest httpServletRequest) {
+        int id = jwtService.extractId(jwtService.token(httpServletRequest));
+        userProfileService.updateStudentData(id,request);
     }
 
-    @GetMapping("/TeacherProfile/{id}")
-    public TeachingStaffProfile getTeachingStaffProfileInfo(@PathVariable("id") Integer id) {
-        return userProfileService.getTeachingStaffProfileInfo(id);
+    @GetMapping("/getTeacherProfile/{id}")
+    public ResponseEntity<TeachingStaffProfileReqAndRes> getTeachingStaffProfileInfo(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(userProfileService.getTeachingStaffProfileInfo(id));
     }
 
-    @GetMapping("/StudentProfile/{id}")
+    @GetMapping("/getStudentProfile/{id}")
     public StudentProfile getStudentProfileInfo(@PathVariable("id") Integer id) {
         return userProfileService.getStudentProfileInfo(id);
     }

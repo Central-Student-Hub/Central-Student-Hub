@@ -23,7 +23,6 @@ public class StudentProfile {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer studentId;
 
     private String firstName;
