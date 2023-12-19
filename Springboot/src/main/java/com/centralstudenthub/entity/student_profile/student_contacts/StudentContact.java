@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.student_profile.student_contacts;
 
+import com.centralstudenthub.Model.Request.ContactModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,4 +18,11 @@ public class StudentContact {
     private StudentContactId id;
 
     private String data;
+
+    public ContactModel modelFromStudentContact() {
+        return ContactModel.builder()
+                .label(id.getLabel())
+                .data(data)
+                .build();
+    }
 }

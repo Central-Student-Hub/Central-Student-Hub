@@ -45,7 +45,7 @@ function ContactInfoEditEntry({ contactInfo, profile, setProfile }) {
       return cd;
     });
 
-    const uniqueContactData = [...new Map(newContactData.map(item => [item["key"], item])).values()];
+    const uniqueContactData = [...new Map(newContactData.map(item => [item["label"], item])).values()];
     setProfile({ ...profile, contactData: uniqueContactData });
   }
 
@@ -61,7 +61,7 @@ function ContactInfoEditEntry({ contactInfo, profile, setProfile }) {
 export function ContactInfoEdit({ profile, setProfile }: { profile: TeachingStaffProfileInfo, setProfile: Function }) {
 
   function addEntry() {
-    const newContactData = [...profile.contactData, {
+    const newContactData = [...profile.contacts, {
       key: '',
       value: ''
     }];
@@ -71,7 +71,7 @@ export function ContactInfoEdit({ profile, setProfile }: { profile: TeachingStaf
   return (
     <>
       <ul id="tpi-contact-info">
-        {profile.contactData.map(ci => <li><ContactInfoEditEntry contactInfo={ci} profile={profile} setProfile={setProfile} /></li>)}
+        {profile.contacts.map(ci => <li><ContactInfoEditEntry contactInfo={ci} profile={profile} setProfile={setProfile} /></li>)}
       </ul>
       <button onClick={addEntry} id="tpi-edit-profile">Add Entry</button>
     </>

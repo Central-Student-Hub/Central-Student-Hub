@@ -40,6 +40,7 @@ public class AuthenticationService {
 
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+
     @Autowired
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
 
@@ -71,7 +72,6 @@ public class AuthenticationService {
         }
 
         return new SignUpResponse("Account Created Successfully",true);
-
     }
 
 

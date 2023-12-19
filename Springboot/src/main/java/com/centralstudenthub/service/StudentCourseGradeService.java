@@ -1,5 +1,6 @@
 package com.centralstudenthub.service;
 
+import com.centralstudenthub.Model.Request.StudentCourseGradeModel;
 import com.centralstudenthub.Model.Response.CourseResponse;
 import com.centralstudenthub.Model.Response.StudentProfileResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
@@ -80,38 +81,38 @@ public class StudentCourseGradeService {
         return getStudentCourseGradeEntity(studentId, courseId).getStudentGrade();
     }
 
-    public List<Pair<CourseResponse, Double>> getStudentGrades(Integer studentId) throws NotFoundException {
-        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
-        if (studentProfile.isEmpty())
-            throw new NotFoundException("Student profile not found");
-
-        List<Object[]> courseIdAndGradeMap = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
-
-        List<Pair<CourseResponse, Double>> studentCoursesGrades = new ArrayList<>();
-        for (Object[] courseIdAndGrade : courseIdAndGradeMap) {
-            Optional<Course> course = courseRepository.findById((Integer) courseIdAndGrade[0]);
-            if (course.isEmpty()) continue;
-            studentCoursesGrades.add(new Pair<>(course.get().toResponse(), (Double) courseIdAndGrade[1]));
-        }
-        return studentCoursesGrades;
-    }
-
-    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(Integer courseId) throws NotFoundException {
-        Optional<Course> course = courseRepository.findById(courseId);
-        if (course.isEmpty())
-            throw new NotFoundException("Course not found");
-
-        List<Object[]> studentIdAndGradeMap = studentCourseGradeRepository.findAllCourseStudentsGradesByCourseId(courseId);
-
-        List<Pair<StudentProfileResponse, Double>> courseStudentsGrades = new ArrayList<>();
-        for (Object[] studentIdAndGrade : studentIdAndGradeMap) {
-            Optional<StudentProfile> studentProfile = studentProfileRepository.findById((Integer) studentIdAndGrade[0]);
-            if (studentProfile.isEmpty()) continue;
-            courseStudentsGrades.add(new Pair<>(studentProfile.get().toResponse(),
-                    (Double) studentIdAndGrade[1]));
-        }
-        return courseStudentsGrades;
-    }
+//    public List<Pair<CourseResponse, Double>> getStudentGrades(Integer studentId) throws NotFoundException {
+//        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
+//        if (studentProfile.isEmpty())
+//            throw new NotFoundException("Student profile not found");
+//
+//        List<StudentCourseGrade> courseIdAndGradeMap = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
+//
+//        List<Pair<CourseResponse, Double>> studentCoursesGrades = new ArrayList<>();
+//        for (Object[] courseIdAndGrade : courseIdAndGradeMap) {
+//            Optional<Course> course = courseRepository.findById((Integer) courseIdAndGrade[0]);
+//            if (course.isEmpty()) continue;
+//            studentCoursesGrades.add(new Pair<>(course.get().toResponse(), (Double) courseIdAndGrade[1]));
+//        }
+//        return studentCoursesGrades;
+//    }
+//
+//    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(Integer courseId) throws NotFoundException {
+//        Optional<Course> course = courseRepository.findById(courseId);
+//        if (course.isEmpty())
+//            throw new NotFoundException("Course not found");
+//
+//        List<Object[]> studentIdAndGradeMap = studentCourseGradeRepository.findAllCourseStudentsGradesByCourseId(courseId);
+//
+//        List<Pair<StudentProfileResponse, Double>> courseStudentsGrades = new ArrayList<>();
+//        for (Object[] studentIdAndGrade : studentIdAndGradeMap) {
+//            Optional<StudentProfile> studentProfile = studentProfileRepository.findById((Integer) studentIdAndGrade[0]);
+//            if (studentProfile.isEmpty()) continue;
+//            courseStudentsGrades.add(new Pair<>(studentProfile.get().toResponse(),
+//                    (Double) studentIdAndGrade[1]));
+//        }
+//        return courseStudentsGrades;
+//    }
 
     public boolean updateCourseGrade(Integer studentId, Integer courseId, Double newGrade) throws NotFoundException {
         StudentCourseGrade studentCourseGrade = getStudentCourseGradeEntity(studentId, courseId);

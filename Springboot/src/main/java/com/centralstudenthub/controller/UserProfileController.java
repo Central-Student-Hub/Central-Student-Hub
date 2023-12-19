@@ -35,13 +35,18 @@ public class UserProfileController {
         userProfileService.updateStudentData(id,request);
     }
 
-    @GetMapping("/getTeacherProfile/{id}")
-    public ResponseEntity<TeachingStaffProfileReqAndRes> getTeachingStaffProfileInfo(@PathVariable("id") Integer id) {
+    @GetMapping({"/getTeacherProfile/{id}", "/getTeacherProfile"})
+    public ResponseEntity<TeachingStaffProfileReqAndRes> getTeachingStaffProfileInfo(
+            @PathVariable(value = "id", required = false) Integer id, HttpServletRequest request) {
+        if (id == null)
+            id = jwtService.extractId(jwtService.token(request));
         return ResponseEntity.ok(userProfileService.getTeachingStaffProfileInfo(id));
     }
 
-    @GetMapping("/getStudentProfile/{id}")
-    public StudentProfile getStudentProfileInfo(@PathVariable("id") Integer id) {
+    @GetMapping({"/getStudentProfile/{id}", "/getStudentProfile"})
+    public StudentProfileRequest getStudentProfileInfo(@PathVariable(value = "id", required = false) Integer id, HttpServletRequest request) {
+        if (id == null)
+            id = jwtService.extractId(jwtService.token(request));
         return userProfileService.getStudentProfileInfo(id);
     }
 
