@@ -1,7 +1,7 @@
 export type OfficeHours = {
     id: number,
-    fromTime: number,
-    toTime: number,
-    weekday: string,
+    fromTime: string,
+    toTime: string,
+    weekDay: string,
     location: string
 }

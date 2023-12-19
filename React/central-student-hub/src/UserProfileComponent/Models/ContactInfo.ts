@@ -1,4 +1,4 @@
 export type ContactInfo = {
-    key: string,
-    value: string
+    label: string,
+    data: string
 }

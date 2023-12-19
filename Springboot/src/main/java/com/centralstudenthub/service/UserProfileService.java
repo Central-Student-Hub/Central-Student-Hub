@@ -3,8 +3,11 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
 import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
 import com.centralstudenthub.Model.Request.WarningRequest;
+import com.centralstudenthub.Model.Response.StudentProfileResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
+import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
+import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.repository.*;
@@ -28,6 +31,9 @@ public class UserProfileService {
     private WarningRepository warningRepository;
     @Autowired
     private StudentContactRepository studentContactRepository;
+
+    @Autowired
+    private StudentCourseGradeRepository studentCourseGradeRepository;
 
     public void updateTeachingStaffData(int id, TeachingStaffProfileReqAndRes request) {
 
@@ -88,9 +94,19 @@ public class UserProfileService {
         return response;
     }
 
-    public StudentProfile getStudentProfileInfo(Integer id) {
-        Optional<StudentProfile> student = studentProfileRepository.findById(id);
-        return student.orElse(null);
+    public StudentProfileRequest getStudentProfileInfo(Integer id) {
+        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(id);
+        if (studentProfile.isEmpty()) return null;
+
+        StudentProfileRequest response = studentProfile.get().modelFromStudentProfile();
+        response.setGrades(studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(1).stream().map(
+                StudentCourseGrade::modelFromGrade).toList());
+        response.setContacts(studentContactRepository.findAllByStudentId(id).stream().map(
+                StudentContact::modelFromStudentContact).toList());
+        response.setWarnings(warningRepository.findAllByStudentId(id).stream().map(
+                Warning::modelFromWarning).toList());
+
+        return response;
     }
 
     public List<OfficeHour> getOfficeHour(Integer id) {

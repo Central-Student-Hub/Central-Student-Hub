@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo';
 import { OfficeHours } from '../Models/OfficeHours';
 import './TeachingStaffProfile.css';
 import { BiographyEdit, ContactInfoEdit, NameEdit, OfficeHoursTableEdit } from './TeachingStaffProfileEdit.tsx';
-import { ApiRequester } from '../../services/ApiRequester.ts';
+import { UserProfileApi } from '../../services/UserProfileApi.ts';
 
 function OfficeHoursRow({ officeHour }: { officeHour: OfficeHours }) {
   return <tr>
-    <td>{ officeHour.weekday }</td>
+    <td>{ officeHour.weekDay }</td>
     <td>{ officeHour.fromTime }</td>
     <td>{ officeHour.toTime }</td>
     <td>{ officeHour.location }</td>
@@ -32,18 +32,69 @@ function OfficeHoursTable({ officeHours }: { officeHours: OfficeHours[] }) {
 export default function TeachingStaffProfile() {
   const { id } = useParams();
   const [editing, setEditing] = useState(false);
-  const apiRequester = new ApiRequester();
+  const api = new UserProfileApi();
 
   const [profile, setProfile] = useState<TeachingStaffProfileInfo | null>(null);
   useEffect(() => {
-    const fetchProfile = async () => await apiRequester.getTeachingStaffProfile();
+    const fetchProfile = async () => await api.getTeachingStaffProfile();
     fetchProfile()
       .then((profile) => setProfile(profile))
       .catch((error) => console.error(error))
   }, []);
 
   if (profile == null) {
+    let tp: TeachingStaffProfileInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      department: "Computer Science",
+      biography: "I am a professor at the University of Toronto.",
+      profilePictureUrl: "https://www.w3schools.com/howto/img_avatar.png",
+      contacts: [
+        {
+          label: "Email",
+          data: "JohnDoe@gmail.com"
+        },
+        {
+          label: "Phone",
+          data: "416-123-4567"
+        },
+        {
+          label: "Office",
+          data: "BA123"
+        },
+      ],
+      officeHours: [
+        {
+          id: 1,
+          weekDay: "Monday",
+          fromTime: "12:00:00",
+          toTime: "13:00:00",
+          location: "BA123"
+        },
+        {
+          id: 2,
+          weekDay: "Wednesday",
+          fromTime: "12:00:00",
+          toTime: "13:00:00",
+          location: "BA123"
+        },
+        {
+          id: 3,
+          weekDay: "Friday",
+          fromTime: "12:00:00",
+          toTime: "13:00:00",
+          location: "BA123"
+        },
+      ]
+    }
+    console.log(JSON.stringify(tp));
     return <h1>Loading...</h1>;
+  }
+
+  async function handleEditClick() {
+    setEditing(!editing);
+    if (editing)
+      await api.updateTeachingStaffProfile(profile!)
   }
 
   return (
@@ -62,7 +113,7 @@ export default function TeachingStaffProfile() {
             :
             <p id="tpi-name">{ profile!.firstName } { profile!.lastName }, { profile!.department }</p>
           }
-          <button onClick={() => setEditing(!editing) } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
+          <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
         </div>
 
         <div id="tpi-bio">
@@ -83,7 +134,7 @@ export default function TeachingStaffProfile() {
             <ContactInfoEdit profile={ profile! } setProfile={ setProfile } />
             :
             <ul id="tpi-contact-info">
-              { profile!.contactData.map(cd => <li><span>{ cd.key }:</span> { cd.value }</li>) }
+              { profile!.contacts.map(cd => <li><span>{ cd.label }:</span> { cd.data }</li>) }
             </ul>
           }
         </div>

@@ -7,7 +7,9 @@ import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContactId;
+import lombok.Builder;
 
+@Builder
 public record ContactModel(String label, String data) {
 
     public TeachingStaffContact contactfromModel(TeachingStaffProfile tsp){
