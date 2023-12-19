@@ -3,11 +3,12 @@ package com.centralstudenthub.Model.Request;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContactId;
-import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContactId;
+import lombok.Builder;
 
+@Builder
 public record ContactModel(String label, String data) {
 
     public TeachingStaffContact contactfromModel(TeachingStaffProfile tsp){

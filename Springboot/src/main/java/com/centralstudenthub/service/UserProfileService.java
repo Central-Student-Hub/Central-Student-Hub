@@ -1,12 +1,11 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.Request.StudentProfileRequest;
-import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
-import com.centralstudenthub.Model.Request.WarningRequest;
+import com.centralstudenthub.Model.Request.*;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
+import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import com.centralstudenthub.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,11 +78,15 @@ public class UserProfileService {
         Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
         if(teacher.isEmpty())return null;
 
-        TeachingStaffProfileReqAndRes response = teacher.get().toResponse();
+        List<TeachingStaffContact> contacts = teachingStaffContactRepository.getAllById_Teacher(teacher.get().getTeacherId());
+        List<ContactModel> contactModels = contacts.stream().map(contact -> contact.modelFromTeachingStaffContact()).toList();
 
-        //todo: tommorrow
-        var contact = teacher.get().getContacts();
-        System.out.println(contact.get(0).getData());
+        List<OfficeHour> officeHours = officeHourRepository.getAllById_Teacher(teacher.get().getTeacherId());
+        List<OfficeHourModel> officeHourModels= officeHours.stream().map(officeHour -> officeHour.modelFromOfficeHour()).toList();
+
+        TeachingStaffProfileReqAndRes response = teacher.get().toResponse();
+        response.setContacts(contactModels);
+        response.setOfficeHours(officeHourModels);
 
         return response;
     }
