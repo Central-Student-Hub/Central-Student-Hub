@@ -1,10 +1,6 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.*;
-import com.centralstudenthub.Model.Request.StudentProfileRequest;
-import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
-import com.centralstudenthub.Model.Request.WarningRequest;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
@@ -88,10 +84,10 @@ public class UserProfileService {
         if(teacher.isEmpty())return null;
 
         List<TeachingStaffContact> contacts = teachingStaffContactRepository.getAllById_Teacher(teacher.get().getTeacherId());
-        List<ContactModel> contactModels = contacts.stream().map(contact -> contact.modelFromTeachingStaffContact()).toList();
+        List<ContactModel> contactModels = contacts.stream().map(TeachingStaffContact::modelFromTeachingStaffContact).toList();
 
         List<OfficeHour> officeHours = officeHourRepository.getAllById_Teacher(teacher.get().getTeacherId());
-        List<OfficeHourModel> officeHourModels= officeHours.stream().map(officeHour -> officeHour.modelFromOfficeHour()).toList();
+        List<OfficeHourModel> officeHourModels= officeHours.stream().map(OfficeHour::modelFromOfficeHour).toList();
 
         TeachingStaffProfileReqAndRes response = teacher.get().toResponse();
         response.setContacts(contactModels);
