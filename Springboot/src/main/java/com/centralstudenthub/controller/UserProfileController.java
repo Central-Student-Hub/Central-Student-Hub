@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Profile")
 public class UserProfileController {
     @Autowired

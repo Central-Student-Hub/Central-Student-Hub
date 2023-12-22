@@ -1,4 +1,4 @@
-import TeachingStaffProfile from "../TeachingStaffProfile/TeachingStaffProfile"
+import TeachingStaffProfile from "../UserProfileComponent/TeachingStaffProfile"
 import { ContactInfo } from "./ContactInfo"
 import { Grade } from "./Grade"
 import { Warning } from "./Warning"

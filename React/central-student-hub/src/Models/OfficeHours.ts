@@ -1,5 +1,5 @@
 export type OfficeHours = {
-    id: number,
+    officeHourId: number,
     fromTime: string,
     toTime: string,
     weekDay: string,

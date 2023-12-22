@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
 @RequestMapping("/Course")
 public class CourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());

@@ -1,13 +1,12 @@
 'use client'
 import React, { useState } from 'react';
 import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse } from 'react-icons/bs';
-import UserProfile from './UserProfile.tsx';
 import Registration from './Registration.tsx';
 import Schedule from './Schedule.tsx';
 import Fees from './Fees.tsx';
 import Grades from './Grades.tsx';
 import Course from './Course.tsx';
-import Timeline from './Timeline.tsx';
+import TeachingStaffProfile from '../UserProfileComponent/TeachingStaffProfile.tsx';
 
 const SideBar: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState<string>('');
@@ -15,7 +14,7 @@ const SideBar: React.FC = () => {
   const renderComponent = () => {
     switch (activeComponent) {
       case 'userProfile':
-        return <UserProfile />;
+        return <TeachingStaffProfile />;
       case 'registration':
         return <Registration />;
       case 'schedule':
@@ -27,7 +26,7 @@ const SideBar: React.FC = () => {
       case 'course':
         return <Course />;
       case 'home': 
-        return <Timeline />;
+        // return <Timeline />;
       default:
         return <div >Welcome to Student Panel</div>;
     }

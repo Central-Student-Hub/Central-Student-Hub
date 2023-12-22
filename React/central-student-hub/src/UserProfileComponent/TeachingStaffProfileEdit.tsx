@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { TeachingStaffProfileInfo } from "../Models/TeachingStaffProfileInfo.tsx";
-import { OfficeHours } from "../Models/OfficeHours";
-import { ContactInfo } from "../Models/ContactInfo";
+import { TeachingStaffProfileInfo } from "../Models/TeachingStaffProfileInfo.ts";
+import { OfficeHours } from "../Models/OfficeHours.ts";
+import { ContactInfo } from "../Models/ContactInfo.ts";
 
 // function ProfilePictureEdit({ profile, setProfile }) {
 //   const profilePictureRef = useRef<HTMLInputElement | null>(null);
@@ -25,28 +25,28 @@ function ContactInfoEditEntry({ contactInfo, profile, setProfile }) {
 
   useEffect(() => {
     if (contactInfo === null) return;
-    keyRef.current!.value = contactInfo.key;
-    valueRef.current!.value = contactInfo.value;
+    keyRef.current!.value = contactInfo.label;
+    valueRef.current!.value = contactInfo.data;
   }, [profile]);
 
   function removeEntry() {
-    const newContactData = profile.contactData.filter(cd => cd.key != contactInfo.key);
-    setProfile({ ...profile, contactData: newContactData });
+    const newContactData = profile.contacts.filter(cd => cd.label != contactInfo.label);
+    setProfile({ ...profile, contacts: newContactData });
   }
 
   function onInputChange() {
-    const newContactData: ContactInfo[] = profile.contactData.map(cd => {
-      if (cd.key == contactInfo.key) {
+    const newContactData: ContactInfo[] = profile.contacts.map(cd => {
+      if (cd.label == contactInfo.label) {
         return {
-          key: keyRef.current!.value,
-          value: valueRef.current!.value
+          label: keyRef.current!.value,
+          data: valueRef.current!.value
         };
       }
       return cd;
     });
 
     const uniqueContactData = [...new Map(newContactData.map(item => [item["label"], item])).values()];
-    setProfile({ ...profile, contactData: uniqueContactData });
+    setProfile({ ...profile, contacts: uniqueContactData });
   }
 
   return (
@@ -62,10 +62,10 @@ export function ContactInfoEdit({ profile, setProfile }: { profile: TeachingStaf
 
   function addEntry() {
     const newContactData = [...profile.contacts, {
-      key: '',
-      value: ''
+      label: '',
+      data: ''
     }];
-    setProfile({ ...profile, contactData: newContactData });
+    setProfile({ ...profile, contacts: newContactData });
   }
 
   return (
@@ -73,6 +73,7 @@ export function ContactInfoEdit({ profile, setProfile }: { profile: TeachingStaf
       <ul id="tpi-contact-info">
         {profile.contacts.map(ci => <li><ContactInfoEditEntry contactInfo={ci} profile={profile} setProfile={setProfile} /></li>)}
       </ul>
+      <br />
       <button onClick={addEntry} id="tpi-edit-profile">Add Entry</button>
     </>
   );
@@ -86,20 +87,20 @@ function OfficeHoursRowEdit({ officeHour, profile, setProfile }) {
 
   useEffect(() => {
     if (officeHour === null) return;
-    weekDayRef.current!.value = officeHour.weekday;
-    fromTimeRef.current!.value = officeHour.fromTime == 0 ? '' : officeHour.fromTime.toString();
-    toTimeRef.current!.value = officeHour.toTime == 0 ? '' : officeHour.toTime.toString();
+    weekDayRef.current!.value = officeHour.weekDay;
+    fromTimeRef.current!.value = officeHour.fromTime;
+    toTimeRef.current!.value = officeHour.toTime;
     locationRef.current!.value = officeHour.location;
   }, [profile]);
 
   function onInputChange() {
     const newOfficeHours: OfficeHours[] = profile.officeHours.map(oh => {
-      if (oh.id == officeHour.id) {
+      if (oh.officeHourId == officeHour.officeHourId) {
         return {
           ...oh,
-          weekday: weekDayRef.current!.value,
-          fromTime: parseInt(fromTimeRef.current!.value),
-          toTime: parseInt(toTimeRef.current!.value),
+          weekDay: weekDayRef.current!.value,
+          fromTime: fromTimeRef.current!.value,
+          toTime: toTimeRef.current!.value,
           location: locationRef.current!.value
         };
       }
@@ -110,7 +111,7 @@ function OfficeHoursRowEdit({ officeHour, profile, setProfile }) {
   }
 
   function removeEntry() {
-    const newOfficeHours: OfficeHours[] = profile.officeHours.filter(oh => oh.id != officeHour.id);
+    const newOfficeHours: OfficeHours[] = profile.officeHours.filter(oh => oh.officeHourId != officeHour.officeHourId);
     setProfile({ ...profile, officeHours: newOfficeHours });
   }
 
@@ -119,22 +120,22 @@ function OfficeHoursRowEdit({ officeHour, profile, setProfile }) {
       <tr>
         <td><button onClick={removeEntry} id="tpi-edit-profile">Remove Entry</button></td>
         <td><input onChange={onInputChange} id="tpi-edit-row" type="text" ref={ weekDayRef } /></td>
-        <td><input onChange={onInputChange} id="tpi-edit-row" type="text" ref={ fromTimeRef } /></td>
-        <td><input onChange={onInputChange} id="tpi-edit-row" type="text" ref={ toTimeRef } /></td>
+        <td><input onChange={onInputChange} id="tpi-edit-row" type="time" ref={ fromTimeRef } /></td>
+        <td><input onChange={onInputChange} id="tpi-edit-row" type="time" ref={ toTimeRef } /></td>
         <td><input onChange={onInputChange} id="tpi-edit-row" type="text" ref={ locationRef } /></td>
       </tr>
     </>
   );
 }
 
-export function OfficeHoursTableEdit({ profile, setProfile }) {
+export function OfficeHoursTableEdit({ profile, setProfile }: { profile: TeachingStaffProfileInfo, setProfile: Function }) {
 
   function addEntry() {
-    const newOfficeHours = [...profile.officeHours, {
-      id: Math.max(...(profile.officeHours.map(oh => oh.id))) + 1,
-      weekday: '',
-      fromTime: 0,
-      toTime: 0,
+    const newOfficeHours: OfficeHours[] = [...profile.officeHours, {
+      officeHourId: Math.max(...(profile.officeHours.map(oh => oh.officeHourId))) == -Infinity ? 0 : Math.max(...(profile.officeHours.map(oh => oh.officeHourId))) + 1,
+      weekDay: '',
+      fromTime: '',
+      toTime: '',
       location: ''
     }];
     setProfile({ ...profile, officeHours: newOfficeHours });

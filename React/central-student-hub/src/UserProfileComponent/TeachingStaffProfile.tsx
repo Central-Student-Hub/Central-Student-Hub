@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo';
-import { OfficeHours } from '../Models/OfficeHours';
-import './TeachingStaffProfile.css';
+import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
+import { OfficeHours } from '../Models/OfficeHours.ts';
 import { BiographyEdit, ContactInfoEdit, NameEdit, OfficeHoursTableEdit } from './TeachingStaffProfileEdit.tsx';
-import { UserProfileApi } from '../../services/UserProfileApi.ts';
+import { UserProfileApi } from '../Services/UserProfileApi.ts';
+import './TeachingStaffProfile.css';
 
 function OfficeHoursRow({ officeHour }: { officeHour: OfficeHours }) {
   return <tr>
@@ -43,69 +43,32 @@ export default function TeachingStaffProfile() {
   }, []);
 
   if (profile == null) {
-    let tp: TeachingStaffProfileInfo = {
-      firstName: "John",
-      lastName: "Doe",
-      department: "Computer Science",
-      biography: "I am a professor at the University of Toronto.",
-      profilePictureUrl: "https://www.w3schools.com/howto/img_avatar.png",
-      contacts: [
-        {
-          label: "Email",
-          data: "JohnDoe@gmail.com"
-        },
-        {
-          label: "Phone",
-          data: "416-123-4567"
-        },
-        {
-          label: "Office",
-          data: "BA123"
-        },
-      ],
-      officeHours: [
-        {
-          id: 1,
-          weekDay: "Monday",
-          fromTime: "12:00:00",
-          toTime: "13:00:00",
-          location: "BA123"
-        },
-        {
-          id: 2,
-          weekDay: "Wednesday",
-          fromTime: "12:00:00",
-          toTime: "13:00:00",
-          location: "BA123"
-        },
-        {
-          id: 3,
-          weekDay: "Friday",
-          fromTime: "12:00:00",
-          toTime: "13:00:00",
-          location: "BA123"
-        },
-      ]
-    }
-    console.log(JSON.stringify(tp));
     return <h1>Loading...</h1>;
   }
 
   async function handleEditClick() {
     setEditing(!editing);
-    if (editing)
-      await api.updateTeachingStaffProfile(profile!)
+    if (editing) {
+      api.updateTeachingStaffProfile(profile!)
+        .then()
+        .catch((error) => console.error(error));
+    }
   }
 
   return (
     <div id="tpi-container">
       <div>
         <div id="tpi-name-div">
-          <img
-            id="tpi-profile-picture"
-            src={ profile!.profilePictureUrl }
-            alt={ `${profile!.firstName} ${profile!.lastName}` }
-          />
+          {
+            profile!.profilePictureUrl == "" ?
+            <img
+              id="tpi-profile-picture"
+              src={ profile!.profilePictureUrl }
+              alt={ `${profile!.firstName} ${profile!.lastName}` }
+            />
+            :
+            <div id="tpi-profile-picture-placeholder"></div>
+          }
           {/* <ProfilePictureEdit profile={ profile } setProfile={ setProfile } /> */}
           {
             editing ?

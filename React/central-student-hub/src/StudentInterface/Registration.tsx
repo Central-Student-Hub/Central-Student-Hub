@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ApiRequester } from '../services/ApiRequester.ts';
+import { ApiRequester } from '../Services/ApiRequester.ts';
 
 export type Location = {
   building: number;

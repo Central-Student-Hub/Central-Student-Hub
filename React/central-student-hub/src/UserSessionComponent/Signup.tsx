@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import './Signup.css';
-import { ApiRequester } from '../../services/ApiRequester.ts';
+import { ApiRequester } from '../Services/ApiRequester.ts';
 
 export type FormState = {
   SSN: string;
@@ -10,7 +10,7 @@ export type FormState = {
   type: string; // New field for type
 };
 
-export default function Home() {
+export default function SignUp() {
 
   const apiRequester = new ApiRequester();
   const [form, setForm] = useState<FormState>({
@@ -71,43 +71,45 @@ export default function Home() {
   };
 
   return (
-    <div className='signUp-container' id='signUp-container'>
-      <img 
-        src="https://cdn.discordapp.com/attachments/1169703919698587750/1178702979403100230/vik2l5e9.png?ex=65771bb1&is=6564a6b1&hm=06edc38d3e73db2f12fc0980001056c28f98fcd6e9578624b5411292bf7627a6&"
-        alt="Central Student Hub logo"
-      />
-      
-      <form onSubmit={handleSubmit} className='signUp-form'>
-        <h1 className='signUp-label'>Sign Up</h1>
+    <div id="signup-div">
+      <div className='signUp-container' id='signUp-container'>
+        <img 
+          src="https://cdn.discordapp.com/attachments/1169703919698587750/1178702979403100230/vik2l5e9.png?ex=65771bb1&is=6564a6b1&hm=06edc38d3e73db2f12fc0980001056c28f98fcd6e9578624b5411292bf7627a6&"
+          alt="Central Student Hub logo"
+        />
+        
+        <form onSubmit={handleSubmit} className='signUp-form'>
+          <h1 className='signUp-label'>Sign Up</h1>
 
-        <div className='input-container'>
-            <input type="text" id="SSN" value={form.SSN} onChange={handleInputChange} placeholder='ssn' />
-            {errors.SSN && <span className='error'>{errors.SSN}</span>}
-        </div>
+          <div className='input-container'>
+              <input type="text" id="SSN" value={form.SSN} onChange={handleInputChange} placeholder='ssn' />
+              {errors.SSN && <span className='error'>{errors.SSN}</span>}
+          </div>
 
-        <div className='input-container'>
-          <input type="email" id="email" value={form.email} onChange={handleInputChange} placeholder='email' />
-          {errors.email && <span className='error'>{errors.email}</span>}
-        </div>
+          <div className='input-container'>
+            <input type="email" id="email" value={form.email} onChange={handleInputChange} placeholder='email' />
+            {errors.email && <span className='error'>{errors.email}</span>}
+          </div>
 
-        <div className='input-container'>
-          <input type="password" id="password" minLength={8} maxLength={16} value={form.password} onChange={handleInputChange} placeholder='password' />
-          {errors.password && <span className='error'>{errors.password}</span>}
-        </div>
+          <div className='input-container'>
+            <input type="password" id="password" minLength={8} maxLength={16} value={form.password} onChange={handleInputChange} placeholder='password' />
+            {errors.password && <span className='error'>{errors.password}</span>}
+          </div>
 
-        <div className='select-and-button-container'>
-          <select id="type" value={form.type} onChange={handleInputChange}>
-            <option value="Staff">staff</option>
-            <option value="Student">student</option>
-            <option value="Admin">admin</option>
-          </select>
+          <div className='select-and-button-container'>
+            <select id="type" value={form.type} onChange={handleInputChange}>
+              <option value="Staff">staff</option>
+              <option value="Student">student</option>
+              <option value="Admin">admin</option>
+            </select>
 
-          <button type="submit" className='subButton' disabled={isSubmitted}>submit</button>
-        </div>
+            <button type="submit" className='subButton' disabled={isSubmitted}>submit</button>
+          </div>
 
-        {isSubmitted && <div className='success-message'>{successMessage}</div>}
+          {isSubmitted && <div className='success-message'>{successMessage}</div>}
 
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

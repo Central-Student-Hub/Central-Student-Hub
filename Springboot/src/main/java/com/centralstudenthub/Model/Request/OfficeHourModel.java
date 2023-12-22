@@ -9,7 +9,7 @@ import java.sql.Time;
 @Builder
 public record OfficeHourModel(Integer officeHourId, Time fromTime, Time toTime, String weekDay, String location) {
 
-    public OfficeHour officeHourfromModel(TeachingStaffProfile tsp){
+    public OfficeHour officeHourFromModel(TeachingStaffProfile tsp){
         return  OfficeHour.builder()
                 .fromTime(fromTime)
                 .toTime(toTime)

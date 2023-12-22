@@ -54,7 +54,7 @@ public class UserProfileService {
         teachingStaffContactRepository.deleteAllById_Teacher(teacher.getTeacherId());
 
         request.getOfficeHours().forEach(officeHourModel ->
-                officeHourRepository.save(officeHourModel.officeHourfromModel(teacher)));
+                officeHourRepository.save(officeHourModel.officeHourFromModel(teacher)));
 
         request.getContacts().forEach(contactModel ->
                 teachingStaffContactRepository.save(contactModel.contactfromModel(teacher)));

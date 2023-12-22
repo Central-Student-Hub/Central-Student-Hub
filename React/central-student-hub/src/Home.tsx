@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ApiRequester } from "./services/ApiRequester.ts";
+import { ApiRequester } from "./Services/ApiRequester";
 import { useNavigate } from "react-router";
 
 export default function Home() {

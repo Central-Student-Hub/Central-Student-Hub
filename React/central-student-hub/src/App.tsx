@@ -1,9 +1,9 @@
 import './App.css';
 import React from 'react';
-import Login from './UserSessionComponent/Login/Login.tsx';
+import Login from './UserSessionComponent/Login.tsx';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TeachingStaffProfile from './UserProfileComponent/TeachingStaffProfile/TeachingStaffProfile.tsx';
-import SignUp from './UserSessionComponent/Signup/Signup.tsx';
+import TeachingStaffProfile from './UserProfileComponent/TeachingStaffProfile.tsx';
+import SignUp from './UserSessionComponent/Signup.tsx';
 import Home from './Home.tsx';
 import SideBar from './StudentInterface/SideBar.tsx';
 
