@@ -1,0 +1,15 @@
+.gradesTable{
+    border-radius:10px;
+    z-index:-1;
+    margin-top:8px;
+    border-width:2px;
+    border-color:#03315F;
+    background-Color:#F2F9FF;
+    width: 1350px;
+}
+
+.gradesTableFoot{
+    background-color:black;
+    height:50px;
+    color:rgb(255, 255, 255)
+}

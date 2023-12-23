@@ -149,62 +149,6 @@ export default function StudentProfile() {
                     </CardBody>
                 </Card>
             </Flex>
-
-            <TableContainer borderRadius='10' zIndex={-1} marginTop={8} borderWidth={2} 
-            borderColor={'#03315F'} backgroundColor='#F2F9FF'>
-                <Table variant='unstyled' colorScheme='messenger'>
-                    <TableCaption placement='top' fontSize={20} backgroundColor='#03315F'
-                     fontWeight={'bold'} color={'White'}>
-                        Course Grades
-                    </TableCaption>
-                    <Thead>
-                        <Tr>
-                            <Th>Course Code</Th>
-                            <Th>Course Name</Th>
-                            <Th>Number Of Hours</Th>
-                            <Th>Grade</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        <Tr>
-                            <Td>CSE111</Td>
-                            <Td>Probability</Td>
-                            <Td>3</Td>
-                            <Td>A+</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>CSE121</Td>
-                            <Td>Programming1</Td>
-                            <Td>3</Td>
-                            <Td>A+</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>CSE131</Td>
-                            <Td>Digital Logic</Td>
-                            <Td>3</Td>
-                            <Td>A+</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>CSE141</Td>
-                            <Td>Data Structure</Td>
-                            <Td>3</Td>
-                            <Td>A</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>CSE211</Td>
-                            <Td>HCI</Td>
-                            <Td>2</Td>
-                            <Td>A</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>CSE221</Td>
-                            <Td>SoftWare Engineering</Td>
-                            <Td>3</Td>
-                            <Td>A+</Td>
-                        </Tr>
-                    </Tbody>
-                </Table>
-            </TableContainer>
         </div>
     )
 }
