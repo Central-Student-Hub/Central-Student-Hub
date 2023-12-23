@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.teacher_profile;
 
+import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import jakarta.persistence.*;
@@ -10,7 +11,8 @@ import lombok.*;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,7 +21,6 @@ public class TeachingStaffProfile {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer teacherId;
 
     private String firstName;
@@ -36,5 +37,15 @@ public class TeachingStaffProfile {
 
     @OneToMany(mappedBy = "teacher")
     private List<Session> sessions;
+
+    public TeachingStaffProfileReqAndRes toResponse(){
+        return TeachingStaffProfileReqAndRes.builder()
+                .biography(biography)
+                .department(department)
+                .firstName(firstName)
+                .lastName(lastName)
+                .profilePictureUrl(profilePictureUrl)
+                .build();
+    }
 
 }

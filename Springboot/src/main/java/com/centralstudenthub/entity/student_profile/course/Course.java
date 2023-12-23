@@ -16,7 +16,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Table(name = "course")
-@Data
+@Getter
+@Setter
 public class Course {
 
     @Id

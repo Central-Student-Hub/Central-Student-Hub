@@ -6,16 +6,18 @@ import com.centralstudenthub.entity.student_profile.course.semester_courses.regi
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class StudentProfileRequest {
-    private Integer studentId;
     private String firstName;
     private String lastName;
     private String biography;
@@ -25,9 +27,7 @@ public class StudentProfileRequest {
     private Integer level;
     private Integer noOfHours;
     private Double gpa;
-    private List<StudentContact> contacts;
-    private List<Warning> warnings;
-    private List<StudentCourseGrade> grades;
-    private List<StudentAssignmentAnswer> assignmentAnswers;
-    private List<Registration> registrations;
+    private List<ContactModel> contacts;
+    private List<WarningModel> warnings;
+    private List<StudentCourseGradeModel> grades;
 }

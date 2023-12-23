@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.student_profile;
 
+import com.centralstudenthub.Model.Request.WarningModel;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -7,7 +8,8 @@ import java.time.LocalDate;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,7 +21,6 @@ public class Warning {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer warningId;
 
-    private String data;
     private String reason;
     private LocalDate date;
 
@@ -27,4 +28,11 @@ public class Warning {
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
 
+    public WarningModel modelFromWarning() {
+        return WarningModel.builder()
+                .warningId(warningId)
+                .reason(reason)
+                .date(date)
+                .build();
+    }
 }

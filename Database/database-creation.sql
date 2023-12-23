@@ -20,15 +20,13 @@ CREATE TABLE `user_account`
 
 CREATE TABLE teaching_staff_profile
 (
-    teacherId         INT not null AUTO_INCREMENT,
-    userAccountId     BIGINT,
+    teacherId         INT not null,
     firstName         VARCHAR(255) DEFAULT NULL,
     lastName          VARCHAR(255) DEFAULT NULL,
     biography         VARCHAR(255) DEFAULT NULL,
     profilePictureURL VARCHAR(255) DEFAULT NULL,
     department        VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (teacherId),
-    FOREIGN KEY (userAccountId) REFERENCES user_account (userAccountId) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (teacherId)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
@@ -63,8 +61,7 @@ CREATE TABLE teaching_staff_contact
 
 CREATE TABLE student_profile
 (
-    studentId         INT not null AUTO_INCREMENT,
-    userAccountId     BIGINT,
+    studentId         INT not null,
     firstName         VARCHAR(255) DEFAULT NULL,
     lastName          VARCHAR(255) DEFAULT NULL,
     biography         VARCHAR(255) DEFAULT NULL,
@@ -74,8 +71,7 @@ CREATE TABLE student_profile
     level             INT          DEFAULT NULL,
     noOfHours         INT          DEFAULT NULL,
     GPA               double       DEFAULT NULL,
-    PRIMARY KEY (studentId),
-    FOREIGN KEY (userAccountId) REFERENCES user_account (userAccountId) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (studentId)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4

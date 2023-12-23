@@ -1,6 +1,7 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
+import com.centralstudenthub.Model.Semester;
 import com.centralstudenthub.Validator.RegistrationValidator;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
@@ -36,6 +37,7 @@ public class RegistrationService {
 
     private final Double HOURLY_FEES = 100.0;
     private final long expiration = 7776000000L;
+
     public boolean addCourseToCart(AddCourseToCartRequest request)
             throws NullStudentProfileException, NullCourseException, NullSemesterCourseException, NullRegisteredSessionsException {
 
@@ -69,16 +71,21 @@ public class RegistrationService {
             }
         }).toList();
 
-        //todo return semesterCourses
-        return new ArrayList<>();
+        List<Integer> courseIds = filteredCourses.stream().map(course -> course.getCourseId()).toList();
+        List<SemesterCourse> semesterCourses = new ArrayList<>();
+        for (Integer courseId : courseIds)
+            semesterCourses.addAll(semesterCourseRepository.findAllByCourseId(courseId));
+
+        return semesterCourses;
     }
 
     public boolean checkOut(int studentId, List<Long> semCourseIds) {
         Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
+        List<Registration> registrations = new ArrayList<>();
         if (studentProfile.isEmpty()) return false;
         for (Long courseid : semCourseIds) {
             Optional<SemesterCourse> semCourse = semesterCourseRepository.findById(courseid);
-            if (semCourse.isEmpty()) continue;
+            if (semCourse.isEmpty())return false;
 
             RegistrationId registrationId = RegistrationId.builder()
                     .semCourse(semCourse.get())
@@ -90,8 +97,9 @@ public class RegistrationService {
                     .paymentDeadline(new Date(System.currentTimeMillis() + expiration))
                     .build();
 
-            registrationRepository.save(registration);
+            registrations.add(registration);
         }
+        registrationRepository.saveAll(registrations);
         return true;
     }
 

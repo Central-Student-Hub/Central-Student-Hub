@@ -2,15 +2,13 @@ package com.centralstudenthub.entity.student_profile.student_contacts;
 
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Embeddable
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

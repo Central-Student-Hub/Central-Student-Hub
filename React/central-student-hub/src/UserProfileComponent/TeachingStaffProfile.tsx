@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo';
-import { OfficeHours } from '../Models/OfficeHours';
-import './TeachingStaffProfile.css';
+import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
+import { OfficeHours } from '../Models/OfficeHours.ts';
 import { BiographyEdit, ContactInfoEdit, NameEdit, OfficeHoursTableEdit } from './TeachingStaffProfileEdit.tsx';
-import { ApiRequester } from '../../services/ApiRequester.ts';
+import { UserProfileApi } from '../services/UserProfileApi.ts';
+import { Image } from '@chakra-ui/react'
+import './TeachingStaffProfile.css';
 
 function OfficeHoursRow({ officeHour }: { officeHour: OfficeHours }) {
   return <tr>
-    <td>{ officeHour.weekday }</td>
+    <td>{ officeHour.weekDay }</td>
     <td>{ officeHour.fromTime }</td>
     <td>{ officeHour.toTime }</td>
     <td>{ officeHour.location }</td>
@@ -32,11 +33,11 @@ function OfficeHoursTable({ officeHours }: { officeHours: OfficeHours[] }) {
 export default function TeachingStaffProfile() {
   const { id } = useParams();
   const [editing, setEditing] = useState(false);
-  const apiRequester = new ApiRequester();
+  const api = new UserProfileApi();
 
   const [profile, setProfile] = useState<TeachingStaffProfileInfo | null>(null);
   useEffect(() => {
-    const fetchProfile = async () => await apiRequester.getTeachingStaffProfile();
+    const fetchProfile = async () => await api.getTeachingStaffProfile();
     fetchProfile()
       .then((profile) => setProfile(profile))
       .catch((error) => console.error(error))
@@ -46,15 +47,34 @@ export default function TeachingStaffProfile() {
     return <h1>Loading...</h1>;
   }
 
+  async function handleEditClick() {
+    setEditing(!editing);
+    if (editing) {
+      api.updateTeachingStaffProfile(profile!)
+        .then()
+        .catch((error) => console.error(error));
+    }
+  }
+
   return (
     <div id="tpi-container">
       <div>
         <div id="tpi-name-div">
-          <img
-            id="tpi-profile-picture"
-            src={ profile!.profilePictureUrl }
-            alt={ `${profile!.firstName} ${profile!.lastName}` }
-          />
+          {/* {
+            profile!.profilePictureUrl == "" ?
+            <img
+              id="tpi-profile-picture"
+              src={ profile!.profilePictureUrl }
+              alt={ `${profile!.firstName} ${profile!.lastName}` }
+            />
+            :
+            <div id="tpi-profile-picture-placeholder"></div>
+          } */}
+          <Image borderRadius='full'
+              boxSize='150px'
+              src='https://bit.ly/dan-abramov'
+              alt='Dan Abramov'
+           />
           {/* <ProfilePictureEdit profile={ profile } setProfile={ setProfile } /> */}
           {
             editing ?
@@ -62,7 +82,7 @@ export default function TeachingStaffProfile() {
             :
             <p id="tpi-name">{ profile!.firstName } { profile!.lastName }, { profile!.department }</p>
           }
-          <button onClick={() => setEditing(!editing) } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
+          <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
         </div>
 
         <div id="tpi-bio">
@@ -83,7 +103,7 @@ export default function TeachingStaffProfile() {
             <ContactInfoEdit profile={ profile! } setProfile={ setProfile } />
             :
             <ul id="tpi-contact-info">
-              { profile!.contactData.map(cd => <li><span>{ cd.key }:</span> { cd.value }</li>) }
+              { profile!.contacts.map(cd => <li><span>{ cd.label }:</span> { cd.data }</li>) }
             </ul>
           }
         </div>

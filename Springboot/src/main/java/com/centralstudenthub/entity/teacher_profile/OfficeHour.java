@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.teacher_profile;
 
+import com.centralstudenthub.Model.Request.OfficeHourModel;
 import jakarta.persistence.*;
 
 import java.sql.Time;
@@ -8,7 +9,8 @@ import lombok.*;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -29,4 +31,13 @@ public class OfficeHour {
     @JoinColumn(name = "teacherId", nullable = false)
     private TeachingStaffProfile teacher;
 
+    public OfficeHourModel modelFromOfficeHour(){
+        return OfficeHourModel.builder()
+                .officeHourId(officeHourId)
+                .fromTime(fromTime)
+                .toTime(toTime)
+                .weekDay(weekDay)
+                .location(location)
+                .build();
+    }
 }
