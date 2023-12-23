@@ -1,4 +1,4 @@
-import { Session } from "../Registration"
+import { Session } from "../StudentInterface/Registration"
 
 export type AddCourseToCartRequest = {
     courseId: number,

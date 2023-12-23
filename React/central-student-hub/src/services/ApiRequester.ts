@@ -1,12 +1,12 @@
-import { SignupResponse } from '../UserSessionComponent/Models/SignupModels.ts';
-import { LoginRequest, LoginResponse } from '../UserSessionComponent/Models/LoginModels.ts'
-import { FormState } from '../UserSessionComponent/Signup/Signup.tsx';
-import { TeachingStaffProfileInfo } from '../UserProfileComponent/Models/TeachingStaffProfileInfo.ts';
+import { SignupResponse } from '../Models/SignupModels.ts';
+import { LoginRequest, LoginResponse } from '../Models/LoginModels.ts'
+import { FormState } from '../UserSessionComponent/Signup.tsx';
+import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 import { Course } from '../StudentInterface/Registration.tsx';
-import { AddCourseToCartRequest } from '../StudentInterface/Models/AddCourseToCartRequest.ts';
+import { AddCourseToCartRequest } from '../Models/AddCourseToCartRequest.ts';
 import { CourseType } from '../StudentInterface/Course.tsx';
-import { Assignment } from '../StudentInterface/Timeline.tsx';
-import { AssignmentAnswerRequest } from '../StudentInterface/Models/AssignmentAnswerRequest.ts';
+import { Assignment } from '../Models/Assignment.ts';
+import { AssignmentAnswerRequest } from '../Models/AssignmentAnswerRequest.ts';
 
 export class ApiRequester {
     async login(request: LoginRequest): Promise<boolean> {
@@ -46,14 +46,6 @@ export class ApiRequester {
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
         const response: Response = await fetch("http://localhost:8082/Hello", requestOptions);
         return await response.text();
-    }
-
-    async getTeachingStaffProfile(): Promise<TeachingStaffProfileInfo> {
-        const token = document.cookie.split("=")[1];
-        const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
-        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
-        const response: Response = await fetch("http://localhost:8082/profile", requestOptions); // TODO: Change this to the correct endpoint
-        return await response.json();
     }
 
     async getCourses(searchKey: string): Promise<Course[]> {

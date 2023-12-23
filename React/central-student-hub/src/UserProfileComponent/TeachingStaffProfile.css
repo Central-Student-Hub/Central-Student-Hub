@@ -1,15 +1,28 @@
+#tpi-container h1 {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
 #tpi-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
     gap: 250px;
+    padding: 100px;
 }
 
 #tpi-profile-picture {
     border-radius: 50%;
     width: 120px;
     height: 120px;
+}
+
+#tpi-profile-picture-placeholder {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-color: darkorchid;
 }
 
 #tpi-name {
@@ -28,10 +41,11 @@
 #tpi-edit-profile {
     background-color: var(--buttons-color);
     color: var(--background-color);
-    width: 100px;
+    min-width: 120px;
     height: 35px;
     border-radius: 50px;
     border: none;
+    font-size: small;
 }
 
 #tpi-edit-profile:hover {

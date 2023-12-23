@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
 @RequestMapping("/Register")
 public class RegistrationController {
 

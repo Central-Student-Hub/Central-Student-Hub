@@ -31,7 +31,6 @@ public class AssignmentService {
     @Autowired
      private StudentProfileRepository studentProfileRepository;
 
-
     public boolean addAssignment(AssignmentRequest assignmentRequest){
 
         Optional<SemesterCourse> course = courseRepository.findById(assignmentRequest.getSemCourseId());

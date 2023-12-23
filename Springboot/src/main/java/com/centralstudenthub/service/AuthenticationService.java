@@ -3,23 +3,24 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.LoginRequest;
 import com.centralstudenthub.Model.Request.SignUpRequest;
 import com.centralstudenthub.Model.Response.SignUpResponse;
+import com.centralstudenthub.Model.Role;
 import com.centralstudenthub.Validator.PasswordSecurity;
 import com.centralstudenthub.entity.UserAccount;
+import com.centralstudenthub.entity.student_profile.StudentProfile;
+import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
+import com.centralstudenthub.repository.StudentProfileRepository;
+import com.centralstudenthub.repository.TeachingStaffProfileRepository;
 import com.centralstudenthub.repository.UserSessionInfoRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.Principal;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -37,44 +38,48 @@ public class AuthenticationService {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private StudentProfileRepository studentProfileRepository;
+
+    @Autowired
+    private TeachingStaffProfileRepository teachingStaffProfileRepository;
+
     public SignUpResponse signUp(SignUpRequest signUpRequest){
 
-        Optional<UserAccount> DBUser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
-        boolean userPresent = DBUser.isPresent();
-        if(userPresent && DBUser.get().getEmail() == null){
+        Optional<UserAccount> dbUser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
 
-            Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
-            if(checkEmail.isEmpty()){
-                UserAccount user = DBUser.get();
-                String salt = passwordSecurity.getNextSalt();
-                String hashedPassword = passwordSecurity
-                        .hashPassword(signUpRequest.getPassword(),salt);
+        if(dbUser.isEmpty()) return new SignUpResponse("You don't have access",false);
+        if(dbUser.get().getEmail() != null) return new SignUpResponse("You already have an account with this email",false);
 
-                user.setUserType(signUpRequest.getUserType());
-                user.setEmail(signUpRequest.getEmail());
-                user.setPasswordHash(hashedPassword);
-                user.setPasswordSalt(salt);
-                user.setPasswordDate(new Date(System.currentTimeMillis()));
+        Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
+        if(checkEmail.isPresent()) return new SignUpResponse("Email Already Exists",false);
 
-                userSessionInfoRepository.save(user);
-                return new SignUpResponse("Account Created Successfully",true);
-            }
-            else{
-                return new SignUpResponse("Email Already Exists",false);
-            }
+        UserAccount user = dbUser.get();
+        String salt = passwordSecurity.getNextSalt();
+        String hashedPassword = passwordSecurity.hashPassword(signUpRequest.getPassword(),salt);
+        user.setUserType(signUpRequest.getUserType());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPasswordHash(hashedPassword);
+        user.setPasswordSalt(salt);
+        user.setPasswordDate(new Date(System.currentTimeMillis()));
+
+        long userID = userSessionInfoRepository.save(user).getUserAccountId();
+        if(user.getUserType().equals(Role.Student)){
+            studentProfileRepository.save(StudentProfile.builder().studentId((int)userID).build());
+        }
+        else if(user.getUserType().equals(Role.Staff)){
+            teachingStaffProfileRepository.save(TeachingStaffProfile.builder().teacherId((int)userID).build());
         }
 
-        if(!userPresent) return new SignUpResponse("You don't have access",false);
-        else return new SignUpResponse("You already have an account with this email",false);
+        return new SignUpResponse("Account Created Successfully",true);
     }
 
 
     public String login(LoginRequest loginRequest){
 
         Optional<UserAccount> user = userSessionInfoRepository.findByEmail(loginRequest.getEmail());
-        if(user.isEmpty()){
-            return null;
-        }
+        if(user.isEmpty()) return null;
+
         String salt = user.get().getPasswordSalt();
         String pass = loginRequest.getPassword()+salt;
 
@@ -84,8 +89,9 @@ public class AuthenticationService {
                         pass
                 )
         );
-
-        String token = jwtService.generateToken(user.get());
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("id",user.get().getUserAccountId());
+        String token = jwtService.generateToken(extraClaims,user.get());
 
         return token;
     }

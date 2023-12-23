@@ -13,9 +13,9 @@ public interface StudentCourseGradeRepository extends JpaRepository<StudentCours
 
     @Query("SELECT scg.id.course.courseId, scg.studentGrade FROM StudentCourseGrade scg " +
             "WHERE scg.id.student.studentId = :studentId")
-    List<Object[]> findAllStudentCoursesGradesByStudentId(Integer studentId);
+    List<StudentCourseGrade> findAllStudentCoursesGradesByStudentId(Integer studentId);
 
     @Query("SELECT scg.id.student.studentId, scg.studentGrade FROM StudentCourseGrade scg " +
             "WHERE scg.id.course.courseId = :courseId")
-    List<Object[]> findAllCourseStudentsGradesByCourseId(Integer courseId);
+    List<StudentCourseGrade> findAllCourseStudentsGradesByCourseId(Integer courseId);
 }
