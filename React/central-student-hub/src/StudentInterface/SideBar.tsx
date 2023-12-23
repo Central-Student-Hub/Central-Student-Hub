@@ -7,14 +7,15 @@ import Fees from './Fees.tsx';
 import Grades from './Grades.tsx';
 import Course from './Course.tsx';
 import TeachingStaffProfile from '../UserProfileComponent/TeachingStaffProfile.tsx';
+import StudentProfile from '../UserProfileComponent/StudentProfile.tsx';
 
 const SideBar: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<string>('');
+  const [activeComponent, setActiveComponent] = useState<string>('userProfile');
 
   const renderComponent = () => {
     switch (activeComponent) {
       case 'userProfile':
-        return <TeachingStaffProfile />;
+        return <StudentProfile />;
       case 'registration':
         return <Registration />;
       case 'schedule':

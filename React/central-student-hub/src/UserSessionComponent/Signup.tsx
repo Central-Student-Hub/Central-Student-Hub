@@ -1,7 +1,9 @@
-'use client';
 import React, { useState } from 'react';
 import './Signup.css';
-import { ApiRequester } from '../Services/ApiRequester.ts';
+import { ApiRequester } from '../services/ApiRequester.ts';
+import {useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 
 export type FormState = {
   SSN: string;
@@ -11,6 +13,8 @@ export type FormState = {
 };
 
 export default function SignUp() {
+  const toast = useToast()
+  const navigate = useNavigate();
 
   const apiRequester = new ApiRequester();
   const [form, setForm] = useState<FormState>({
@@ -58,12 +62,34 @@ export default function SignUp() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (validateForm()) {
-      const haga = await apiRequester.signup(form);
-      console.log(haga.message);
-      setsuccessMessage(haga.message);
+      const accCreation = await apiRequester.signup(form);
+      console.log(accCreation.message);
+      setsuccessMessage(accCreation.message);
       console.log('Form is valid, submit the data', form);
-      setIsSubmitted(haga.accept);
+      setIsSubmitted(accCreation.accept);
+      if(accCreation.accept){
+        toast({
+          title: 'Account created.',
+          description: accCreation.message,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      }
+      else{
+        toast({
+          title: 'Failed to create account',
+          description: accCreation.message,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
     } else {
       console.log('Form is invalid, do not submit', errors);
       setIsSubmitted(false);
@@ -103,10 +129,10 @@ export default function SignUp() {
               <option value="Admin">admin</option>
             </select>
 
-            <button type="submit" className='subButton' disabled={isSubmitted}>submit</button>
+            <button type="submit" className='subButton' disabled={isSubmitted}>
+              submit
+            </button>
           </div>
-
-          {isSubmitted && <div className='success-message'>{successMessage}</div>}
 
         </form>
       </div>

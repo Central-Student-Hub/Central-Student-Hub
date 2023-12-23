@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 import { OfficeHours } from '../Models/OfficeHours.ts';
 import { BiographyEdit, ContactInfoEdit, NameEdit, OfficeHoursTableEdit } from './TeachingStaffProfileEdit.tsx';
-import { UserProfileApi } from '../Services/UserProfileApi.ts';
+import { UserProfileApi } from '../services/UserProfileApi.ts';
+import { Image } from '@chakra-ui/react'
 import './TeachingStaffProfile.css';
 
 function OfficeHoursRow({ officeHour }: { officeHour: OfficeHours }) {
@@ -59,7 +60,7 @@ export default function TeachingStaffProfile() {
     <div id="tpi-container">
       <div>
         <div id="tpi-name-div">
-          {
+          {/* {
             profile!.profilePictureUrl == "" ?
             <img
               id="tpi-profile-picture"
@@ -68,7 +69,12 @@ export default function TeachingStaffProfile() {
             />
             :
             <div id="tpi-profile-picture-placeholder"></div>
-          }
+          } */}
+          <Image borderRadius='full'
+              boxSize='150px'
+              src='https://bit.ly/dan-abramov'
+              alt='Dan Abramov'
+           />
           {/* <ProfilePictureEdit profile={ profile } setProfile={ setProfile } /> */}
           {
             editing ?

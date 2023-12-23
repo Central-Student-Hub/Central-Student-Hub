@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ApiRequester } from '../Services/ApiRequester.ts';
+import { ApiRequester } from '../services/ApiRequester.ts'
 
 // Enum for semesters
 enum Semester {
