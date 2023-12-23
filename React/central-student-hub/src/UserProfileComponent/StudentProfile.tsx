@@ -1,11 +1,11 @@
-import { Avatar, Box, Flex,Text, Image,Badge,Stat,StatLabel,StatNumber,
-        Heading, Stack, Card, CardBody, StackDivider, CardHeader, TableContainer, Table, Thead, TableCaption, Tr, Th, Tbody, Td, Tfoot} from '@chakra-ui/react'
+import { Box, Flex,Text, Image,Badge,Stat,StatLabel,StatNumber,
+        Heading, Stack, Card, CardBody, StackDivider, CardHeader} from '@chakra-ui/react'
 import React from 'react'
 import './StudentProfile.css';
+import { color } from 'framer-motion';
 
 
 export default function StudentProfile() {
-
 
     return (
 
@@ -15,9 +15,9 @@ export default function StudentProfile() {
                     <Image borderRadius='full' boxSize='120px' src='https://bit.ly/sage-adebayo'/>
                     <Box ml='6'>
                         <Text fontWeight='bold'  fontSize='xl'>
-                            Ziad Reda
+                            Mohammed Adel
                             <Badge size='xl' ml='1' colorScheme='green' >
-                                New
+                                Pro Max
                             </Badge>
                         </Text>
                         <Text fontSize='md'>Software Engineer</Text>
@@ -32,11 +32,11 @@ export default function StudentProfile() {
 
             <Flex>
                 <Card className='StudentInfo' borderRadius='10' zIndex={-1} marginRight={45}>
-                    <CardHeader backgroundColor='#03315F' color='white' borderRadius='10px 10px 0px 0px'>
+                    <CardHeader backgroundColor='#1F1F1F' color='white' borderRadius='10px 10px 0px 0px'>
                         <Heading size='md'>Student Info</Heading>
                     </CardHeader>
 
-                    <CardBody backgroundColor='#F2F9FF'>
+                    <CardBody backgroundColor='#f7f7f7' borderColor='#1F1F1F' borderWidth='thin' borderRadius='0px 0px 10px 10px'>
                         <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase' >
@@ -91,12 +91,11 @@ export default function StudentProfile() {
                 </Card>
 
                 <Card className='StudentInfo2' borderRadius='10' zIndex={-1}>
-                    <CardHeader backgroundColor='#03315F' color='white' borderRadius='10px 10px 0px 0px'>
+                    <CardHeader backgroundColor='#1F1F1F' color='white' borderRadius='10px 10px 0px 0px'>
                         <Heading size='md'>Student contacts</Heading>
                     </CardHeader>
 
-                    <CardBody backgroundColor='#F2F9FF'>
-                        <Stack divider={<StackDivider />} spacing='4'>
+                    <CardBody backgroundColor='#f7f7f7' borderColor='#1F1F1F' borderWidth='thin' borderRadius='0px 0px 10px 10px'>                        <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase' >
                                 Biography
