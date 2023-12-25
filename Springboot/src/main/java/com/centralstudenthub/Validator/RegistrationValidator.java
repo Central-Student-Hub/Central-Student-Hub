@@ -91,24 +91,26 @@ public class RegistrationValidator {
         }
     }
 
-    public boolean validateSessionTimes(List<Session> registeredSessions, Session newSession)
+    public boolean validateSessionTimes(List<Session> registeredSessions, List<Session> newSessions)
             throws NullRegisteredSessionsException, NullSemesterCourseException {
         if (registeredSessions == null) {
             throw new NullRegisteredSessionsException();
         }
 
-        if (newSession == null) {
-            throw new NullSemesterCourseException();
+        for (Session newSession : newSessions) {
+            if (newSession == null) {
+                throw new NullSemesterCourseException();
+            }
+
+            List<Session> conflictingSessions = registeredSessions.stream().filter(session ->
+                    session.getPeriod().equals(newSession.getPeriod())
+            ).toList();
+
+            if (!conflictingSessions.isEmpty()) {
+                return false;
+            }
         }
 
-        List<Session> conflictingSessions = registeredSessions.stream().filter(session ->
-                session.getPeriod().equals(newSession.getPeriod())
-        ).toList();
-
-        if (conflictingSessions.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
 }
