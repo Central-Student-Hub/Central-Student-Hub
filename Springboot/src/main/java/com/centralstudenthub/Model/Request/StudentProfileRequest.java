@@ -5,6 +5,7 @@ import com.centralstudenthub.entity.student_profile.course.semester_courses.assi
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,4 @@ public class StudentProfileRequest {
     private Integer noOfHours;
     private Double gpa;
     private List<ContactModel> contacts;
-    private List<WarningModel> warnings;
-    private List<StudentCourseGradeModel> grades;
 }
