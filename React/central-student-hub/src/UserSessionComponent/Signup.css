@@ -37,8 +37,9 @@
 
 #signUp-container .signUp-form .signUp-label {
   font-size: 24px;
+  font-weight: bold;
   width: fit-content;
-  margin: 30px auto 0;
+  margin: 12px auto 0;
   color: var(--labels-color);
 }
 
@@ -57,6 +58,10 @@
 #signUp-container .signUp-form input::placeholder {
   text-transform: capitalize;
   color: var(--placeholders-color);
+}
+
+#signUp-container .signUp-form .input-container #SSN::placeholder {
+  text-transform: uppercase;
 }
 
 #signUp-container .signUp-form input:focus,
