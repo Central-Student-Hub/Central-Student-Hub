@@ -1,7 +1,8 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
-import com.centralstudenthub.Model.Semester;
+import com.centralstudenthub.Model.Response.SemesterCourseResponse;
+import com.centralstudenthub.Model.SessionModel;
 import com.centralstudenthub.Validator.RegistrationValidator;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
@@ -12,6 +13,7 @@ import com.centralstudenthub.exception.NullCourseException;
 import com.centralstudenthub.exception.NullRegisteredSessionsException;
 import com.centralstudenthub.exception.NullSemesterCourseException;
 import com.centralstudenthub.exception.NullStudentProfileException;
+import com.centralstudenthub.repository.CoursePrerequisiteRepository;
 import com.centralstudenthub.repository.RegistrationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import com.centralstudenthub.repository.StudentProfileRepository;
@@ -26,35 +28,44 @@ public class RegistrationService {
 
     @Autowired
     private RegistrationValidator registrationValidator;
+
     @Autowired
     private SearchService searchService;
+
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+
     @Autowired
     private SemesterCourseRepository semesterCourseRepository;
+
     @Autowired
     private RegistrationRepository registrationRepository;
+
+    @Autowired
+    private CoursePrerequisiteRepository coursePrerequisiteRepository;
 
     private final Double HOURLY_FEES = 100.0;
     private final long expiration = 7776000000L;
 
-    public boolean addCourseToCart(AddCourseToCartRequest request)
+    public boolean addCourseToCart(AddCourseToCartRequest request, int studentId)
             throws NullStudentProfileException, NullCourseException, NullSemesterCourseException, NullRegisteredSessionsException {
 
-        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(request.getStudentId());
+        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
         Optional<SemesterCourse> semesterCourse = semesterCourseRepository.findById(request.getCourseId());
         if (studentProfile.isEmpty() || semesterCourse.isEmpty()) return false;
         Course course = semesterCourse.get().getCourse();
-        boolean valid1 = registrationValidator.validateCreditHoursLimit(studentProfile.get(), course, request.getCreditHours());
-        boolean valid2 = registrationValidator.validateSeatsAvailable(semesterCourse.get());
-        boolean valid3 = registrationValidator.validateSessionTimes(request.getSessions(), request.getNewSession());
 
-        if (!valid1 || !valid2 || !valid3) return false;
+        boolean creditHoursSatisfied = registrationValidator.validateCreditHoursLimit(studentProfile.get(), course, request.getCreditHours());
+        boolean seatsAvailable = registrationValidator.validateSeatsAvailable(semesterCourse.get());
+        boolean nonConflictingSessionTimes = registrationValidator.validateSessionTimes(
+                request.getSessions().stream().map(SessionModel::toSession).toList(),
+                request.getNewSessions().stream().map(SessionModel::toSession).toList()
+        );
 
-        return true;
+        return creditHoursSatisfied && seatsAvailable && nonConflictingSessionTimes;
     }
 
-    public List<SemesterCourse> getAvailableCourses(int studentId, String searchPhrase) {
+    public List<SemesterCourseResponse> getAvailableCourses(int studentId, String searchPhrase) {
 
         List<Course> allCourses = searchService.filterCourses(searchPhrase);
 
@@ -64,19 +75,31 @@ public class RegistrationService {
         List<Course> filteredCourses = allCourses.stream().filter(course -> {
             try {
                 return registrationValidator.validatePrerequisites(studentProfile.get(), course).equals("Prerequisites Satisfied");
-            } catch (NullStudentProfileException e) {
-                throw new RuntimeException(e);
-            } catch (NullCourseException e) {
+            } catch (NullStudentProfileException | NullCourseException e) {
                 throw new RuntimeException(e);
             }
         }).toList();
 
-        List<Integer> courseIds = filteredCourses.stream().map(course -> course.getCourseId()).toList();
+        List<Integer> courseIds = filteredCourses.stream().map(Course::getCourseId).toList();
         List<SemesterCourse> semesterCourses = new ArrayList<>();
         for (Integer courseId : courseIds)
             semesterCourses.addAll(semesterCourseRepository.findAllByCourseId(courseId));
 
-        return semesterCourses;
+        List<SemesterCourseResponse> semesterCourseResponses = semesterCourses.stream().map(SemesterCourse::toResponse).toList();
+
+        semesterCourseResponses.forEach(semesterCourseResponse -> {
+            int remainingSeats = semesterCourseResponse.getMaxSeats() - registrationRepository.findCountBySemCourse(semesterCourseResponse.getSemCourseId());
+            semesterCourseResponse.setRemainingSeats(remainingSeats);
+        });
+
+        semesterCourseResponses.forEach(semesterCourseResponse -> {
+            List<String> prerequisiteCodes = coursePrerequisiteRepository.findCodesByCourseId(
+                    semesterCourseRepository.findCourseIdBySemesterCourseId(semesterCourseResponse.getSemCourseId())
+            );
+            semesterCourseResponse.setPrerequisitesCodes(prerequisiteCodes);
+        });
+
+        return semesterCourses.stream().map(SemesterCourse::toResponse).toList();
     }
 
     public boolean checkOut(int studentId, List<Long> semCourseIds) {
@@ -85,7 +108,7 @@ public class RegistrationService {
         if (studentProfile.isEmpty()) return false;
         for (Long courseid : semCourseIds) {
             Optional<SemesterCourse> semCourse = semesterCourseRepository.findById(courseid);
-            if (semCourse.isEmpty())return false;
+            if (semCourse.isEmpty()) return false;
 
             RegistrationId registrationId = RegistrationId.builder()
                     .semCourse(semCourse.get())
@@ -93,7 +116,7 @@ public class RegistrationService {
                     .build();
             Registration registration = Registration.builder()
                     .id(registrationId)
-                    .paymentFees(semCourse.get().getCourse().getCreditHours()*HOURLY_FEES)
+                    .paymentFees(semCourse.get().getCourse().getCreditHours() * HOURLY_FEES)
                     .paymentDeadline(new Date(System.currentTimeMillis() + expiration))
                     .build();
 
@@ -106,14 +129,14 @@ public class RegistrationService {
     public double showFees(int studentId) {
 
         Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
-        if(studentProfile.isEmpty()) return 0;
+        if (studentProfile.isEmpty()) return 0;
 
         return registrationRepository.findFeesByStudentID(studentId);
     }
 
     public Date getPaymentDeadLine(int studentId) {
         Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
-        if(studentProfile.isEmpty()) return new Date();
+        if (studentProfile.isEmpty()) return new Date();
         return registrationRepository.findPaymentDeadlineByStudentID(studentId);
     }
 }

@@ -1,5 +1,7 @@
 package com.centralstudenthub.Model.Request;
 
+import com.centralstudenthub.Model.Response.SessionResponse;
+import com.centralstudenthub.Model.SessionModel;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class AddCourseToCartRequest {
-    int studentId;
     long courseId;
     int creditHours;
-    List<Session> sessions;
-    Session newSession;
+    List<SessionModel> sessions;
+    List<SessionModel> newSessions;
 }

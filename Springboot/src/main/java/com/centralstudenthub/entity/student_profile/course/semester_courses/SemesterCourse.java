@@ -64,6 +64,7 @@ public class SemesterCourse {
                 .creditHours(course.getCreditHours())
                 .semester(semester)
                 .maxSeats(maxSeats)
+                .sessions(sessions.stream().map(Session::toModel).toList())
                 .build();
     }
 }

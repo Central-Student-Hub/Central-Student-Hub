@@ -1,6 +1,7 @@
 package com.centralstudenthub.entity.student_profile.course.semester_courses.sessions;
 
 import com.centralstudenthub.Model.Response.SessionResponse;
+import com.centralstudenthub.Model.SessionModel;
 import com.centralstudenthub.Model.SessionType;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
@@ -42,12 +43,14 @@ public class Session {
     @JoinColumn(name = "building", nullable = false)
     private Location location;
 
-    public SessionResponse toResponse() {
-        return SessionResponse.builder()
-                .sessionId(sessionId)
+    public SessionModel toModel() {
+        return SessionModel.builder()
+                .id(sessionId)
                 .period(period)
-                .weekDay(weekDay)
+                .weekday(weekDay)
                 .sessionType(sessionType)
+                .location(location.toModel())
+                .teacherName(teacher.getFirstName() + teacher.getLastName())
                 .build();
     }
 
