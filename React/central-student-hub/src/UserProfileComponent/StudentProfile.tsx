@@ -5,7 +5,7 @@ import { AddIcon } from '@chakra-ui/icons'
 import React, { useEffect, useState } from 'react'
 import './StudentProfile.css';
 import {s} from '../Models/StudentProfileInfo.ts'
-import { UserProfileApi } from '../services/UserProfileApi.ts';
+import { UserProfileApi } from '../Services/UserProfileApi.ts';
   
 
 export default function StudentProfile() {
