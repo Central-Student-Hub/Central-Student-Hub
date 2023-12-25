@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 public class AuthenticationController {
 
     @Autowired
@@ -41,6 +41,11 @@ public class AuthenticationController {
         else{
             return ResponseEntity.ok(new LoginResponse("no token",false));
         }
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<Boolean> addUser(@RequestParam String ssn) {
+        return ResponseEntity.ok(authenticationService.addUser(ssn));
     }
 
     //@GetMapping("/google/{gmail}")

@@ -104,4 +104,18 @@ public class AuthenticationService {
 
         return jwtService.generateToken(existUser.get());
     }
+
+    public boolean addUser(String ssn) {
+        Optional<UserAccount> existingUser = userSessionInfoRepository.findBySsn(ssn);
+
+        if (existingUser.isPresent())
+            return false;
+
+        UserAccount user = UserAccount.builder()
+                .ssn(ssn)
+                .build();
+
+        userSessionInfoRepository.save(user);
+        return true;
+    }
 }

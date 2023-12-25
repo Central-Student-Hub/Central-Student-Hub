@@ -19,14 +19,19 @@ import java.util.Optional;
 public class UserProfileService {
     @Autowired
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
+
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+
     @Autowired
     private OfficeHourRepository officeHourRepository;
+
     @Autowired
     private TeachingStaffContactRepository teachingStaffContactRepository;
+
     @Autowired
     private WarningRepository warningRepository;
+
     @Autowired
     private StudentContactRepository studentContactRepository;
 
@@ -36,7 +41,7 @@ public class UserProfileService {
     public void updateTeachingStaffData(int id, TeachingStaffProfileReqAndRes request) {
 
         Optional<TeachingStaffProfile> opTeacher = teachingStaffProfileRepository.findById(id);
-        if(opTeacher.isEmpty()) return;
+        if (opTeacher.isEmpty()) return;
 
         TeachingStaffProfile teacher = opTeacher.get();
         teacher.setFirstName(request.getFirstName());
@@ -56,9 +61,9 @@ public class UserProfileService {
                 teachingStaffContactRepository.save(contactModel.contactfromModel(teacher)));
     }
 
-    public void updateStudentData(int id,StudentProfileRequest request) {
+    public void updateStudentData(int id, StudentProfileRequest request) {
         Optional<StudentProfile> opStudent = studentProfileRepository.findById(id);
-        if(opStudent.isEmpty()) return;
+        if (opStudent.isEmpty()) return;
 
         StudentProfile student = opStudent.get();
         student.setFirstName(request.getFirstName());
@@ -81,13 +86,13 @@ public class UserProfileService {
 
     public TeachingStaffProfileReqAndRes getTeachingStaffProfileInfo(Integer id) {
         Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
-        if(teacher.isEmpty())return null;
+        if (teacher.isEmpty()) return null;
 
         List<TeachingStaffContact> contacts = teachingStaffContactRepository.getAllById_Teacher(teacher.get().getTeacherId());
         List<ContactModel> contactModels = contacts.stream().map(TeachingStaffContact::modelFromTeachingStaffContact).toList();
 
         List<OfficeHour> officeHours = officeHourRepository.getAllById_Teacher(teacher.get().getTeacherId());
-        List<OfficeHourModel> officeHourModels= officeHours.stream().map(OfficeHour::modelFromOfficeHour).toList();
+        List<OfficeHourModel> officeHourModels = officeHours.stream().map(OfficeHour::modelFromOfficeHour).toList();
 
         TeachingStaffProfileReqAndRes response = teacher.get().toResponse();
         response.setContacts(contactModels);
@@ -116,15 +121,24 @@ public class UserProfileService {
         return teacher.map(TeachingStaffProfile::getOfficeHours).orElse(null);
     }
 
-    public Integer addWarning(Integer id , WarningRequest request) {
-        Optional<StudentProfile> student = studentProfileRepository.findById(id);
-        if(student.isEmpty())
-            return null;
+    public boolean addWarning(WarningRequest request) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(request.getStudentId());
+        if (student.isEmpty())
+            return false;
         Warning warning = Warning.builder()
                 .reason(request.getReason())
                 .date(request.getDate())
                 .student(student.get())
                 .build();
-        return warningRepository.save(warning).getWarningId();
+        warningRepository.save(warning);
+        return true;
+    }
+
+    public List<TeachingStaffProfileReqAndRes> getAllTeachingStaff() {
+        return teachingStaffProfileRepository.findAll().stream().map(TeachingStaffProfile::toResponse).toList();
+    }
+
+    public List<StudentProfileRequest> getAllStudents() {
+        return studentProfileRepository.findAll().stream().map(StudentProfile::modelFromStudentProfile).toList();
     }
 }

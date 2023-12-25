@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface UserSessionInfoRepository extends JpaRepository<UserAccount,Long> {
 
     Optional<UserAccount> findByEmail(String email);
-    Optional<UserAccount> findBySsn(String email);
+    Optional<UserAccount> findBySsn(String ssn);
     Optional<UserAccount> findByGmail(String gmail);
 }

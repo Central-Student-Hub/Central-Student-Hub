@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/SemesterCourse")
 public class SemesterCourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());
@@ -49,11 +49,10 @@ public class SemesterCourseController {
         return semesterCourseService.getSemesterCourse(id);
     }
 
-    @GetMapping("/getSemesterCourses/{semester}")
-    public List<SemesterCourseResponse> getSemesterCourses(@PathVariable("semester") Semester semester) throws
-            NotFoundException {
+    @GetMapping("/getSemesterCourses")
+    public List<SemesterCourseResponse> getSemesterCourses() throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: getSemesterCourses");
-        return semesterCourseService.getSemesterCourses(semester);
+        return semesterCourseService.getSemesterCourses();
     }
 
     @PutMapping("/updateSemesterCourse/{id}")
@@ -68,6 +67,12 @@ public class SemesterCourseController {
     public boolean deleteSemesterCourse(@PathVariable("id") Long id) throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: deleteSemesterCourse");
         return semesterCourseService.deleteSemesterCourse(id);
+    }
+
+    @DeleteMapping("/deleteAllSemesterCourses")
+    public boolean deleteAllSemesterCourses() {
+        logger.info("Class: SemesterCourseController, Method: deleteAllSemesterCourses");
+        return semesterCourseService.deleteAllSemesterCourses();
     }
 
     @PostMapping("/addMaterialPath")
@@ -129,7 +134,7 @@ public class SemesterCourseController {
     }
 
     @PostMapping("/addSession")
-    public Long addSession(@RequestBody SessionRequest session) throws NotFoundException {
+    public boolean addSession(@RequestBody SessionRequest session) throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: addSession");
         return sessionService.addSession(session);
     }

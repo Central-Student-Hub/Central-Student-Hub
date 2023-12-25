@@ -32,7 +32,7 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public Long addSession(SessionRequest sessionRequest) throws NotFoundException {
+    public boolean addSession(SessionRequest sessionRequest) throws NotFoundException {
         Optional<SemesterCourse> semesterCourse = semesterCourseRepository.findById(sessionRequest.getSemCourseId());
         Optional<TeachingStaffProfile> teachingStaffProfile =
                 teachingStaffProfileRepository.findById(sessionRequest.getTeacherId());
@@ -45,7 +45,7 @@ public class SessionService {
                 .sessionType(sessionRequest.getSessionType()).semCourse(semesterCourse.get())
                 .teacher(teachingStaffProfile.get()).build();
         sessionRepository.save(session);
-        return session.getSessionId();
+        return true;
     }
 
     public SessionResponse getSession(Long sessionId) throws NotFoundException {

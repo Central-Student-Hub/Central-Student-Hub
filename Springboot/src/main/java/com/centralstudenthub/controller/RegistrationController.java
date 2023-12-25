@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Register")
 public class RegistrationController {
 
@@ -35,6 +35,7 @@ public class RegistrationController {
         boolean response = registrationService.checkOut(studentId,semesterCourseIds);
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/getAvailableCourses")
     public ResponseEntity<List<SemesterCourse>> getAvailableCourses(@RequestParam int studentId,@RequestParam String searchPhrase){
         List<SemesterCourse> semesterCourses = registrationService.getAvailableCourses(studentId,searchPhrase);
@@ -53,5 +54,8 @@ public class RegistrationController {
         return ResponseEntity.ok(date);
     }
 
-
+    @PostMapping("/setPaymentDeadline")
+    public ResponseEntity<Boolean> getPaymentDeadLine(@RequestBody Date date) {
+        return ResponseEntity.ok(registrationService.setPaymentDeadLine(date));
+    }
 }

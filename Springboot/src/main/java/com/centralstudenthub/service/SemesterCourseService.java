@@ -48,8 +48,8 @@ public class SemesterCourseService {
 
     }
 
-    public List<SemesterCourseResponse> getSemesterCourses(Semester semester) throws NotFoundException {
-        List<SemesterCourse> semesterCourses = semesterCourseRepository.findBySemester(semester);
+    public List<SemesterCourseResponse> getSemesterCourses() throws NotFoundException {
+        List<SemesterCourse> semesterCourses = semesterCourseRepository.findAll();
         if (semesterCourses.isEmpty())
             throw new NotFoundException("Semester courses not found");
 
@@ -73,6 +73,11 @@ public class SemesterCourseService {
             throw new NotFoundException("Semester course not found");
 
         semesterCourseRepository.delete(semesterCourse.get());
+        return true;
+    }
+
+    public boolean deleteAllSemesterCourses() {
+        semesterCourseRepository.deleteAll();
         return true;
     }
 }

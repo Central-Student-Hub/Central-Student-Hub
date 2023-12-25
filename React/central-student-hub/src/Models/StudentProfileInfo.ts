@@ -4,6 +4,7 @@ import { Grade } from "./Grade"
 import { Warning } from "./Warning"
 
 export type StudentProfileInfo = {
+    id: number,
     firstName: string,
     lastName: string,
     biography: string,
@@ -18,6 +19,7 @@ export type StudentProfileInfo = {
 }
 
 const s: StudentProfileInfo = {
+    id: 1,
     firstName: "John",
     lastName: "Doe",
     biography: "I am a student",

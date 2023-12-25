@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Course")
 public class CourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());
@@ -33,7 +33,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourse")
-    public CourseResponse addCourse(@Valid @RequestBody CourseRequest course) throws AlreadyExistsException {
+    public Integer addCourse(@Valid @RequestBody CourseRequest course) throws AlreadyExistsException {
         logger.info("Class: CourseController, Method: addCourse");
         return courseService.addCourse(course);
     }

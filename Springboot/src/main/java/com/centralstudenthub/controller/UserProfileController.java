@@ -55,8 +55,18 @@ public class UserProfileController {
         return userProfileService.getOfficeHour(id);
     }
 
-    @PostMapping("/addWarning/{id}")
-    public Integer addWarning(@PathVariable("id") Integer id , @RequestBody WarningRequest request) {
-        return userProfileService.addWarning(id , request);
+    @PostMapping("/addWarning")
+    public boolean addWarning(@RequestBody WarningRequest request) {
+        return userProfileService.addWarning(request);
+    }
+
+    @GetMapping("/teachingStaff")
+    public List<TeachingStaffProfileReqAndRes> getAllTeachingStaff() {
+        return userProfileService.getAllTeachingStaff();
+    }
+
+    @GetMapping("/students")
+    public List<StudentProfileRequest> getAllStudents() {
+        return userProfileService.getAllStudents();
     }
 }

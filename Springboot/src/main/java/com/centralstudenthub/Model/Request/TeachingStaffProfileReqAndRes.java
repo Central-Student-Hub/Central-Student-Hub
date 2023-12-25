@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeachingStaffProfileReqAndRes {
+    private Integer id;
     private String firstName;
     private String lastName;
     private String biography;
@@ -20,4 +21,3 @@ public class TeachingStaffProfileReqAndRes {
     private List<OfficeHourModel> officeHours;
     private List<ContactModel> contacts;
 }
-

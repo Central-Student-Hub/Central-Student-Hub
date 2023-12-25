@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Signup.css';
-import { ApiRequester } from '../services/ApiRequester.ts';
+import { ApiRequester } from '../Services/ApiRequester.ts';
 import {useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
