@@ -22,7 +22,7 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public CourseResponse addCourse(CourseRequest course) throws AlreadyExistsException {
+    public Integer addCourse(CourseRequest course) throws AlreadyExistsException {
         if(courseRepository.existsByCode(course.getCode()))
             throw new AlreadyExistsException("Course already exists...");
 
@@ -33,7 +33,7 @@ public class CourseService {
                 .creditHours(course.getCreditHours())
                 .build();
         courseRepository.save(savedCourse);
-        return savedCourse.toResponse();
+        return savedCourse.toResponse().getCourseId();
     }
 
     public List<CourseResponse> addCourses(CourseRequest[] courses) throws AlreadyExistsException {
@@ -100,8 +100,8 @@ public class CourseService {
         return true;
     }
 
-    public String deleteAllCourses() {
+    public boolean deleteAllCourses() {
         courseRepository.deleteAll();
-        return "Course table is now empty...";
+        return true;
     }
 }

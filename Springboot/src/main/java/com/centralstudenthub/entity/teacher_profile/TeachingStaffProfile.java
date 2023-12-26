@@ -40,6 +40,7 @@ public class TeachingStaffProfile {
 
     public TeachingStaffProfileReqAndRes toResponse(){
         return TeachingStaffProfileReqAndRes.builder()
+                .id(teacherId)
                 .biography(biography)
                 .department(department)
                 .firstName(firstName)

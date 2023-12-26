@@ -33,7 +33,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourse")
-    public CourseResponse addCourse(@Valid @RequestBody CourseRequest course) throws AlreadyExistsException {
+    public Integer addCourse(@Valid @RequestBody CourseRequest course) throws AlreadyExistsException {
         logger.info("Class: CourseController, Method: addCourse");
         return courseService.addCourse(course);
     }
@@ -70,7 +70,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/deleteAllCourses")
-    public String deleteAllCourses() {
+    public boolean deleteAllCourses() {
         logger.info("Class: CourseController, Method: deleteAllCourses");
         return courseService.deleteAllCourses();
     }

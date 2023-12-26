@@ -139,4 +139,9 @@ public class RegistrationService {
         if (studentProfile.isEmpty()) return new Date();
         return registrationRepository.findPaymentDeadlineByStudentID(studentId);
     }
+
+    public boolean setPaymentDeadLine(Date date) {
+        registrationRepository.setDeadlineDate(date);
+        return true;
+    }
 }
