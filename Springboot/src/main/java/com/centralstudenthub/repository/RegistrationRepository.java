@@ -17,6 +17,9 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Query("select sum(r.paymentFees) from Registration r where r.id.student.studentId=:studentId")
     double findFeesByStudentID(int studentId);
 
+    @Query("select count(*) from Registration r where r.id.semCourse.semCourseId=:semCourseId")
+    int findCountBySemCourse(Long semCourseId);
+
     @Query(value = "select r.paymentDeadline from registration as r where r.studentId=studentId limit 1"
             ,nativeQuery = true)
     Date findPaymentDeadlineByStudentID(int studentId);

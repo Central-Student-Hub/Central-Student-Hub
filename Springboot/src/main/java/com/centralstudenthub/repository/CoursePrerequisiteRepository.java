@@ -12,4 +12,7 @@ import java.util.List;
 public interface CoursePrerequisiteRepository extends JpaRepository<CoursePrerequisite, CoursePrerequisiteId> {
     @Query("SELECT cp.id.prerequisite.courseId FROM CoursePrerequisite cp WHERE cp.id.course.courseId = :id")
     List<Integer> findAllPrerequisitesByCourseId(Integer id);
+
+    @Query("SELECT cp.id.prerequisite.code FROM CoursePrerequisite cp WHERE cp.id.course.courseId = :id")
+    List<String> findCodesByCourseId(Integer id);
 }

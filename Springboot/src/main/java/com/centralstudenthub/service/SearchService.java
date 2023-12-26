@@ -53,7 +53,7 @@ public class SearchService {
     }
 
     public List<Course> filterCourses(String searchKey) {
-        if (searchKey == null || searchKey.isEmpty()) {
+        if (searchKey == null) {
             return null;
         }
 

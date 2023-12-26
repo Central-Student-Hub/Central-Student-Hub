@@ -4,7 +4,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './Login.css';
 import { useNavigate } from "react-router-dom";
 import { LoginRequest } from "../Models/LoginModels.ts";
-import { ApiRequester } from "../services/ApiRequester.ts";
+import { ApiRequester } from "../Services/ApiRequester.ts";
 
 const apiRequester = new ApiRequester();
 

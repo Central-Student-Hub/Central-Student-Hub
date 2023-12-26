@@ -1,8 +1,8 @@
-import { Session } from "../StudentInterface/Registration"
+import { Session } from "./Session"
 
 export type AddCourseToCartRequest = {
     courseId: number,
     creditHours: number,
     sessions: Session[],
-    newSession: Session
+    newSessions: Session[]
 }
