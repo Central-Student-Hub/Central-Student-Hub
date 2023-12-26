@@ -10,10 +10,16 @@ import java.io.Serializable;
 @Embeddable
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ExamId implements Serializable {
-    private StudentProfile studentProfile;
-    private SemesterCourse course;
+
+    @Column(name = "semCourseId")
+    private Long semCourseId;
+
+    @Column(name = "studentId")
+    private Integer studentId;
 }
+
+

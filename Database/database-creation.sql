@@ -275,15 +275,15 @@ CREATE TABLE registration
 
 CREATE TABLE exam
 (
-    `courseId`        int    not null,
+    `semCourseId`     int    not null,
     `studentId`       int    not null,
     `seatNumber`      int    not null,
     `room`            int    not null,
     `building`        int    not null,
     `date`            DATE,
     `period`          int,
-    primary key (`courseId`, `studentId`),
-    foreign key (`courseId`) references semester_course (`courseId`) on delete cascade on update cascade,
+    primary key (`semCourseId`, `studentId`),
+    foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade,
     foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
     foreign key (`building`) references location (`building`) on delete cascade on update cascade,
     foreign key (`room`) references location (`room`) on delete cascade on update cascade
