@@ -31,7 +31,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourse")
-    public boolean addCourse(@Valid @RequestBody CourseRequest course) {
+    public Integer addCourse(@Valid @RequestBody CourseRequest course) throws AlreadyExistsException {
         logger.info("Class: CourseController, Method: addCourse");
         return courseService.addCourse(course);
     }

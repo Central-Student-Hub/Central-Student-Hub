@@ -2,6 +2,7 @@ import { ContactInfo } from "./ContactInfo.ts"
 import { Warning } from "./Warning.ts"
 
 export type StudentProfileInfo = {
+    id: number,
     firstName: string,
     lastName: string,
     biography: string,
@@ -16,7 +17,7 @@ export type StudentProfileInfo = {
 }
 
 export const s: StudentProfileInfo = {
-  
+    id: 1,
     firstName: "John",
     lastName: "Doe",
     biography: "I am a student",

@@ -64,4 +64,9 @@ public class RegistrationController {
         Date date = registrationService.getPaymentDeadLine(studentId);
         return ResponseEntity.ok(date);
     }
+
+    @PostMapping("/setPaymentDeadline")
+    public ResponseEntity<Boolean> getPaymentDeadLine(@RequestBody Date date) {
+        return ResponseEntity.ok(registrationService.setPaymentDeadLine(date));
+    }
 }

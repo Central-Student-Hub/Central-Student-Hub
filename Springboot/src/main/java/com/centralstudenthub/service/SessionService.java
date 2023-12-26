@@ -1,24 +1,25 @@
 package com.centralstudenthub.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.centralstudenthub.entity.sessions.location.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.centralstudenthub.Model.SessionType;
 import com.centralstudenthub.Model.Request.SessionRequest;
 import com.centralstudenthub.Model.Response.sessions.SessionResponse;
-import com.centralstudenthub.Model.SessionType;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.sessions.Session;
-import com.centralstudenthub.entity.sessions.location.Location;
 import com.centralstudenthub.entity.sessions.location.LocationId;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.LocationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import com.centralstudenthub.repository.SessionRepository;
 import com.centralstudenthub.repository.TeachingStaffProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SessionService {
@@ -37,7 +38,7 @@ public class SessionService {
         this.locationRepository = locationRepository;
     }
 
-    public Long addSession(SessionRequest sessionRequest) throws NotFoundException {
+    public boolean addSession(SessionRequest sessionRequest) throws NotFoundException {
         Optional<SemesterCourse> semesterCourse = semesterCourseRepository.findById(sessionRequest.getSemCourseId());
         Optional<TeachingStaffProfile> teachingStaffProfile =
                 teachingStaffProfileRepository.findById(sessionRequest.getTeacherId());
@@ -55,7 +56,7 @@ public class SessionService {
                 .sessionType(sessionRequest.getSessionType()).semCourse(semesterCourse.get())
                 .teacher(teachingStaffProfile.get()).location(location.get()).build();
         sessionRepository.save(session);
-        return session.getSessionId();
+        return true;
     }
 
     public SessionResponse getSession(Long sessionId) throws NotFoundException {

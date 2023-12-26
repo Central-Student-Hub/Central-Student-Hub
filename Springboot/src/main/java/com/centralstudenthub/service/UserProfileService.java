@@ -1,8 +1,16 @@
 package com.centralstudenthub.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Request.WarningRequest;
+import com.centralstudenthub.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.centralstudenthub.Model.Response.ContactResponse;
 import com.centralstudenthub.Model.Response.teacher_profile.OfficeHourResponse;
-import com.centralstudenthub.Model.Request.*;
 import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
@@ -10,35 +18,37 @@ import com.centralstudenthub.entity.student_profile.student_contacts.StudentCont
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
-import com.centralstudenthub.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserProfileService {
     @Autowired
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
+
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+
     @Autowired
     private OfficeHourRepository officeHourRepository;
+
     @Autowired
     private TeachingStaffContactRepository teachingStaffContactRepository;
+
     @Autowired
     private WarningRepository warningRepository;
+
     @Autowired
     private StudentContactRepository studentContactRepository;
 
     @Autowired
     private StudentCourseGradeRepository studentCourseGradeRepository;
 
+    public UserProfileService() {
+    }
+
     public void updateTeachingStaffData(int id, TeachingStaffProfileModel request) {
 
         Optional<TeachingStaffProfile> opTeacher = teachingStaffProfileRepository.findById(id);
-        if(opTeacher.isEmpty()) return;
+        if (opTeacher.isEmpty()) return;
 
         TeachingStaffProfile teacher = opTeacher.get();
         teacher.setFirstName(request.getFirstName());
@@ -58,7 +68,7 @@ public class UserProfileService {
                 teachingStaffContactRepository.save(contactModel.toEntity(teacher)));
     }
 
-    public boolean updateStudentData(int id,StudentProfileRequest request) {
+    public boolean updateStudentData(int id, StudentProfileRequest request) {
         Optional<StudentProfile> opStudent = studentProfileRepository.findById(id);
         if(opStudent.isEmpty()) return false;
 
@@ -85,7 +95,7 @@ public class UserProfileService {
 
     public TeachingStaffProfileModel getTeachingStaffProfileInfo(Integer id) {
         Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
-        if(teacher.isEmpty())return null;
+        if (teacher.isEmpty()) return null;
 
         List<TeachingStaffContact> contacts = teachingStaffContactRepository.getAllById_Teacher(teacher.get().getTeacherId());
         List<ContactResponse> contactResponses = contacts.stream().map(TeachingStaffContact::toResponse).toList();
@@ -93,7 +103,7 @@ public class UserProfileService {
         List<OfficeHour> officeHours = officeHourRepository.getAllById_Teacher(teacher.get().getTeacherId());
         List<OfficeHourResponse> officeHourModels= officeHours.stream().map(OfficeHour::toResponse).toList();
 
-        TeachingStaffProfileModel response = teacher.get().toModel();
+        TeachingStaffProfileModel response = teacher.get().toResponse();
         response.setContacts(contactResponses);
         response.setOfficeHours(officeHourModels);
 
@@ -116,15 +126,24 @@ public class UserProfileService {
         return teacher.map(TeachingStaffProfile::getOfficeHours).orElse(null);
     }
 
-    public Integer addWarning(Integer id , WarningRequest request) {
-        Optional<StudentProfile> student = studentProfileRepository.findById(id);
-        if(student.isEmpty())
-            return null;
+    public boolean addWarning(WarningRequest request) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(request.getStudentId());
+        if (student.isEmpty())
+            return false;
         Warning warning = Warning.builder()
                 .reason(request.getReason())
                 .date(request.getDate())
                 .student(student.get())
                 .build();
-        return warningRepository.save(warning).getWarningId();
+        warningRepository.save(warning);
+        return true;
+    }
+
+    public List<TeachingStaffProfileModel> getAllTeachingStaff() {
+        return teachingStaffProfileRepository.findAll().stream().map(TeachingStaffProfile::toResponse).toList();
+    }
+
+    public List<StudentProfileRequest> getAllStudents() {
+        return studentProfileRepository.findAll().stream().map(StudentProfile::modelFromStudentProfile).toList();
     }
 }

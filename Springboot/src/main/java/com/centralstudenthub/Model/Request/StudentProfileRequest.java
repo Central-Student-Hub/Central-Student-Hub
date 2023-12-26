@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class StudentProfileRequest {
+    private int id;
     private String firstName;
     private String lastName;
     private String biography;

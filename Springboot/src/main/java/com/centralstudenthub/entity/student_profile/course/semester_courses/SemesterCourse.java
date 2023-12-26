@@ -58,10 +58,6 @@ public class SemesterCourse {
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()
                 .semCourseId(semCourseId)
-                .code(course.getCode())
-                .name(course.getName())
-                .description(course.getDescription())
-                .creditHours(course.getCreditHours())
                 .semester(semester)
                 .maxSeats(maxSeats)
                 .build();

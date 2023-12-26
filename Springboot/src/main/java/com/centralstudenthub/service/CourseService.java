@@ -1,16 +1,17 @@
 package com.centralstudenthub.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.centralstudenthub.Model.Request.CourseRequest;
 import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -21,16 +22,15 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public boolean addCourse(CourseRequest course) {
-        if(courseRepository.existsByCode(course.getCode())) return false;
+    public Integer addCourse(CourseRequest course) {
+        if(courseRepository.existsByCode(course.getCode())) return -1;
         Course savedCourse = Course.builder()
                 .code(course.getCode())
                 .name(course.getName())
                 .description(course.getDescription())
                 .creditHours(course.getCreditHours())
                 .build();
-        courseRepository.save(savedCourse);
-        return true;
+        return courseRepository.save(savedCourse).getCourseId();
     }
 
     public boolean addCourses(CourseRequest[] courses) {
