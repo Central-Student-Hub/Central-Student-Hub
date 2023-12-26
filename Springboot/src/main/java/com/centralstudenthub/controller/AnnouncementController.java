@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
 @RequestMapping("/Announcement")
 public class AnnouncementController {
+    private final AnnouncementService announcementService;
 
     @Autowired
-    private AnnouncementService announcementService;
+    public AnnouncementController(AnnouncementService announcementService) {
+        this.announcementService = announcementService;
+    }
+
     @PostMapping("/addAnnouncement")
     public ResponseEntity<Boolean> addAnnouncement(@RequestBody AnnouncementRequest announcementRequest){
         boolean response  = announcementService.addAnnouncement(announcementRequest);

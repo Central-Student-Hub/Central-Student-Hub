@@ -16,9 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ApplicationConfig {
+    private final UserSessionInfoRepository userSessionInfoRepository;
 
     @Autowired
-    private UserSessionInfoRepository userSessionInfoRepository;
+    public ApplicationConfig(UserSessionInfoRepository userSessionInfoRepository) {
+        this.userSessionInfoRepository = userSessionInfoRepository;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {

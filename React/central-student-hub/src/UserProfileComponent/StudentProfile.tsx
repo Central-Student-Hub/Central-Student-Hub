@@ -11,7 +11,7 @@ import { UserProfileApi } from '../Services/UserProfileApi.ts';
 export default function StudentProfile() {
 
     const[studInfo,setStudInfo] = useState(s)
-    const[oldstudInfo,setOldStudInfo] = useState(s)
+    const[oldStudInfo,setOldStudInfo] = useState(s)
     const[editing,setEditing] = useState(false)
     const[updatePhoto,setUpdatePhoto] = useState(false)
 
@@ -108,7 +108,7 @@ export default function StudentProfile() {
     }
 
     const handleCancelChanges = () => {
-        setStudInfo(oldstudInfo)
+        setStudInfo(oldStudInfo)
         setEditing(!editing)
     }
 

@@ -3,11 +3,15 @@ package com.centralstudenthub.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.centralstudenthub.Model.Request.*;
+import com.centralstudenthub.Model.Response.ContactResponse;
+import com.centralstudenthub.Model.Response.teacher_profile.OfficeHourResponse;
+import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.Warning;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
@@ -41,7 +45,7 @@ public class UserProfileService {
     public UserProfileService() {
     }
 
-    public void updateTeachingStaffData(int id, TeachingStaffProfileReqAndRes request) {
+    public void updateTeachingStaffData(int id, TeachingStaffProfileModel request) {
 
         Optional<TeachingStaffProfile> opTeacher = teachingStaffProfileRepository.findById(id);
         if (opTeacher.isEmpty()) return;
@@ -57,14 +61,14 @@ public class UserProfileService {
         officeHourRepository.deleteAllByTeacher(teacher.getTeacherId());
         teachingStaffContactRepository.deleteAllById_Teacher(teacher.getTeacherId());
 
-        request.getOfficeHours().forEach(officeHourModel ->
-                officeHourRepository.save(officeHourModel.officeHourFromModel(teacher)));
+        request.getOfficeHours().forEach(officeHourResponse ->
+                officeHourRepository.save(officeHourResponse.toEntity(teacher)));
 
         request.getContacts().forEach(contactModel ->
-                teachingStaffContactRepository.save(contactModel.contactfromModel(teacher)));
+                teachingStaffContactRepository.save(contactModel.toEntity(teacher)));
     }
 
-    public boolean updateStudentData(int id,StudentProfileRequest request) {
+    public boolean updateStudentData(int id, StudentProfileRequest request) {
         Optional<StudentProfile> opStudent = studentProfileRepository.findById(id);
         if(opStudent.isEmpty()) return false;
 
@@ -84,23 +88,23 @@ public class UserProfileService {
         studentContactRepository.deleteAllById_Student(student.getStudentId());
 
         request.getContacts().forEach(contactModel ->
-                studentContactRepository.save(contactModel.contactfromModel(student)));
+                studentContactRepository.save(contactModel.toEntity(student)));
 
         return true;
     }
 
-    public TeachingStaffProfileReqAndRes getTeachingStaffProfileInfo(Integer id) {
+    public TeachingStaffProfileModel getTeachingStaffProfileInfo(Integer id) {
         Optional<TeachingStaffProfile> teacher = teachingStaffProfileRepository.findById(id);
         if (teacher.isEmpty()) return null;
 
         List<TeachingStaffContact> contacts = teachingStaffContactRepository.getAllById_Teacher(teacher.get().getTeacherId());
-        List<ContactModel> contactModels = contacts.stream().map(TeachingStaffContact::modelFromTeachingStaffContact).toList();
+        List<ContactResponse> contactResponses = contacts.stream().map(TeachingStaffContact::toResponse).toList();
 
         List<OfficeHour> officeHours = officeHourRepository.getAllById_Teacher(teacher.get().getTeacherId());
-        List<OfficeHourModel> officeHourModels = officeHours.stream().map(OfficeHour::modelFromOfficeHour).toList();
+        List<OfficeHourResponse> officeHourModels= officeHours.stream().map(OfficeHour::toResponse).toList();
 
-        TeachingStaffProfileReqAndRes response = teacher.get().toResponse();
-        response.setContacts(contactModels);
+        TeachingStaffProfileModel response = teacher.get().toResponse();
+        response.setContacts(contactResponses);
         response.setOfficeHours(officeHourModels);
 
         return response;
@@ -112,7 +116,7 @@ public class UserProfileService {
 
         StudentProfileRequest response = studentProfile.get().modelFromStudentProfile();
         response.setContacts(studentContactRepository.findAllByStudentId(id).stream().map(
-                StudentContact::modelFromStudentContact).toList());
+                StudentContact::toResponse).toList());
 
         return response;
     }
@@ -135,7 +139,7 @@ public class UserProfileService {
         return true;
     }
 
-    public List<TeachingStaffProfileReqAndRes> getAllTeachingStaff() {
+    public List<TeachingStaffProfileModel> getAllTeachingStaff() {
         return teachingStaffProfileRepository.findAll().stream().map(TeachingStaffProfile::toResponse).toList();
     }
 

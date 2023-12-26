@@ -1,25 +1,25 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.Request.SessionRequest;
-import com.centralstudenthub.Model.Response.SessionResponse;
-import com.centralstudenthub.Model.SessionModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.centralstudenthub.entity.sessions.location.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.centralstudenthub.Model.SessionType;
+import com.centralstudenthub.Model.Request.SessionRequest;
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
+import com.centralstudenthub.entity.sessions.Session;
+import com.centralstudenthub.entity.sessions.location.LocationId;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.LocationId;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.LocationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import com.centralstudenthub.repository.SessionRepository;
 import com.centralstudenthub.repository.TeachingStaffProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SessionService {
@@ -31,8 +31,7 @@ public class SessionService {
     @Autowired
     public SessionService(SemesterCourseRepository semesterCourseRepository,
                           TeachingStaffProfileRepository teachingStaffProfileRepository,
-                          SessionRepository sessionRepository,
-                          LocationRepository locationRepository) {
+                          SessionRepository sessionRepository, LocationRepository locationRepository) {
         this.semesterCourseRepository = semesterCourseRepository;
         this.teachingStaffProfileRepository = teachingStaffProfileRepository;
         this.sessionRepository = sessionRepository;
@@ -60,12 +59,12 @@ public class SessionService {
         return true;
     }
 
-    public SessionModel getSession(Long sessionId) throws NotFoundException {
+    public SessionResponse getSession(Long sessionId) throws NotFoundException {
         Optional<Session> session = sessionRepository.findById(sessionId);
         if (session.isEmpty())
             throw new NotFoundException("Session not found");
 
-        return session.get().toModel();
+        return session.get().toResponse();
     }
 
     public List<SessionResponse> getSessions(Long id) throws NotFoundException {
@@ -76,7 +75,7 @@ public class SessionService {
         List<Object[]> sessions = sessionRepository.findAllSessionsBySemCourseId(id);
         List<SessionResponse> sessionResponses = new ArrayList<>();
         for (Object[] session : sessions) {
-            sessionResponses.add(SessionResponse.builder().sessionId((Long) session[0]).period((Integer) session[1])
+            sessionResponses.add(SessionResponse.builder().id((Long) session[0]).period((Integer) session[1])
                     .weekDay((String) session[2]).sessionType((SessionType) session[3]).build());
         }
         return sessionResponses;

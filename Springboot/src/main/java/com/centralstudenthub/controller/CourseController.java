@@ -1,14 +1,12 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.CourseRequest;
-import com.centralstudenthub.Model.Response.CourseResponse;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.exception.*;
 import com.centralstudenthub.service.CoursePrerequisiteService;
 import com.centralstudenthub.service.CourseService;
 import com.centralstudenthub.service.StudentCourseGradeService;
 import jakarta.validation.Valid;
-import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +37,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourses")
-    public List<CourseResponse> addCourses(@Valid @RequestBody CourseRequest[] courses) throws AlreadyExistsException {
+    public boolean addCourses(@Valid @RequestBody CourseRequest[] courses) {
         logger.info("Class: CourseController, Method: addCourses");
         return courseService.addCourses(courses);
     }
@@ -57,14 +55,13 @@ public class CourseController {
     }
 
     @PutMapping("/updateCourse/{id}")
-    public CourseResponse updateCourse(@PathVariable("id") Integer id, @RequestBody CourseRequest courseUpdates) throws
-            NotFoundException {
+    public boolean updateCourse(@PathVariable("id") Integer id, @RequestBody CourseRequest courseUpdates) {
         logger.info("Class: CourseController, Method: updateCourse");
         return courseService.updateCourse(id, courseUpdates);
     }
 
     @DeleteMapping("/deleteCourse/{id}")
-    public boolean deleteCourse(@PathVariable("id") Integer id) throws NotFoundException {
+    public boolean deleteCourse(@PathVariable("id") Integer id) {
         logger.info("Class: CourseController, Method: deleteCourse");
         return courseService.deleteCourse(id);
     }
@@ -137,5 +134,4 @@ public class CourseController {
         logger.info("Class: CourseController, Method: deleteCourseGrade");
         return studentCourseGradeService.deleteCourseGrade(studentId, courseId);
     }
-
 }

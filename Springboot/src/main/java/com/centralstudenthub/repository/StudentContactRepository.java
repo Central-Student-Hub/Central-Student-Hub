@@ -1,8 +1,6 @@
 package com.centralstudenthub.repository;
 
 
-import com.centralstudenthub.Model.Request.ContactModel;
-import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContactId;
 import jakarta.transaction.Transactional;

@@ -9,7 +9,7 @@ import com.centralstudenthub.exception.NullCourseException;
 import com.centralstudenthub.exception.NullRegisteredSessionsException;
 import com.centralstudenthub.exception.NullSemesterCourseException;
 import com.centralstudenthub.exception.NullStudentProfileException;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.entity.sessions.Session;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

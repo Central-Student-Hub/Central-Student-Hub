@@ -1,7 +1,5 @@
 package com.centralstudenthub.repository;
 
-import com.centralstudenthub.Model.Request.ContactModel;
-import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContactId;
 import jakarta.transaction.Transactional;

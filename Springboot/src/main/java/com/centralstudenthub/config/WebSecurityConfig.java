@@ -14,32 +14,32 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
     private static final String[] WHITE_LIST_URLS = {
             "/login/oauth2/code/google",
             "/auth/**",
     };
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final CustomOAuth2UserService oauthUserService;
+    private final UserSessionInfoRepository userSessionInfoRepository;
+    private final JwtService jwtService;
 
     @Autowired
-    private AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    private CustomOAuth2UserService oauthUserService;
-
-    @Autowired
-    private UserSessionInfoRepository userSessionInfoRepository;
-
-    @Autowired
-    private JwtService jwtService;
+    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider,
+                             CustomOAuth2UserService oauthUserService, UserSessionInfoRepository userSessionInfoRepository,
+                             JwtService jwtService) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationProvider = authenticationProvider;
+        this.oauthUserService = oauthUserService;
+        this.userSessionInfoRepository = userSessionInfoRepository;
+        this.jwtService = jwtService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -68,8 +68,8 @@ public class WebSecurityConfig {
 //                            //response.sendRedirect("/auth/google/"+gmail);
 //                            response.sendRedirect("/auth/google");
 //                        })
-
- //               )
+//
+//                )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

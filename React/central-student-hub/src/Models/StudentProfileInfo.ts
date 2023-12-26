@@ -1,5 +1,5 @@
-import { ContactInfo } from "./ContactInfo"
-import { Warning } from "./Warning"
+import { ContactInfo } from "./ContactInfo.ts"
+import { Warning } from "./Warning.ts"
 
 export type StudentProfileInfo = {
     id: number,

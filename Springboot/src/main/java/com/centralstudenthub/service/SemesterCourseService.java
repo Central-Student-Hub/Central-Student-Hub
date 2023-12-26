@@ -1,21 +1,22 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.LocationModel;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.centralstudenthub.Model.Response.sessions.LocationResponse;
+import com.centralstudenthub.entity.sessions.location.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.centralstudenthub.Model.Request.SemesterCourseRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
 import com.centralstudenthub.repository.LocationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SemesterCourseService {
@@ -100,7 +101,7 @@ public class SemesterCourseService {
         return response;
     }
 
-    public List<LocationModel> getAllLocations() {
-        return locationRepository.findAll().stream().map(Location::toModel).toList();
+    public List<LocationResponse> getAllLocations() {
+        return locationRepository.findAll().stream().map(Location::toResponse).toList();
     }
 }
