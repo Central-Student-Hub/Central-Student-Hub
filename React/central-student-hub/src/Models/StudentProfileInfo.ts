@@ -16,7 +16,7 @@ export type StudentProfileInfo = {
     warnings: Warning[],
 }
 
-const s: StudentProfileInfo = {
+export const s: StudentProfileInfo = {
     id: 1,
     firstName: "John",
     lastName: "Doe",

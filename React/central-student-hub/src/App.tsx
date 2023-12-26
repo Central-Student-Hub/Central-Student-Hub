@@ -15,15 +15,15 @@ import AddNewCourse from './AdminPages/AddNewCourse.tsx';
 
 function App() {
 
-  return (
-    <ChakraProvider>
-      {/* <DeleteSemesterCourse /> */}
-      {/* <AddSemesterCourse /> */}
-      {/* <AddUsers /> */}
-      <DeleteCourse />
-      {/* <AddNewCourse /> */}
-    </ChakraProvider>
-  )
+  // return (
+  //   <ChakraProvider>
+  //     {/* <DeleteSemesterCourse /> */}
+  //     {/* <AddSemesterCourse /> */}
+  //     {/* <AddUsers /> */}
+  //     <DeleteCourse />
+  //     {/* <AddNewCourse /> */}
+  //   </ChakraProvider>
+  // )
 
   return (
     <ChakraProvider>
