@@ -56,9 +56,9 @@ public class UserProfileService {
                 teachingStaffContactRepository.save(contactModel.contactfromModel(teacher)));
     }
 
-    public void updateStudentData(int id,StudentProfileRequest request) {
+    public boolean updateStudentData(int id,StudentProfileRequest request) {
         Optional<StudentProfile> opStudent = studentProfileRepository.findById(id);
-        if(opStudent.isEmpty()) return;
+        if(opStudent.isEmpty()) return false;
 
         StudentProfile student = opStudent.get();
         student.setFirstName(request.getFirstName());
@@ -77,6 +77,8 @@ public class UserProfileService {
 
         request.getContacts().forEach(contactModel ->
                 studentContactRepository.save(contactModel.contactfromModel(student)));
+
+        return true;
     }
 
     public TeachingStaffProfileReqAndRes getTeachingStaffProfileInfo(Integer id) {
@@ -101,12 +103,8 @@ public class UserProfileService {
         if (studentProfile.isEmpty()) return null;
 
         StudentProfileRequest response = studentProfile.get().modelFromStudentProfile();
-        response.setGrades(studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(1).stream().map(
-                StudentCourseGrade::modelFromGrade).toList());
         response.setContacts(studentContactRepository.findAllByStudentId(id).stream().map(
                 StudentContact::modelFromStudentContact).toList());
-        response.setWarnings(warningRepository.findAllByStudentId(id).stream().map(
-                Warning::modelFromWarning).toList());
 
         return response;
     }

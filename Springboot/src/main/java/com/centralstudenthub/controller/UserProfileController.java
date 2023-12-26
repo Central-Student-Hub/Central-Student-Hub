@@ -30,9 +30,10 @@ public class UserProfileController {
     }
 
     @PutMapping("/updateStudentProfile")
-    public void updateStudentData(@RequestBody StudentProfileRequest request,HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Boolean> updateStudentData(@RequestBody StudentProfileRequest request,HttpServletRequest httpServletRequest) {
         int id = jwtService.extractId(jwtService.token(httpServletRequest));
-        userProfileService.updateStudentData(id,request);
+        boolean res = userProfileService.updateStudentData(id,request);
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping({"/getTeacherProfile/{id}", "/getTeacherProfile"})

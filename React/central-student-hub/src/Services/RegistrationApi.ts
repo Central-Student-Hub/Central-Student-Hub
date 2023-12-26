@@ -1,5 +1,6 @@
 import { AddCourseToCartRequest } from '../Models/AddCourseToCartRequest.ts';
 import { Course } from '../Models/Course.ts';
+import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 
 export class RegistrationApi {
     async retrieveSemesterCourses(searchPhrase: string): Promise<Course[]> {

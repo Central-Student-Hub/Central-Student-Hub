@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Course")
 public class CourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());
@@ -82,16 +82,14 @@ public class CourseController {
     }
 
     @GetMapping("/getCoursePrerequisites/{courseId}")
-    public List<CourseResponse> getCoursePrerequisites(@PathVariable("courseId") Integer courseId) throws NotFoundException
-    {
+    public List<CourseResponse> getCoursePrerequisites(@PathVariable("courseId") Integer courseId) throws NotFoundException {
         logger.info("Class: CourseController, Method: getCoursePrerequisites");
         return coursePrerequisiteService.getCoursePrerequisites(courseId);
     }
 
     @DeleteMapping("/deleteCoursePrerequisite/{courseId}/{prerequisiteId}")
     public boolean deleteCoursePrerequisite(@PathVariable("courseId") Integer courseId,
-                                            @PathVariable("prerequisiteId") Integer prerequisiteId) throws NotFoundException
-    {
+                                            @PathVariable("prerequisiteId") Integer prerequisiteId) throws NotFoundException {
         logger.info("Class: CourseController, Method: deleteCoursePrerequisite");
         return coursePrerequisiteService.deleteCoursePrerequisite(courseId, prerequisiteId);
     }

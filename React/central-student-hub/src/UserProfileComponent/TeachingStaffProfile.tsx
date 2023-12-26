@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 import { OfficeHours } from '../Models/OfficeHours.ts';
 import { BiographyEdit, ContactInfoEdit, NameEdit, OfficeHoursTableEdit } from './TeachingStaffProfileEdit.tsx';
-import { UserProfileApi } from '../services/UserProfileApi.ts';
+import { UserProfileApi } from '../Services/UserProfileApi.ts';
 import { Image } from '@chakra-ui/react'
 import './TeachingStaffProfile.css';
 

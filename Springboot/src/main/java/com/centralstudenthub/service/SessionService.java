@@ -2,6 +2,7 @@ package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.SessionRequest;
 import com.centralstudenthub.Model.Response.SessionResponse;
+import com.centralstudenthub.Model.SessionModel;
 import com.centralstudenthub.Model.SessionType;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
@@ -58,12 +59,12 @@ public class SessionService {
         return session.getSessionId();
     }
 
-    public SessionResponse getSession(Long sessionId) throws NotFoundException {
+    public SessionModel getSession(Long sessionId) throws NotFoundException {
         Optional<Session> session = sessionRepository.findById(sessionId);
         if (session.isEmpty())
             throw new NotFoundException("Session not found");
 
-        return session.get().toResponse();
+        return session.get().toModel();
     }
 
     public List<SessionResponse> getSessions(Long id) throws NotFoundException {
