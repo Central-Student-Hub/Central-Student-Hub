@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,14 @@ public class JwtService {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+
+    public String token(HttpServletRequest httpServletRequest){
+        return httpServletRequest.getHeader("Authorization").substring(7);
+    }
+
+    public int extractId(String token) {
+        return (int) extractClaim(token, claims -> claims.get("id"));
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

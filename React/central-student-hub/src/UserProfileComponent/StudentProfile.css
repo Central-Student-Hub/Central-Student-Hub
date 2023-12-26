@@ -1,0 +1,26 @@
+.studentBadge{
+    margin-top: 10px;
+}
+
+.StudentInfo{
+    max-height: 530px;
+    margin-top: 30px;
+    width: 800px;
+}
+
+.StudentInfo2{
+    max-height: 530px;
+    margin-top: 30px;
+    width: 530px;
+}
+
+.scrollableDiv {
+    max-height: 530px;
+    overflow-y:scroll;
+}
+
+.addImageButton{
+    position: absolute;
+    left: -30px;
+    top:100px;
+}

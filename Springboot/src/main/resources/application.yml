@@ -1,17 +1,10 @@
 server:
   port: 8082
 
-#spring.h2.console.enabled=true
-#spring.datasource.url=jdbc:h2:mem:dcbapp
-#spring.datasource.driverClassName=org.h2.Driver
-#spring.datasource.username=sa
-#spring.datasource.password=password
-#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
+    username: root
     password: marwan1234#
     url: jdbc:mysql://localhost:3306/central-student-hub
   jpa:
@@ -20,6 +13,20 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+    open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 74531816330-u182n5sr41qprpmc3sr52bsshn4hb8re.apps.googleusercontent.com
+            client-secret: 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
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 
 
 
@@ -30,3 +37,4 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+

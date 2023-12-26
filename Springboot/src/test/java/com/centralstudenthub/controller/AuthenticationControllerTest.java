@@ -1,7 +1,10 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.*;
-import com.centralstudenthub.Model.LoginRequest;
+import com.centralstudenthub.Model.Request.LoginRequest;
+import com.centralstudenthub.Model.Request.SignUpRequest;
+import com.centralstudenthub.Model.Response.LoginResponse;
+import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.config.WebSecurityConfig;
 import com.centralstudenthub.repository.UserSessionInfoRepository;
 import com.centralstudenthub.service.AuthenticationService;
@@ -11,9 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = { WebSecurityConfig.class })
 @WebMvcTest(controllers = AuthenticationController.class)
 @WebAppConfiguration
-@ComponentScan(basePackages = "com.centralstudenthub.CentralStudentHub")
+@ComponentScan(basePackages = "com.centralstudenthub")
 class AuthenticationControllerTest {
     private MockMvc mockMvc;
 

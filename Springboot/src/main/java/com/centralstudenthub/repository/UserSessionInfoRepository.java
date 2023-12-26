@@ -11,4 +11,5 @@ public interface UserSessionInfoRepository extends JpaRepository<UserAccount,Lon
 
     Optional<UserAccount> findByEmail(String email);
     Optional<UserAccount> findBySsn(String email);
+    Optional<UserAccount> findByGmail(String gmail);
 }

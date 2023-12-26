@@ -1,6 +1,6 @@
 package com.centralstudenthub.controller;
 
-import com.centralstudenthub.Model.LoginRequest;
+import com.centralstudenthub.Model.Request.LoginRequest;
 import com.centralstudenthub.Model.Role;
 import com.centralstudenthub.Validator.PasswordSecurity;
 import com.centralstudenthub.config.WebSecurityConfig;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ContextConfiguration(classes = { WebSecurityConfig.class })
 @WebMvcTest(controllers = HelloController.class)
 @WebAppConfiguration
-@ComponentScan(basePackages = "com.centralstudenthub.CentralStudentHub")
+@ComponentScan(basePackages = "com.centralstudenthub")
 class HelloControllerTest {
     private MockMvc mockMvc;
 

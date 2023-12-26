@@ -1,0 +1,23 @@
+package com.centralstudenthub.entity.student_profile.course.semester_courses.course_material_paths;
+
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.io.Serializable;
+
+@Embeddable
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CourseMaterialPathId implements Serializable {
+
+    @Column(nullable = false, updatable = false)
+    private String materialPath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "semCourseId", nullable = false)
+    private SemesterCourse semCourse;
+}
