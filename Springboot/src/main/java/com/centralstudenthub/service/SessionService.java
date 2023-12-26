@@ -6,8 +6,11 @@ import com.centralstudenthub.Model.SessionModel;
 import com.centralstudenthub.Model.SessionType;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.LocationId;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.exception.NotFoundException;
+import com.centralstudenthub.repository.LocationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
 import com.centralstudenthub.repository.SessionRepository;
 import com.centralstudenthub.repository.TeachingStaffProfileRepository;
@@ -23,28 +26,35 @@ public class SessionService {
     private final SemesterCourseRepository semesterCourseRepository;
     private final TeachingStaffProfileRepository teachingStaffProfileRepository;
     private final SessionRepository sessionRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
     public SessionService(SemesterCourseRepository semesterCourseRepository,
                           TeachingStaffProfileRepository teachingStaffProfileRepository,
-                          SessionRepository sessionRepository) {
+                          SessionRepository sessionRepository, LocationRepository locationRepository) {
         this.semesterCourseRepository = semesterCourseRepository;
         this.teachingStaffProfileRepository = teachingStaffProfileRepository;
         this.sessionRepository = sessionRepository;
+        this.locationRepository = locationRepository;
     }
 
     public Long addSession(SessionRequest sessionRequest) throws NotFoundException {
         Optional<SemesterCourse> semesterCourse = semesterCourseRepository.findById(sessionRequest.getSemCourseId());
         Optional<TeachingStaffProfile> teachingStaffProfile =
                 teachingStaffProfileRepository.findById(sessionRequest.getTeacherId());
+        LocationId locationId = LocationId.builder().room(sessionRequest.getRoom()).building(sessionRequest.getBuilding())
+                .build();
+        Optional<Location> location = locationRepository.findById(locationId);
         if (semesterCourse.isEmpty())
             throw new NotFoundException("Semester Course not found");
         if (teachingStaffProfile.isEmpty())
             throw new NotFoundException("Teaching Staff Profile not found");
+        if (location.isEmpty())
+            throw new NotFoundException("Location not found");
 
         Session session = Session.builder().period(sessionRequest.getPeriod()).weekDay(sessionRequest.getWeekDay())
                 .sessionType(sessionRequest.getSessionType()).semCourse(semesterCourse.get())
-                .teacher(teachingStaffProfile.get()).build();
+                .teacher(teachingStaffProfile.get()).location(location.get()).build();
         sessionRepository.save(session);
         return session.getSessionId();
     }

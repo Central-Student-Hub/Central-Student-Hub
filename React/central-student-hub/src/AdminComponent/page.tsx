@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import SideBar from './SideBar'
+import React from 'react'
 
 export default function Home() {
   return (

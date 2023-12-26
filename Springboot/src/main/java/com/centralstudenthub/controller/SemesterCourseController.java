@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 @RequestMapping("/SemesterCourse")
 public class SemesterCourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());
-
     private final SemesterCourseService semesterCourseService;
     private final MaterialPathService materialPathService;
     private final FeedbackService feedbackService;
