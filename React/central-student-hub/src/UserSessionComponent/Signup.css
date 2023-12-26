@@ -24,7 +24,7 @@
   padding: 0 50px;
   border-radius: 6px;
   background-color: var(--background-color);
-  box-shadow: 1px 2px 11px 0px #456a8c59;
+  box-shadow: 1px 2px 11px 0 #456a8c59;
   user-select: none;
 }
 

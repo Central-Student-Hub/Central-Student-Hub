@@ -16,4 +16,6 @@ public class SessionRequest {
     private Integer period;
     private String weekDay;
     private SessionType sessionType;
+    private Integer room;
+    private Integer building;
 }
