@@ -2,10 +2,10 @@ package com.centralstudenthub.entity.exam;
 
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.LocationId;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -21,29 +21,26 @@ public class Exam {
 
     @ManyToOne
     @MapsId("semCourseId")
-    @JoinColumn(name = "semCourseId", nullable = false)
+    @JoinColumn(name = "semCourseId", referencedColumnName = "semCourseId")
     private SemesterCourse semesterCourse;
 
     @ManyToOne
     @MapsId("studentId")
-    @JoinColumn(name = "studentId", nullable = false)
+    @JoinColumn(name = "studentId", referencedColumnName = "studentId")
     private StudentProfile student;
 
     @Column(nullable = false)
     private int seatNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "building", nullable = false)
-    private Location building;
-
-    @ManyToOne
-    @JoinColumn(name = "room", nullable = false)
-    private Location room;
+    private LocationId locationId;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private Date date;
 
     @Column(nullable = false)
-    private int period;
+    private float fromTime;
+
+    @Column(nullable = false)
+    private float period;
 }
 

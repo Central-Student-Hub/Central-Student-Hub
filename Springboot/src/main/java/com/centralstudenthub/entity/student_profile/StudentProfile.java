@@ -52,20 +52,7 @@ public class StudentProfile {
     @OneToMany(mappedBy = "id.student")
     private List<Registration> registrations;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL
-    )
-    @JoinTable(
-            name = "studen_course_map",
-            joinColumns = @JoinColumn(
-                    name = "studentId",
-                    referencedColumnName = "studentId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "exam.id.studentProfile",
-                    referencedColumnName = "exam.id.studentProfile"
-            )
-    )
+    @OneToMany(mappedBy = "student")
     private List<Exam> exams;
 
     public StudentProfileRequest modelFromStudentProfile() {
