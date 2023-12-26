@@ -1,7 +1,7 @@
-package com.centralstudenthub.Model.Response;
+package com.centralstudenthub.Model.Response.student_profile.course.semester_courses;
 
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import com.centralstudenthub.Model.Semester;
-import com.centralstudenthub.Model.SessionModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +23,5 @@ public class SemesterCourseResponse {
     private Semester semester;
     private Integer maxSeats;
     private Integer remainingSeats;
-    private List<SessionModel> sessions;
+    private List<SessionResponse> sessions;
 }

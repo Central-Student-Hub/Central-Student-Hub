@@ -1,6 +1,6 @@
 package com.centralstudenthub.entity.student_profile.course.student_course_grades;
 
-import com.centralstudenthub.Model.Request.StudentCourseGradeModel;
+import com.centralstudenthub.Model.Response.student_profile.course.StudentCourseGradeResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +19,8 @@ public class StudentCourseGrade {
 
     private Double studentGrade;
 
-    public StudentCourseGradeModel modelFromGrade() {
-        return StudentCourseGradeModel.builder()
+    public StudentCourseGradeResponse toResponse() {
+        return StudentCourseGradeResponse.builder()
                 .courseName(id.getCourse().getName())
                 .grade(studentGrade)
                 .build();

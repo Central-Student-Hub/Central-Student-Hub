@@ -1,6 +1,6 @@
 package com.centralstudenthub.entity.teacher_profile;
 
-import com.centralstudenthub.Model.Request.OfficeHourModel;
+import com.centralstudenthub.Model.Response.teacher_profile.OfficeHourResponse;
 import jakarta.persistence.*;
 
 import java.sql.Time;
@@ -31,8 +31,8 @@ public class OfficeHour {
     @JoinColumn(name = "teacherId", nullable = false)
     private TeachingStaffProfile teacher;
 
-    public OfficeHourModel modelFromOfficeHour(){
-        return OfficeHourModel.builder()
+    public OfficeHourResponse toResponse(){
+        return OfficeHourResponse.builder()
                 .officeHourId(officeHourId)
                 .fromTime(fromTime)
                 .toTime(toTime)

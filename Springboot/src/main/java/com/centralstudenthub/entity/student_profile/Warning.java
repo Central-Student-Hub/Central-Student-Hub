@@ -1,6 +1,6 @@
 package com.centralstudenthub.entity.student_profile;
 
-import com.centralstudenthub.Model.Request.WarningModel;
+import com.centralstudenthub.Model.Response.student_profile.WarningResponse;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,8 +28,8 @@ public class Warning {
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
 
-    public WarningModel modelFromWarning() {
-        return WarningModel.builder()
+    public WarningResponse toResponse() {
+        return WarningResponse.builder()
                 .warningId(warningId)
                 .reason(reason)
                 .date(date)
