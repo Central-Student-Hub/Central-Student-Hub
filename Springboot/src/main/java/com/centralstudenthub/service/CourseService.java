@@ -1,7 +1,7 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.CourseRequest;
-import com.centralstudenthub.Model.Response.CourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;

@@ -1,6 +1,6 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.Response.CourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisiteId;

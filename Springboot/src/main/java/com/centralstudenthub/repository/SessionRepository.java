@@ -1,6 +1,6 @@
 package com.centralstudenthub.repository;
 
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.entity.sessions.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

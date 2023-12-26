@@ -1,7 +1,7 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.SemesterCourseRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Semester;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;

@@ -1,7 +1,7 @@
 package com.centralstudenthub.entity.teacher_profile;
 
-import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
+import com.centralstudenthub.entity.sessions.Session;
 import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
 import jakarta.persistence.*;
 
@@ -38,13 +38,14 @@ public class TeachingStaffProfile {
     @OneToMany(mappedBy = "teacher")
     private List<Session> sessions;
 
-    public TeachingStaffProfileReqAndRes toResponse(){
-        return TeachingStaffProfileReqAndRes.builder()
-                .biography(biography)
-                .department(department)
+    public TeachingStaffProfileModel toModel(){
+        return TeachingStaffProfileModel.builder()
+                .id(teacherId)
                 .firstName(firstName)
                 .lastName(lastName)
+                .biography(biography)
                 .profilePictureUrl(profilePictureUrl)
+                .department(department)
                 .build();
     }
 

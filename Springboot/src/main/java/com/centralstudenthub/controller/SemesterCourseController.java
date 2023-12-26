@@ -2,10 +2,9 @@ package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.SemesterCourseRequest;
 import com.centralstudenthub.Model.Request.SessionRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
-import com.centralstudenthub.Model.Response.SessionResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Semester;
-import com.centralstudenthub.Model.SessionModel;
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import com.centralstudenthub.exception.AlreadyExistsException;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.service.FeedbackService;
@@ -135,7 +134,7 @@ public class SemesterCourseController {
     }
 
     @GetMapping("/getSession/{sessionId}")
-    public SessionModel getSession(@PathVariable("sessionId") Long sessionId) throws NotFoundException {
+    public SessionResponse getSession(@PathVariable("sessionId") Long sessionId) throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: getSession");
         return sessionService.getSession(sessionId);
     }

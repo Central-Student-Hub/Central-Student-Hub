@@ -1,10 +1,8 @@
 package com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts;
 
-import com.centralstudenthub.Model.Request.ContactModel;
+import com.centralstudenthub.Model.Response.ContactResponse;
 import jakarta.persistence.*;
 import lombok.*;
-
-import javax.swing.text.html.parser.ContentModel;
 
 
 @Entity
@@ -21,8 +19,8 @@ public class TeachingStaffContact {
 
     private String data;
 
-    public ContactModel modelFromTeachingStaffContact(){
-        return ContactModel.builder()
+    public ContactResponse toResponse(){
+        return ContactResponse.builder()
                 .label(id.getLabel())
                 .data(data)
                 .build();

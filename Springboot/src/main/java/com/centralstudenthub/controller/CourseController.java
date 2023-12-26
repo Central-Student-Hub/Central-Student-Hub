@@ -1,14 +1,12 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.CourseRequest;
-import com.centralstudenthub.Model.Response.CourseResponse;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.exception.*;
 import com.centralstudenthub.service.CoursePrerequisiteService;
 import com.centralstudenthub.service.CourseService;
 import com.centralstudenthub.service.StudentCourseGradeService;
 import jakarta.validation.Valid;
-import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -136,5 +134,4 @@ public class CourseController {
         logger.info("Class: CourseController, Method: deleteCourseGrade");
         return studentCourseGradeService.deleteCourseGrade(studentId, courseId);
     }
-
 }

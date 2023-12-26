@@ -1,8 +1,7 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.exception.NullCourseException;
 import com.centralstudenthub.exception.NullRegisteredSessionsException;
 import com.centralstudenthub.exception.NullSemesterCourseException;

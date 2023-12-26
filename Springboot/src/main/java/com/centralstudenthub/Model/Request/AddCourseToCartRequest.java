@@ -1,12 +1,9 @@
 package com.centralstudenthub.Model.Request;
 
-import com.centralstudenthub.Model.Response.SessionResponse;
-import com.centralstudenthub.Model.SessionModel;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,6 +14,6 @@ import java.util.List;
 public class AddCourseToCartRequest {
     long courseId;
     int creditHours;
-    List<SessionModel> sessions;
-    List<SessionModel> newSessions;
+    List<SessionResponse> sessions;
+    List<SessionResponse> newSessions;
 }

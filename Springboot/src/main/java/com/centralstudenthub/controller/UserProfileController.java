@@ -1,11 +1,9 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
-import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
+import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
 import com.centralstudenthub.Model.Request.WarningRequest;
-import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
-import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import com.centralstudenthub.service.JwtService;
 import com.centralstudenthub.service.UserProfileService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +22,7 @@ public class UserProfileController {
     private JwtService jwtService;
 
     @PutMapping("/updateTeacherProfile")
-    public void updateTeachingStaffData(@RequestBody TeachingStaffProfileReqAndRes request, HttpServletRequest httpServletRequest) {
+    public void updateTeachingStaffData(@RequestBody TeachingStaffProfileModel request, HttpServletRequest httpServletRequest) {
         int id = jwtService.extractId(jwtService.token(httpServletRequest));
         userProfileService.updateTeachingStaffData(id,request);
     }
@@ -37,7 +35,7 @@ public class UserProfileController {
     }
 
     @GetMapping({"/getTeacherProfile/{id}", "/getTeacherProfile"})
-    public ResponseEntity<TeachingStaffProfileReqAndRes> getTeachingStaffProfileInfo(
+    public ResponseEntity<TeachingStaffProfileModel> getTeachingStaffProfileInfo(
             @PathVariable(value = "id", required = false) Integer id, HttpServletRequest request) {
         if (id == null)
             id = jwtService.extractId(jwtService.token(request));

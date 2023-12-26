@@ -1,4 +1,4 @@
-package com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location;
+package com.centralstudenthub.entity.sessions.location;
 
 import jakarta.persistence.*;
 import lombok.*;
