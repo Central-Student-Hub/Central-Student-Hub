@@ -6,6 +6,7 @@ import { AdminCourseResponse } from '../Models/AdminCourseResponse.ts';
 import { SemesterCourseResponse } from '../Models/SemesterCourseResponse.ts';
 import { StudentProfileInfo } from '../Models/StudentProfileInfo.ts';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
+import { Location } from '../Models/Location.ts';
 
 export class AdminApi {
 
@@ -110,6 +111,30 @@ export class AdminApi {
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "delete", credentials: "include" };
         const response: Response = await fetch(`http://localhost:8082/SemesterCourse/deleteAllSemesterCourses`, requestOptions);
+        return await response.json();
+    }
+
+    async deleteCourse(courseId: number): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "delete", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Course/deleteCourse/${courseId}`, requestOptions);
+        return await response.json();
+    }
+
+    async deleteAllCourses(): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "delete", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Course/deleteAllCourses`, requestOptions);
+        return await response.json();
+    }
+
+    async getAllLocations(): Promise<Location[]> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/SemesterCourse/location`, requestOptions);
         return await response.json();
     }
 }

@@ -6,4 +6,6 @@ export type AdminAddSessionRequest = {
     period: number,
     weekDay: string,
     sessionType: SessionType
+    building: number,
+    room: number
 }

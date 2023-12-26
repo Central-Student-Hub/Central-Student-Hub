@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ApiRequester } from '../Services/ApiRequester.ts';
-
-export type Location = {
-  building: number;
-  room: number;
-};
+import { Location } from '../Models/Location.ts';
 
 export type Session = {
   id: number;

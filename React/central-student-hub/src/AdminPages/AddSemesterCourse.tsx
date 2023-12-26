@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, FormLabel, Input, Button, Select, Toast, useToast } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, Button, Select, useToast } from '@chakra-ui/react'
 import { AdminCourseResponse } from "../Models/AdminCourseResponse";
 import { AdminApi } from "../Services/AdminApi.ts";
 import { AdminAddSemesterCourseRequest, Semester } from "../Models/AdminAddSemesterCourseRequest.ts";
-import './Admin.css'
 import { TeachingStaffProfileInfo } from "../Models/TeachingStaffProfileInfo.ts";
 import { AdminAddSessionRequest } from "../Models/AdminAddSessionRequest.ts";
+import { Location } from '../Models/Location.ts';
+import './Admin.css'
 
 export default function AddSemesterCourse() {
     const [semesterCourse, setSemesterCourse] = useState<AdminAddSemesterCourseRequest>({
@@ -16,13 +17,16 @@ export default function AddSemesterCourse() {
 
     const [allCourses, setAllCourses] = useState<AdminCourseResponse[]>([]);
     const [allTeachingStaff, setAllTeachingStaff] = useState<TeachingStaffProfileInfo[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
 
     const [lectureSession, setLectureSession] = useState<AdminAddSessionRequest>({
         semCourseId: -1,
         teacherId: -1,
         period: -1,
         weekDay: "Saturday",
-        sessionType: "LECTURE"
+        sessionType: "LECTURE",
+        building: -1,
+        room: -1
     });
 
     const [tutorialSession, setTutorialSession] = useState<AdminAddSessionRequest>({
@@ -30,7 +34,9 @@ export default function AddSemesterCourse() {
         teacherId: -1,
         period: 1,
         weekDay: "Saturday",
-        sessionType: "TUTORIAL"
+        sessionType: "TUTORIAL",
+        building: -1,
+        room: -1
     });
 
     const [labSession, setLabSession] = useState<AdminAddSessionRequest>({
@@ -38,7 +44,9 @@ export default function AddSemesterCourse() {
         teacherId: -1,
         period: 1,
         weekDay: "Saturday",
-        sessionType: "LAB"
+        sessionType: "LAB",
+        building: -1,
+        room: -1
     });
     
     const invalidSessions = lectureSession.period == tutorialSession.period && lectureSession.weekDay == tutorialSession.weekDay
@@ -51,6 +59,7 @@ export default function AddSemesterCourse() {
     useEffect(() => {
         const getAllCourses = async () => await api.getAllCourses();
         const getAllTeachingStaff = async () => await api.getAllTeachingStaff();
+        const getLocations = async () => await api.getAllLocations();
 
         getAllCourses()
             .then((courses) => setAllCourses(courses.sort((a, b) => a.courseId - b.courseId)))
@@ -59,6 +68,10 @@ export default function AddSemesterCourse() {
         getAllTeachingStaff()
             .then((teachingStaff) => setAllTeachingStaff(teachingStaff.sort((a, b) => a.firstName.localeCompare(b.firstName))))
             .catch((error) => console.error(error));
+
+        getLocations()
+            .then((locations) => setLocations(locations))
+            .catch((err) => console.log(err));
     }, [])
 
     useEffect(() => {
@@ -69,14 +82,19 @@ export default function AddSemesterCourse() {
 
     useEffect(() => {
         if (allTeachingStaff.length > 0) {
-            setLectureSession({...lectureSession, teacherId: allTeachingStaff[0].id});
-            setTutorialSession({...tutorialSession, teacherId: allTeachingStaff[0].id});
-            setLabSession({...labSession, teacherId: allTeachingStaff[0].id});
+            setLectureSession((old) => { return {...old, teacherId: allTeachingStaff[0].id}});
+            setTutorialSession((old) => { return {...old, teacherId: allTeachingStaff[0].id}});
+            setLabSession((old) => { return {...old, teacherId: allTeachingStaff[0].id}});
         }
-    }, [allTeachingStaff]);
+
+        if (locations.length > 0) {
+            setLectureSession((old) => { return {...old, building: locations[0].building, room: locations[0].room}});
+            setTutorialSession((old) => { return {...old, building: locations[0].building, room: locations[0].room}});
+            setLabSession((old) => { return {...old, building: locations[0].building, room: locations[0].room}});
+        }
+    }, [allTeachingStaff, locations]);
 
     async function handleSubmit() {
-        console.log(semesterCourse);
         if (invalidSessions) {
             toast({
                 title: "Conflicting Sessions!",
@@ -86,16 +104,12 @@ export default function AddSemesterCourse() {
             });
             return;
         }
-        
+
         const id = await api.addSemesterCourse(semesterCourse);
         if (id !== -1) {
-            setLectureSession((session) => { return {...session, semCourseId: id }});
-            setTutorialSession((session) => { return {...session, semCourseId: id }});
-            setLabSession((session) => { return {...session, semCourseId: id }});
-
-            const addedLecture = await api.addSession(lectureSession);
-            const addedTutorial = await api.addSession(tutorialSession);
-            const addedLab = await api.addSession(labSession);
+            const addedLecture = await api.addSession({...lectureSession, semCourseId: id});
+            const addedTutorial = await api.addSession({...tutorialSession, semCourseId: id});
+            const addedLab = await api.addSession({...labSession, semCourseId: id});
 
             if (addedLecture && addedTutorial && addedLab) {
                 toast({
@@ -189,6 +203,28 @@ export default function AddSemesterCourse() {
                         }
                     </Select>
 
+                    <br />
+
+                    <FormLabel>Lecture Building</FormLabel>
+                    <Select onChange={(e) => setLectureSession({...lectureSession, building: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.building}>Building - {location.building}</option>
+                            ))
+                        }
+                    </Select>
+
+                    <br />
+
+                    <FormLabel>Lecture Room</FormLabel>
+                    <Select onChange={(e) => setLectureSession({...lectureSession, room: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.room}>Room - {location.room}</option>
+                            ))
+                        }
+                    </Select>
+
                 </FormControl>
                 <FormControl style={{ width: 400 }} isInvalid={invalidSessions}>
 
@@ -225,6 +261,28 @@ export default function AddSemesterCourse() {
                         }
                     </Select>
 
+                    <br />
+
+                    <FormLabel>Tutorial Building</FormLabel>
+                    <Select onChange={(e) => setTutorialSession({...tutorialSession, building: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.building}>Building - {location.building}</option>
+                            ))
+                        }
+                    </Select>
+
+                    <br />
+
+                    <FormLabel>Tutorial Room</FormLabel>
+                    <Select onChange={(e) => setTutorialSession({...tutorialSession, room: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.room}>Room - {location.room}</option>
+                            ))
+                        }
+                    </Select>
+
                 </FormControl>
                 <FormControl style={{ width: 400 }} isInvalid={invalidSessions}>
 
@@ -257,6 +315,28 @@ export default function AddSemesterCourse() {
                         {
                             allTeachingStaff.map((teacher) => (
                                 <option value={teacher.id}>{teacher.firstName} {teacher.lastName}</option>
+                            ))
+                        }
+                    </Select>
+
+                    <br />
+
+                    <FormLabel>Lab Building</FormLabel>
+                    <Select onChange={(e) => setLabSession({...labSession, building: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.building}>Building - {location.building}</option>
+                            ))
+                        }
+                    </Select>
+
+                    <br />
+
+                    <FormLabel>Lab Room</FormLabel>
+                    <Select onChange={(e) => setLabSession({...labSession, room: parseInt(e.target.value)})}>
+                        {
+                            locations.map((location) => (
+                                <option value={location.room}>Room - {location.room}</option>
                             ))
                         }
                     </Select>

@@ -70,7 +70,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/deleteAllCourses")
-    public String deleteAllCourses() {
+    public boolean deleteAllCourses() {
         logger.info("Class: CourseController, Method: deleteAllCourses");
         return courseService.deleteAllCourses();
     }

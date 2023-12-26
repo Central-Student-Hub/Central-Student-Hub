@@ -96,14 +96,14 @@ public class AuthenticationService {
         return token;
     }
 
-    public String processOAuthPostLogin(OAuth2AuthenticationToken authentication) {
-
-        String gmail = ((OAuth2User)authentication.getPrincipal()).getAttribute("email");
-        Optional<UserAccount> existUser = userSessionInfoRepository.findByGmail(gmail);
-        if (existUser.isEmpty()) return null;
-
-        return jwtService.generateToken(existUser.get());
-    }
+//    public String processOAuthPostLogin(OAuth2AuthenticationToken authentication) {
+//
+//        String gmail = ((OAuth2User)authentication.getPrincipal()).getAttribute("email");
+//        Optional<UserAccount> existUser = userSessionInfoRepository.findByGmail(gmail);
+//        if (existUser.isEmpty()) return null;
+//
+//        return jwtService.generateToken(existUser.get());
+//    }
 
     public boolean addUser(String ssn) {
         Optional<UserAccount> existingUser = userSessionInfoRepository.findBySsn(ssn);

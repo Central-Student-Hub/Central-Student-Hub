@@ -100,8 +100,8 @@ public class CourseService {
         return true;
     }
 
-    public String deleteAllCourses() {
+    public boolean deleteAllCourses() {
         courseRepository.deleteAll();
-        return "Course table is now empty...";
+        return true;
     }
 }

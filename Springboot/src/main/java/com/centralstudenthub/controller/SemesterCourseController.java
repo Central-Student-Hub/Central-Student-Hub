@@ -1,5 +1,6 @@
 package com.centralstudenthub.controller;
 
+import com.centralstudenthub.Model.LocationModel;
 import com.centralstudenthub.Model.Request.SemesterCourseRequest;
 import com.centralstudenthub.Model.Request.SessionRequest;
 import com.centralstudenthub.Model.Response.SemesterCourseResponse;
@@ -162,5 +163,10 @@ public class SemesterCourseController {
     public boolean deleteSession(@PathVariable("sessionId") Long sessionId) throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: deleteSession");
         return sessionService.deleteSession(sessionId);
+    }
+
+    @GetMapping("/location")
+    public List<LocationModel> getAllLocations() {
+        return semesterCourseService.getAllLocations();
     }
 }
