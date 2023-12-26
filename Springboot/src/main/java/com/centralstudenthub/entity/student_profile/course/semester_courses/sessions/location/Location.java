@@ -1,5 +1,6 @@
 package com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location;
 
+import com.centralstudenthub.Model.LocationModel;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
 import jakarta.persistence.*;
 
@@ -24,4 +25,12 @@ public class Location {
 
     @OneToMany(mappedBy = "location")
     private Set<Session> sessions;
+
+    public LocationModel toModel() {
+        return LocationModel.builder()
+                .building(id.getBuilding())
+                .room(id.getRoom())
+                .capacity(capacity)
+                .build();
+    }
 }
