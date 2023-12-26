@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CoursePrerequisiteService {
     private final CourseRepository courseRepository;
     private final CoursePrerequisiteRepository coursePrerequisiteRepository;

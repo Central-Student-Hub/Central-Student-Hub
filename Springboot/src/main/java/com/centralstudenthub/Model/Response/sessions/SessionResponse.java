@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class SessionResponse {
     private Long id;
     private Integer period;
-    private String weekday;
+    private String weekDay;
     private SessionType sessionType;
     private String teacherName;
     private LocationResponse location;
@@ -23,7 +23,7 @@ public class SessionResponse {
         return Session.builder()
                 .sessionId(id)
                 .period(period)
-                .weekDay(weekday)
+                .weekDay(weekDay)
                 .sessionType(sessionType)
                 .location(location.toEntity())
                 .build();

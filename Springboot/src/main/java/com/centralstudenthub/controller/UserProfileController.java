@@ -16,10 +16,14 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Profile")
 public class UserProfileController {
+    private final UserProfileService userProfileService;
+    private final JwtService jwtService;
+
     @Autowired
-    private UserProfileService userProfileService;
-    @Autowired
-    private JwtService jwtService;
+    public UserProfileController(UserProfileService userProfileService, JwtService jwtService) {
+        this.userProfileService = userProfileService;
+        this.jwtService = jwtService;
+    }
 
     @PutMapping("/updateTeacherProfile")
     public void updateTeachingStaffData(@RequestBody TeachingStaffProfileModel request, HttpServletRequest httpServletRequest) {

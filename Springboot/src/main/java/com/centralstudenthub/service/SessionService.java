@@ -75,7 +75,7 @@ public class SessionService {
         List<SessionResponse> sessionResponses = new ArrayList<>();
         for (Object[] session : sessions) {
             sessionResponses.add(SessionResponse.builder().id((Long) session[0]).period((Integer) session[1])
-                    .weekday((String) session[2]).sessionType((SessionType) session[3]).build());
+                    .weekDay((String) session[2]).sessionType((SessionType) session[3]).build());
         }
         return sessionResponses;
     }

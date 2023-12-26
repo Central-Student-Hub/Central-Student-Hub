@@ -20,12 +20,14 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Register")
 public class RegistrationController {
+    private final RegistrationService registrationService;
+    private final JwtService jwtService;
 
     @Autowired
-    private RegistrationService registrationService;
-
-    @Autowired
-    private JwtService jwtService;
+    public RegistrationController(RegistrationService registrationService, JwtService jwtService) {
+        this.registrationService = registrationService;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping("/addCourseToCart")
     public ResponseEntity<Boolean> addCourseToCart(@RequestBody AddCourseToCartRequest addCourseToCartRequest, HttpServletRequest request)

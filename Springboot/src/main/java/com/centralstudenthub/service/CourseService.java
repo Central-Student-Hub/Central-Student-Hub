@@ -46,7 +46,7 @@ public class CourseService {
             courseRepository.save(savedCourse);
             addedCoursesCount++;
         }
-        return addedCoursesCount == 0;
+        return addedCoursesCount != 0;
     }
 
     public CourseResponse getCourse(Integer id) throws NotFoundException {

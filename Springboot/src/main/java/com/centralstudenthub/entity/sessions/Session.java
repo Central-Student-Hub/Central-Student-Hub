@@ -46,7 +46,7 @@ public class Session {
         return SessionResponse.builder()
                 .id(sessionId)
                 .period(period)
-                .weekday(weekDay)
+                .weekDay(weekDay)
                 .sessionType(sessionType)
                 .location(location.toResponse())
                 .teacherName(teacher.getFirstName() + teacher.getLastName())
