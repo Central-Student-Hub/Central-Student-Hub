@@ -50,7 +50,6 @@ const SideBar: React.FC = () => {
         <SideBarIcon icon={<BsCashStack size="28" />} text="Fees" onClick={() => setActiveComponent('fees')} />
         <SideBarIcon icon={<BsGraphUp size="28" />} text="Grades" onClick={() => setActiveComponent('grades')} />
         <SideBarIcon icon={<BsLayoutTextSidebarReverse size="28" />} text="Course" onClick={() => setActiveComponent('course')} />
-        <SideBarIcon icon={<BsHouseDoor size="28" />} text="Home" onClick={() => setActiveComponent('home')} />
         <div className="mt-auto">
           <SideBarIcon icon={<BsBoxArrowRight size="28" />} text="Logout" onClick={handleLogout} />
         </div>

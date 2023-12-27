@@ -23,7 +23,7 @@ function App() {
       {/* <AddUsers /> */}
       {/* <DeleteCourse /> */}
       {/* <AddNewCourse /> */}
-      <AddExam/>
+      <SideBar/>
     </ChakraProvider>
   )
 
