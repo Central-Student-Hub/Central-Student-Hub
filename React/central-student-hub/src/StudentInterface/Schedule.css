@@ -1,0 +1,24 @@
+.schedule-table {
+    display: table;
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    margin-left: 30px;
+  }
+  
+  .schedule-header, .schedule-row {
+    display: table-row;
+  }
+  
+  .schedule-header div, .schedule-row div {
+    display: table-cell;
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .schedule-header {
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
+  
