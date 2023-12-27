@@ -29,7 +29,7 @@
 //     const assignment = assignments[assignmentIndex];
 //     console.log(`Submitting assignment: ${assignment.assignmentName} with links:`, assignment.answerLinks);
 //     // TODO: Send submitted assignment to backend
-//     assignment.answerLinks.map((link) => apiRequester.submitAssignemntAnswer({ assignmentId: assignments[assignmentIndex].id, answerUrl: link }));
+//     assignment.answerLinks.map((link) => apiRequester.submitAssignmentAnswer({ assignmentId: assignments[assignmentIndex].id, answerUrl: link }));
 //   };
 
 //   const handleAnswerLinkChange = (assignmentIndex: number, linkIndex: number, value: string) => {

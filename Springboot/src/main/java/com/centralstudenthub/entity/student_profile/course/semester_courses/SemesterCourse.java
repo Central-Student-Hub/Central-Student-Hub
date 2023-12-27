@@ -1,12 +1,12 @@
 package com.centralstudenthub.entity.student_profile.course.semester_courses;
 
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Semester;
 import com.centralstudenthub.entity.exam.Exam;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.course_material_paths.CourseMaterialPath;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.entity.sessions.Session;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import jakarta.persistence.*;
 
@@ -62,13 +62,8 @@ public class SemesterCourse {
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()
                 .semCourseId(semCourseId)
-                .code(course.getCode())
-                .name(course.getName())
-                .description(course.getDescription())
-                .creditHours(course.getCreditHours())
                 .semester(semester)
                 .maxSeats(maxSeats)
-                .sessions(sessions.stream().map(Session::toModel).toList())
                 .build();
     }
 }

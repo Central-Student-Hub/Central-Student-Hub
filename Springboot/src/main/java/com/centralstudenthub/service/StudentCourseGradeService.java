@@ -1,8 +1,5 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.Request.StudentCourseGradeModel;
-import com.centralstudenthub.Model.Response.CourseResponse;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
@@ -12,12 +9,9 @@ import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
 import com.centralstudenthub.repository.StudentCourseGradeRepository;
 import com.centralstudenthub.repository.StudentProfileRepository;
-import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -92,7 +86,7 @@ public class StudentCourseGradeService {
 //        for (Object[] courseIdAndGrade : courseIdAndGradeMap) {
 //            Optional<Course> course = courseRepository.findById((Integer) courseIdAndGrade[0]);
 //            if (course.isEmpty()) continue;
-//            studentCoursesGrades.add(new Pair<>(course.get().toResponse(), (Double) courseIdAndGrade[1]));
+//            studentCoursesGrades.add(new Pair<>(course.get().toReqRes(), (Double) courseIdAndGrade[1]));
 //        }
 //        return studentCoursesGrades;
 //    }
@@ -108,7 +102,7 @@ public class StudentCourseGradeService {
 //        for (Object[] studentIdAndGrade : studentIdAndGradeMap) {
 //            Optional<StudentProfile> studentProfile = studentProfileRepository.findById((Integer) studentIdAndGrade[0]);
 //            if (studentProfile.isEmpty()) continue;
-//            courseStudentsGrades.add(new Pair<>(studentProfile.get().toResponse(),
+//            courseStudentsGrades.add(new Pair<>(studentProfile.get().toReqRes(),
 //                    (Double) studentIdAndGrade[1]));
 //        }
 //        return courseStudentsGrades;

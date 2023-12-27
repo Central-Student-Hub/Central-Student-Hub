@@ -4,12 +4,27 @@ import Login from './UserSessionComponent/Login.tsx';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TeachingStaffProfile from './UserProfileComponent/TeachingStaffProfile.tsx';
 import SignUp from './UserSessionComponent/Signup.tsx';
-import Home from './Home.tsx';
 import SideBar from './StudentInterface/SideBar.tsx';
 import { ChakraProvider } from '@chakra-ui/react'
 import StudentProfile from './UserProfileComponent/StudentProfile.tsx';
+import { DeleteSemesterCourse } from './AdminPages/DeleteSemesterCourse.tsx';
+import AddSemesterCourse from './AdminPages/AddSemesterCourse.tsx';
+import AddUsers from './AdminPages/AddUsers.tsx';
+import DeleteCourse from './AdminPages/DeleteCourse.tsx';
+import AddNewCourse from './AdminPages/AddNewCourse.tsx';
 
 function App() {
+
+  // return (
+  //   <ChakraProvider>
+  //     {/* <DeleteSemesterCourse /> */}
+  //     {/* <AddSemesterCourse /> */}
+  //     {/* <AddUsers /> */}
+  //     <DeleteCourse />
+  //     {/* <AddNewCourse /> */}
+  //   </ChakraProvider>
+  // )
+
   return (
     <ChakraProvider>
       <BrowserRouter>        

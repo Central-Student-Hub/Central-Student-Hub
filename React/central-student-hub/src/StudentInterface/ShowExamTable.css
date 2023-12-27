@@ -1,0 +1,26 @@
+.course-details-container {
+    margin: 20px;
+    padding: 20px;
+}
+
+.course-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+
+.course-details-table td {
+    border: 1px solid #553939;
+    padding: 8px;
+    text-align: left;
+}
+
+.course-details-table th {
+    border: 1px solid #553939;
+    padding: 8px;
+    text-align: left;
+    background-color: #519f54; 
+    color: white; 
+}
+

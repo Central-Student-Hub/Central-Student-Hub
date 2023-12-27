@@ -1,12 +1,13 @@
 package com.centralstudenthub.repository;
 
-import com.centralstudenthub.Model.Semester;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.centralstudenthub.Model.Semester;
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 
 @Repository
 public interface SemesterCourseRepository extends JpaRepository<SemesterCourse,Long> {
@@ -15,7 +16,18 @@ public interface SemesterCourseRepository extends JpaRepository<SemesterCourse,L
     @Query("select sc from SemesterCourse sc where sc.course.courseId = :courseId")
     List<SemesterCourse> findAllByCourseId(Integer courseId);
 
-    @Query("select courseId from SemesterCourse sc where sc.semCourseId = :semCourseId")
+    @Query(value = "select courseId from SemesterCourse as sc where sc.semCourseId = :semCourseId",nativeQuery = true)
     int findCourseIdBySemesterCourseId(Long semCourseId);
-}
 
+    @Query(value = "select c.code from semester_course as sc, course as c where c.courseId = sc.courseId and sc.semCourseId = :semCourseId", nativeQuery = true)
+    String findCourseCodeBySemesterCourseId(Long semCourseId);
+
+    @Query(value = "select c.name from semester_course as sc, course as c where c.courseId = sc.courseId and sc.semCourseId = :semCourseId", nativeQuery = true)
+    String findCourseNameBySemesterCourseId(Long semCourseId);
+
+    @Query(value = "select c.creditHours from semester_course as sc, course as c where c.courseId = sc.courseId and sc.semCourseId = :semCourseId", nativeQuery = true)
+    int findCreditHoursBySemesterCourseId(Long semCourseId);
+
+    @Query(value = "select c.description from semester_course as sc, course as c where c.courseId = sc.courseId and sc.semCourseId = :semCourseId", nativeQuery = true)
+    String findCourseDescriptionBySemesterCourseId(Long semCourseId);
+}

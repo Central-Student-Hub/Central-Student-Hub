@@ -28,7 +28,6 @@ public class UserAccount implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role userType;
     private String email;
-    private String gmail;
     private String passwordHash;
     private String passwordSalt;
     private Date passwordDate;
