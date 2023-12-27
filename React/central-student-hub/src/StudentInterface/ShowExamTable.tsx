@@ -11,7 +11,7 @@ interface ExamResponse {
   period: number;
 }
 
-// Mock data array
+
 const mockData: ExamResponse[] = [
   {
     courseName: 'Introduction to Biology',
@@ -31,7 +31,6 @@ const mockData: ExamResponse[] = [
     fromTime: 14, // 2:00 pm
     period: 1.5,
   },
-  // ... more mock objects
 ];
 
 const ShowExamTable: React.FC = () => {
