@@ -85,6 +85,8 @@ export default function TeachingStaffProfile() {
           <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
         </div>
 
+        <br />
+
         <div id="tpi-bio">
           {
             editing ?

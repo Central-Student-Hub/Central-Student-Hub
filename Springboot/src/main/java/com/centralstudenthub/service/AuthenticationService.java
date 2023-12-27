@@ -44,19 +44,20 @@ public class AuthenticationService {
     @Autowired
     private TeachingStaffProfileRepository teachingStaffProfileRepository;
 
-    public SignUpResponse signUp(SignUpRequest signUpRequest){
+    public SignUpResponse signUp(SignUpRequest signUpRequest) {
 
         Optional<UserAccount> dbUser = userSessionInfoRepository.findBySsn(signUpRequest.getSsn());
 
-        if(dbUser.isEmpty()) return new SignUpResponse("You don't have access",false);
-        if(dbUser.get().getEmail() != null) return new SignUpResponse("You already have an account with this email",false);
+        if (dbUser.isEmpty()) return new SignUpResponse("You don't have access", false);
+        if (dbUser.get().getEmail() != null)
+            return new SignUpResponse("You already have an account with this email", false);
 
         Optional<UserAccount> checkEmail = userSessionInfoRepository.findByEmail(signUpRequest.getEmail());
-        if(checkEmail.isPresent()) return new SignUpResponse("Email Already Exists",false);
+        if (checkEmail.isPresent()) return new SignUpResponse("Email Already Exists", false);
 
         UserAccount user = dbUser.get();
         String salt = passwordSecurity.getNextSalt();
-        String hashedPassword = passwordSecurity.hashPassword(signUpRequest.getPassword(),salt);
+        String hashedPassword = passwordSecurity.hashPassword(signUpRequest.getPassword(), salt);
         user.setUserType(signUpRequest.getUserType());
         user.setEmail(signUpRequest.getEmail());
         user.setPasswordHash(hashedPassword);
@@ -64,34 +65,34 @@ public class AuthenticationService {
         user.setPasswordDate(new Date(System.currentTimeMillis()));
 
         long userID = userSessionInfoRepository.save(user).getUserAccountId();
-        if(user.getUserType().equals(Role.Student)){
-            studentProfileRepository.save(StudentProfile.builder().studentId((int)userID).build());
-        }
-        else if(user.getUserType().equals(Role.Staff)){
-            teachingStaffProfileRepository.save(TeachingStaffProfile.builder().teacherId((int)userID).build());
+        if (user.getUserType().equals(Role.Student)) {
+            studentProfileRepository.save(StudentProfile.builder().studentId((int) userID).build());
+        } else if (user.getUserType().equals(Role.Staff)) {
+            teachingStaffProfileRepository.save(TeachingStaffProfile.builder().teacherId((int) userID).build());
         }
 
-        return new SignUpResponse("Account Created Successfully",true);
+        return new SignUpResponse("Account Created Successfully", true);
     }
 
 
-    public String login(LoginRequest loginRequest){
+    public String login(LoginRequest loginRequest) {
 
         Optional<UserAccount> user = userSessionInfoRepository.findByEmail(loginRequest.getEmail());
-        if(user.isEmpty()) return null;
+        if (user.isEmpty()) return null;
 
         String salt = user.get().getPasswordSalt();
-        String pass = loginRequest.getPassword()+salt;
+        String pass = loginRequest.getPassword() + salt;
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                       loginRequest.getEmail(),
+                        loginRequest.getEmail(),
                         pass
                 )
         );
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("id",user.get().getUserAccountId());
-        String token = jwtService.generateToken(extraClaims,user.get());
+        extraClaims.put("id", user.get().getUserAccountId());
+        extraClaims.put("role", user.get().getUserType());
+        String token = jwtService.generateToken(extraClaims, user.get());
 
         return token;
     }
