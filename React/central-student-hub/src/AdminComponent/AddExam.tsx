@@ -39,7 +39,7 @@ const AddExam: React.FC = () => {
   return (
     <div className="exam-request-container">
       <div className="header">
-        <h1>Exams</h1>
+        <h1  className='exam-title'>Exams</h1>
         <button onClick={handleSubmitAll} disabled={!isEdited}>
           Submit 
         </button>

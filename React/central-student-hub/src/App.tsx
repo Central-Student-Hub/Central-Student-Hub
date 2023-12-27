@@ -12,18 +12,20 @@ import AddSemesterCourse from './AdminPages/AddSemesterCourse.tsx';
 import AddUsers from './AdminPages/AddUsers.tsx';
 import DeleteCourse from './AdminPages/DeleteCourse.tsx';
 import AddNewCourse from './AdminPages/AddNewCourse.tsx';
+import AddExam from './AdminComponent/AddExam.tsx';
 
 function App() {
 
-  // return (
-  //   <ChakraProvider>
-  //     {/* <DeleteSemesterCourse /> */}
-  //     {/* <AddSemesterCourse /> */}
-  //     {/* <AddUsers /> */}
-  //     <DeleteCourse />
-  //     {/* <AddNewCourse /> */}
-  //   </ChakraProvider>
-  // )
+  return (
+    <ChakraProvider>
+      {/* <DeleteSemesterCourse /> */}
+      {/* <AddSemesterCourse /> */}
+      {/* <AddUsers /> */}
+      {/* <DeleteCourse /> */}
+      {/* <AddNewCourse /> */}
+      <AddExam/>
+    </ChakraProvider>
+  )
 
   return (
     <ChakraProvider>

@@ -19,8 +19,8 @@ const mockData: ExamResponse[] = [
     seatNumber: 24,
     room: 101,
     date: '2023-05-12',
-    fromTime: 9.5, // Assuming this is in hours, e.g., 9:30 am
-    period: 2, // Assuming this is in hours
+    fromTime: 9.5,
+    period: 2, 
   },
   {
     courseName: 'Fundamentals of Physics',
@@ -38,14 +38,13 @@ const ShowExamTable: React.FC = () => {
   const [examResponses, setExamResponses] = useState<ExamResponse[]>([]);
 
   useEffect(() => {
-    // Here you would normally fetch the exam responses from the backend
-    // For testing with mock data, we use the mockData array directly
+    //api
     setExamResponses(mockData);
   }, []);
 
   return (
     <div className="exam-table-container">
-      <h2>Exam Schedule</h2>
+      <h2 className="exam-title">Exam Schedule</h2>
       <table className="exam-table">
         <thead>
           <tr>

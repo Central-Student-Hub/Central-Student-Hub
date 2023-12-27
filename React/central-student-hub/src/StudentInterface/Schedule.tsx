@@ -40,6 +40,8 @@ const Schedule: React.FC = () => {
   }, []);
 
   return (
+  <div className="exam-table-container">
+    <h2 className="exam-title">Schedule</h2>
     <div className="schedule-table">
       <div className="schedule-header">
         <div>Course Name</div>
@@ -59,6 +61,7 @@ const Schedule: React.FC = () => {
           <div>{entry.location}</div>
         </div>
       ))}
+    </div>
     </div>
   );
 };

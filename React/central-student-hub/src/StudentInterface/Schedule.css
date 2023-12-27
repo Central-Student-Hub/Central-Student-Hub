@@ -1,3 +1,10 @@
+.exam-table-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
 .schedule-table {
     display: table;
     width: 80%;
@@ -21,4 +28,10 @@
     font-weight: bold;
     background-color: #f4f4f4;
   }
+
+  .exam-title {
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+  
   
