@@ -66,9 +66,25 @@ public class AuthenticationService {
 
         long userID = userSessionInfoRepository.save(user).getUserAccountId();
         if (user.getUserType().equals(Role.Student)) {
-            studentProfileRepository.save(StudentProfile.builder().studentId((int) userID).build());
+            studentProfileRepository.save(StudentProfile.builder()
+                    .studentId((int) userID)
+                    .firstName("First Name")
+                    .lastName("Last Name")
+                    .gpa(0.0)
+                    .level(0)
+                    .major("None")
+                    .minor("None")
+                    .noOfHours(18)
+                    .build()
+            );
         } else if (user.getUserType().equals(Role.Staff)) {
-            teachingStaffProfileRepository.save(TeachingStaffProfile.builder().teacherId((int) userID).build());
+            teachingStaffProfileRepository.save(TeachingStaffProfile.builder().
+                    teacherId((int) userID)
+                    .firstName("First Name")
+                    .lastName("Last Name")
+                    .department("Null Department")
+                    .biography("Null Biography")
+                    .build());
         }
 
         return new SignUpResponse("Account Created Successfully", true);

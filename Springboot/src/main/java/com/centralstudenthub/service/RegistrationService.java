@@ -1,6 +1,8 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Response.student_profile.StudentProfileResponse;
 import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import com.centralstudenthub.Validator.RegistrationValidator;
@@ -143,5 +145,12 @@ public class RegistrationService {
     public boolean setPaymentDeadLine(Date date) {
         registrationRepository.setDeadlineDate(date);
         return true;
+    }
+
+    public List<StudentProfileRequest> getStudentsBySemesterCourse(Long semesterCourseId) {
+        return registrationRepository.findAllStudentBySemCourseId(semesterCourseId).stream().map((studentId) -> {
+            Optional<StudentProfile> profile = studentProfileRepository.findById(studentId);
+            return profile.map(StudentProfile::modelFromStudentProfile).orElse(null);
+        }).toList();
     }
 }
