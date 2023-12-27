@@ -1,5 +1,6 @@
 package com.centralstudenthub.service;
 
+import com.centralstudenthub.Model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -32,6 +33,10 @@ public class JwtService {
 
     public int extractId(String token) {
         return (int) extractClaim(token, claims -> claims.get("id"));
+    }
+
+    public String extractRole(String token) {
+        return (String) extractClaim(token, claims -> claims.get("role"));
     }
 
     public String extractUsername(String token) {

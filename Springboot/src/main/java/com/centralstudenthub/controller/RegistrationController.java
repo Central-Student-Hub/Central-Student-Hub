@@ -1,6 +1,7 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
 import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.exception.NullCourseException;
 import com.centralstudenthub.exception.NullRegisteredSessionsException;
@@ -68,5 +69,10 @@ public class RegistrationController {
     @PostMapping("/setPaymentDeadline")
     public ResponseEntity<Boolean> getPaymentDeadLine(@RequestBody Date date) {
         return ResponseEntity.ok(registrationService.setPaymentDeadLine(date));
+    }
+
+    @GetMapping("/getStudentsBySemesterCourse/{semesterCourseId}")
+    public ResponseEntity<List<StudentProfileRequest>> getStudentsBySemesterCourse(@PathVariable Long semesterCourseId) {
+        return ResponseEntity.ok(registrationService.getStudentsBySemesterCourse(semesterCourseId));
     }
 }

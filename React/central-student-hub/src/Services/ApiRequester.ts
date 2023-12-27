@@ -44,27 +44,11 @@ export class ApiRequester {
         return await response.text();
     }
 
-    async getAllAssignments(): Promise<Assignment[]> {
+    async getRole(): Promise<string> {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/sadsadsadsadsa`, requestOptions); // TODO: Change this to the correct endpoint
-        return await response.json();
-    }
-
-    async getActiveAssignments(): Promise<Assignment[]> {
-        const token = document.cookie.split("=")[1];
-        const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
-        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/sadsadsadsadsa`, requestOptions); // TODO: Change this to the correct endpoint
-        return await response.json();
-    }
-
-    async submitAssignmentAnswer(assignmentAnswerRequest: AssignmentAnswerRequest): Promise<boolean> {
-        const token = document.cookie.split("=")[1];
-        const headers: HeadersInit = { "Authorization": `Bearer ${token}` };
-        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(assignmentAnswerRequest), method: "post", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/sadsadsadsadsa`, requestOptions); // TODO: Change this to the correct endpoint
-        return await response.json();
+        const response: Response = await fetch("http://localhost:8082/role", requestOptions);
+        return await response.text();
     }
 }

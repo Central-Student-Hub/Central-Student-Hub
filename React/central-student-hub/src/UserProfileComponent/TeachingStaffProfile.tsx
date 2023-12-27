@@ -93,6 +93,8 @@ export default function TeachingStaffProfile() {
           {!id && <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>}
         </div>
 
+        <br />
+
         <div id="tpi-bio">
           {
             editing ?

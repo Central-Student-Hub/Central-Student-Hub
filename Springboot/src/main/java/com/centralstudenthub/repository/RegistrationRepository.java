@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Repository
@@ -20,6 +21,9 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Query("select count(*) from Registration r where r.id.semCourse.semCourseId=:semCourseId")
     int findCountBySemCourse(Long semCourseId);
 
+    @Query(value = "select studentId from registration as r where r.semCourseId =:semCourseId", nativeQuery = true)
+    List<Integer> findAllStudentBySemCourseId(Long semCourseId);
+
     @Query(value = "select r.paymentDeadline from registration as r where r.studentId=studentId limit 1"
             ,nativeQuery = true)
     Date findPaymentDeadlineByStudentID(int studentId);
@@ -28,4 +32,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Transactional
     @Query(value = "update Registration r set paymentDeadline = : date where paymentDeadline != :date")
     void setDeadlineDate(Date date);
+
+    @Query(value = "select studentId from registration as r where r.semCourseId =:semCourseId", nativeQuery = true)
+    List<Integer> findAllStudentBySemCourseId(Long semCourseId);
 }

@@ -167,4 +167,9 @@ public class SemesterCourseController {
     public List<LocationResponse> getAllLocations() {
         return semesterCourseService.getAllLocations();
     }
+
+    @PostMapping("/addLocation")
+    public boolean addLocation(@RequestBody LocationResponse request) {
+        return semesterCourseService.addLocation(request);
+    }
 }

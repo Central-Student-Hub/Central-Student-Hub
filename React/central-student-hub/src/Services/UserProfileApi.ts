@@ -31,7 +31,7 @@ export class UserProfileApi {
         return await response.json();
     }
 
-    async updateStudentProfile(profile: StudentProfileInfo): Promise<void> {
+    async updateStudentProfile(profile: StudentProfileInfo): Promise<boolean> {
         
         console.log(profile);
         const token = document.cookie.split("=")[1];
