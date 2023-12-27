@@ -1,29 +1,34 @@
 package com.centralstudenthub.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.centralstudenthub.Model.Response.sessions.LocationResponse;
+import com.centralstudenthub.entity.sessions.location.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.centralstudenthub.Model.Request.SemesterCourseRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
-import com.centralstudenthub.Model.Semester;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
+import com.centralstudenthub.repository.LocationRepository;
 import com.centralstudenthub.repository.SemesterCourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SemesterCourseService {
     private final CourseRepository courseRepository;
     private final SemesterCourseRepository semesterCourseRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
-    public SemesterCourseService(CourseRepository courseRepository, SemesterCourseRepository semesterCourseRepository) {
+    public SemesterCourseService(CourseRepository courseRepository, SemesterCourseRepository semesterCourseRepository, LocationRepository locationRepository) {
         this.semesterCourseRepository = semesterCourseRepository;
         this.courseRepository = courseRepository;
+        this.locationRepository = locationRepository;
     }
 
     public Long addSemesterCourse(SemesterCourseRequest semesterCourseRequest) throws NotFoundException {
@@ -48,12 +53,12 @@ public class SemesterCourseService {
 
     }
 
-    public List<SemesterCourseResponse> getSemesterCourses(Semester semester) throws NotFoundException {
-        List<SemesterCourse> semesterCourses = semesterCourseRepository.findBySemester(semester);
+    public List<SemesterCourseResponse> getSemesterCourses() throws NotFoundException {
+        List<SemesterCourse> semesterCourses = semesterCourseRepository.findAll();
         if (semesterCourses.isEmpty())
             throw new NotFoundException("Semester courses not found");
 
-        return semesterCourses.stream().map(SemesterCourse::toResponse).collect(Collectors.toList());
+        return semesterCourses.stream().map(this::getSemesterCourseResponse).collect(Collectors.toList());
     }
 
     public boolean updateSemesterCourse(Long id, SemesterCourseRequest semesterCourseUpdates) throws NotFoundException {
@@ -74,5 +79,29 @@ public class SemesterCourseService {
 
         semesterCourseRepository.delete(semesterCourse.get());
         return true;
+    }
+
+    public boolean deleteAllSemesterCourses() {
+        semesterCourseRepository.deleteAll();
+        return true;
+    }
+
+    public SemesterCourseResponse getSemesterCourseResponse(SemesterCourse semCourse) {
+        String code = semesterCourseRepository.findCourseCodeBySemesterCourseId(semCourse.getSemCourseId());
+        String name = semesterCourseRepository.findCourseNameBySemesterCourseId(semCourse.getSemCourseId());
+        String description = semesterCourseRepository.findCourseDescriptionBySemesterCourseId(semCourse.getSemCourseId());
+        int creditHours = semesterCourseRepository.findCreditHoursBySemesterCourseId(semCourse.getSemCourseId());
+
+        SemesterCourseResponse response = semCourse.toResponse();
+        response.setCode(code);
+        response.setName(name);
+        response.setDescription(description);
+        response.setCreditHours(creditHours);
+
+        return response;
+    }
+
+    public List<LocationResponse> getAllLocations() {
+        return locationRepository.findAll().stream().map(Location::toResponse).toList();
     }
 }

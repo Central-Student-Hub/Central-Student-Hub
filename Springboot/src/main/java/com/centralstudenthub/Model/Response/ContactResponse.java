@@ -1,4 +1,4 @@
-package com.centralstudenthub.Model.Request;
+package com.centralstudenthub.Model.Response;
 
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.student_contacts.StudentContact;
@@ -9,9 +9,8 @@ import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.Teac
 import lombok.Builder;
 
 @Builder
-public record ContactModel(String label, String data) {
-
-    public TeachingStaffContact contactfromModel(TeachingStaffProfile tsp){
+public record ContactResponse(String label, String data) {
+    public TeachingStaffContact toEntity(TeachingStaffProfile tsp) {
         TeachingStaffContactId teachingStaffContactId = TeachingStaffContactId.builder()
                 .label(label)
                 .teacher(tsp)
@@ -22,7 +21,8 @@ public record ContactModel(String label, String data) {
                 .data(data)
                 .build();
     }
-    public StudentContact contactfromModel(StudentProfile sp){
+
+    public StudentContact toEntity(StudentProfile sp) {
         StudentContactId studentContactId = StudentContactId.builder()
                 .label(label)
                 .student(sp)

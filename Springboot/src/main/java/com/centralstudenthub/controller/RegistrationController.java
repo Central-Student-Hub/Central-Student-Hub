@@ -1,8 +1,7 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.exception.NullCourseException;
 import com.centralstudenthub.exception.NullRegisteredSessionsException;
 import com.centralstudenthub.exception.NullSemesterCourseException;
@@ -21,12 +20,14 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/Register")
 public class RegistrationController {
+    private final RegistrationService registrationService;
+    private final JwtService jwtService;
 
     @Autowired
-    private RegistrationService registrationService;
-
-    @Autowired
-    private JwtService jwtService;
+    public RegistrationController(RegistrationService registrationService, JwtService jwtService) {
+        this.registrationService = registrationService;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping("/addCourseToCart")
     public ResponseEntity<Boolean> addCourseToCart(@RequestBody AddCourseToCartRequest addCourseToCartRequest, HttpServletRequest request)
@@ -62,5 +63,10 @@ public class RegistrationController {
         int studentId = jwtService.extractId(jwtService.token(request));
         Date date = registrationService.getPaymentDeadLine(studentId);
         return ResponseEntity.ok(date);
+    }
+
+    @PostMapping("/setPaymentDeadline")
+    public ResponseEntity<Boolean> getPaymentDeadLine(@RequestBody Date date) {
+        return ResponseEntity.ok(registrationService.setPaymentDeadLine(date));
     }
 }

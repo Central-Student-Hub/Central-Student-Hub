@@ -1,7 +1,6 @@
 package com.centralstudenthub.entity.student_profile;
 
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers.StudentAssignmentAnswer;
@@ -53,6 +52,7 @@ public class StudentProfile {
 
     public StudentProfileRequest modelFromStudentProfile() {
         return StudentProfileRequest.builder()
+                .id(studentId)
                 .firstName(firstName)
                 .lastName(lastName)
                 .biography(biography)

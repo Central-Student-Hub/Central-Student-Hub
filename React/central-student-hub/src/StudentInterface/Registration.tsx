@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ApiRequester } from '../Services/ApiRequester.ts';
 import { Course } from '../Models/Course.ts';
 import { RegistrationApi } from '../Services/RegistrationApi.ts';
 import { useToast } from '@chakra-ui/react';

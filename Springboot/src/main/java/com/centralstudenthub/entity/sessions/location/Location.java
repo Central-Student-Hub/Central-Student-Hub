@@ -1,7 +1,7 @@
-package com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location;
+package com.centralstudenthub.entity.sessions.location;
 
-import com.centralstudenthub.Model.LocationModel;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.Model.Response.sessions.LocationResponse;
+import com.centralstudenthub.entity.sessions.Session;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -26,8 +26,8 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private Set<Session> sessions;
 
-    public LocationModel toModel() {
-        return LocationModel.builder()
+    public LocationResponse toResponse() {
+        return LocationResponse.builder()
                 .building(id.getBuilding())
                 .room(id.getRoom())
                 .capacity(capacity)

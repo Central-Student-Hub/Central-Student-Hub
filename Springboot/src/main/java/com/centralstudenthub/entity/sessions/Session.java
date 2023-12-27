@@ -1,10 +1,9 @@
-package com.centralstudenthub.entity.student_profile.course.semester_courses.sessions;
+package com.centralstudenthub.entity.sessions;
 
-import com.centralstudenthub.Model.Response.SessionResponse;
-import com.centralstudenthub.Model.SessionModel;
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import com.centralstudenthub.Model.SessionType;
+import com.centralstudenthub.entity.sessions.location.Location;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.Location;
 import com.centralstudenthub.entity.teacher_profile.TeachingStaffProfile;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,13 +42,13 @@ public class Session {
     @JoinColumn(name = "building", nullable = false)
     private Location location;
 
-    public SessionModel toModel() {
-        return SessionModel.builder()
+    public SessionResponse toResponse() {
+        return SessionResponse.builder()
                 .id(sessionId)
                 .period(period)
-                .weekday(weekDay)
+                .weekDay(weekDay)
                 .sessionType(sessionType)
-                .location(location.toModel())
+                .location(location.toResponse())
                 .teacherName(teacher.getFirstName() + teacher.getLastName())
                 .build();
     }

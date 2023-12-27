@@ -2,13 +2,13 @@ package com.centralstudenthub.repository;
 
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.RegistrationId;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 
 @Repository
@@ -23,4 +23,9 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Query(value = "select r.paymentDeadline from registration as r where r.studentId=studentId limit 1"
             ,nativeQuery = true)
     Date findPaymentDeadlineByStudentID(int studentId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update Registration r set paymentDeadline = : date where paymentDeadline != :date")
+    void setDeadlineDate(Date date);
 }

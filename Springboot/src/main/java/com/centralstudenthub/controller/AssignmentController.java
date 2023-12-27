@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
 @RequestMapping("/Assignment")
 public class AssignmentController {
+    private final AssignmentService assignmentService;
 
     @Autowired
-    private AssignmentService assignmentService;
+    public AssignmentController(AssignmentService assignmentService) {
+        this.assignmentService = assignmentService;
+    }
 
     @PostMapping("/addAssignment")
     public ResponseEntity<Boolean> addAssignment(@RequestBody AssignmentRequest assignmentRequest){
