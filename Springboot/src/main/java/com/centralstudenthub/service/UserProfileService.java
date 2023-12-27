@@ -61,11 +61,15 @@ public class UserProfileService {
         officeHourRepository.deleteAllByTeacher(teacher.getTeacherId());
         teachingStaffContactRepository.deleteAllById_Teacher(teacher.getTeacherId());
 
-        request.getOfficeHours().forEach(officeHourResponse ->
-                officeHourRepository.save(officeHourResponse.toEntity(teacher)));
+        if (request.getOfficeHours() != null) {
+            request.getOfficeHours().forEach(officeHourResponse ->
+                    officeHourRepository.save(officeHourResponse.toEntity(teacher)));
+        }
 
-        request.getContacts().forEach(contactModel ->
-                teachingStaffContactRepository.save(contactModel.toEntity(teacher)));
+        if (request.getContacts() != null) {
+            request.getContacts().forEach(contactModel ->
+                    teachingStaffContactRepository.save(contactModel.toEntity(teacher)));
+        }
     }
 
     public boolean updateStudentData(int id, StudentProfileRequest request) {
@@ -87,8 +91,10 @@ public class UserProfileService {
 
         studentContactRepository.deleteAllById_Student(student.getStudentId());
 
-        request.getContacts().forEach(contactModel ->
-                studentContactRepository.save(contactModel.toEntity(student)));
+        if (request.getContacts() != null) {
+            request.getContacts().forEach(contactModel ->
+                    studentContactRepository.save(contactModel.toEntity(student)));
+        }
 
         return true;
     }

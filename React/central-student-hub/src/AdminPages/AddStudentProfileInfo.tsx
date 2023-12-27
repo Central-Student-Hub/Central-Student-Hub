@@ -3,19 +3,15 @@ import React, { useEffect, useState } from "react";
 import './Admin.css'
 import { StudentProfileInfo } from "../Models/StudentProfileInfo";
 import { AdminApi } from "../Services/AdminApi.ts";
-import { WarningRequest } from "../Models/WarningRequest.ts";
 
-export function AddWarning() {
+export default function AddStudentProfileInfo() {
 
     const [allStudents, setAllStudents] = useState<StudentProfileInfo[]>([]);
-    const [dateString, setDateString] = useState('');
     const toast = useToast();
 
-    const [warning, setWarning] = useState<WarningRequest>({
-        studentId: -1,
-        reason: "",
-        date: new Date()
-    });
+    const [studentId, setStudentId] = useState(-1);
+    const [major, setMajor] = useState("");
+    const [minor, setMinor] = useState("");
 
     const api = new AdminApi();
 
@@ -25,15 +21,15 @@ export function AddWarning() {
         getStudents()
             .then((students) => setAllStudents(students))
             .catch((err) => console.log(err));
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (allStudents.length > 0)
-            setWarning({...warning, studentId: allStudents[0].id});
-    }, [allStudents])
+            setStudentId(allStudents[0].id);
+    }, [allStudents]);
 
     async function handleSubmit() {
-        if (warning.studentId == -1 || warning.reason == "" || dateString == "") {
+        if (studentId == -1 || major == "" || minor == "") {
             toast({
                 title: "Invalid Input!",
                 status: "error",
@@ -43,39 +39,19 @@ export function AddWarning() {
             return;
         }
 
-        const d = new Date();
-        dateString.split('-').forEach((item, index) => {
-            if (index == 0) {
-                d.setFullYear(parseInt(item));
-            } else if (index == 1) {
-                d.setMonth(parseInt(item) - 1);
-            } else if (index == 2) {
-                d.setDate(parseInt(item));
-            }
-        });
+        const student = allStudents.filter((s) => s.id == studentId)[0];
+        const response = await api.updateStudentProfile({ ...student, major: major, minor: minor });
 
-        if (d < new Date()) {
-            toast({
-                title: "Invalid Date!",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-
-        setWarning((old) => { return {...old, date: d}; });
-        const response = await api.addWarning(warning);
         if (response) {
             toast({
-                title: "Warning Issued Successfully!",
+                title: "Profile Updated Successfully!",
                 status: "success",
                 duration: 3000,
                 isClosable: true,
             });
         } else {
             toast({
-                title: "Warning Issuing Failed!",
+                title: "Profile Updating Failed!",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
@@ -85,10 +61,10 @@ export function AddWarning() {
 
     return (
         <div id="admin-container">
-            <h1 style={{fontSize: 42}}>Issue Warning</h1>
+            <h1 style={{fontSize: 42}}>Set Student Major and Minor</h1>
             <FormControl style={{ width: 400 }} >
                 <FormLabel>Student</FormLabel>
-                <Select onChange={(e) => setWarning({...warning, studentId: parseInt(e.target.value)})}>
+                <Select onChange={(e) => setStudentId(parseInt(e.target.value))}>
                     {
                         allStudents.map((student) => <option value={student.id}>{student.firstName} {student.lastName}</option>)
                     }
@@ -96,18 +72,19 @@ export function AddWarning() {
 
                 <br />
 
-                <FormLabel>Reason</FormLabel>
-                <Textarea onChange={(e) => setWarning({...warning, reason: e.target.value})}></Textarea>
+                <FormLabel>Major</FormLabel>
+                <Input onChange={(e) => setMajor(e.target.value)}></Input>
 
                 <br />
                 <br />
 
-                <Input type="date" onChange={(e) => {setDateString(e.target.value)}}></Input>
+                <FormLabel>Minor</FormLabel>
+                <Input onChange={(e) => setMinor(e.target.value)}></Input>
 
                 <br />
                 <br />
 
-                <Button onClick={handleSubmit}>Issue Warning</Button>
+                <Button onClick={handleSubmit}>Update Student Profile</Button>
             </FormControl>
         </div>
     )

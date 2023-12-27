@@ -126,7 +126,6 @@ export default function SignUp() {
             <select id="type" value={form.type} onChange={handleInputChange}>
               <option value="Staff">staff</option>
               <option value="Student">student</option>
-              <option value="Admin">admin</option>
             </select>
 
             <button type="submit" className='subButton' disabled={isSubmitted}>

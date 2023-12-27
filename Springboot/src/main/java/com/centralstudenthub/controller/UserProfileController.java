@@ -31,6 +31,12 @@ public class UserProfileController {
         userProfileService.updateTeachingStaffData(id,request);
     }
 
+    @PutMapping("/updateStudentProfile/{id}")
+    public ResponseEntity<Boolean> updateStudentData(@RequestBody StudentProfileRequest request, @PathVariable int id) {
+        boolean res = userProfileService.updateStudentData(id, request);
+        return ResponseEntity.ok(res);
+    }
+
     @PutMapping("/updateStudentProfile")
     public ResponseEntity<Boolean> updateStudentData(@RequestBody StudentProfileRequest request,HttpServletRequest httpServletRequest) {
         int id = jwtService.extractId(jwtService.token(httpServletRequest));
