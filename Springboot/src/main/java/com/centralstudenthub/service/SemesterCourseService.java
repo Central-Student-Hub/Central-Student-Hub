@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.centralstudenthub.Model.Response.sessions.LocationResponse;
 import com.centralstudenthub.entity.sessions.location.Location;
+import com.centralstudenthub.entity.sessions.location.LocationId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,5 +104,25 @@ public class SemesterCourseService {
 
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream().map(Location::toResponse).toList();
+    }
+
+    public boolean addLocation(LocationResponse request) {
+        LocationId id = LocationId.builder()
+                .building(request.building())
+                .room(request.room())
+                .build();
+
+        Optional<Location> existingLocation = locationRepository.findById(id);
+
+        if (existingLocation.isPresent())
+            return false;
+
+        Location location = Location.builder()
+                .id(id)
+                .capacity(request.capacity())
+                .build();
+
+        locationRepository.save(location);
+        return true;
     }
 }
