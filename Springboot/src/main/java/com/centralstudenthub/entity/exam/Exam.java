@@ -1,8 +1,8 @@
 package com.centralstudenthub.entity.exam;
 
+import com.centralstudenthub.entity.sessions.location.LocationId;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.location.LocationId;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
