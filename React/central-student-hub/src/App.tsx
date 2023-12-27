@@ -33,8 +33,8 @@ function App() {
           <Route path='/forgot-my-password' element={<Login />}></Route> {/* (TODO): Add forgot password component here */}
           <Route path='/' element={<SideBar />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
-          <Route path='/teaching-staff-profile/:id' element={<TeachingStaffProfile />}></Route>
-          <Route path='/teaching-staff-profile/:id' element={<StudentProfile/>}></Route>
+          <Route path='/teaching-staff-profile/:id' element={<TeachingStaffProfile/>}></Route>
+          <Route path='/StudentProfile/:id' element={<StudentProfile/>}></Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

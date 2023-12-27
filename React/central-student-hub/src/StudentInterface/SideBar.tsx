@@ -8,9 +8,10 @@ import Grades from './Grades.tsx';
 import Course from './Course.tsx';
 import TeachingStaffProfile from '../UserProfileComponent/TeachingStaffProfile.tsx';
 import StudentProfile from '../UserProfileComponent/StudentProfile.tsx';
+import { Tooltip } from '@chakra-ui/react';
 
 const SideBar: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<string>('userProfile');
+  const [activeComponent, setActiveComponent] = useState<string>('course');
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -59,12 +60,12 @@ const SideBar: React.FC = () => {
 };
 
 const SideBarIcon: React.FC<{ icon: JSX.Element; text: string; onClick: () => void }> = ({ icon, text, onClick }) => (
-  <div className="sidebar-icon group" onClick={onClick}>
-    {icon}
-    <span className="sidebar-tooltip group-hover:scale-100">
-      {text}
-    </span>
-  </div>
+  
+  <Tooltip label={text} placement='start' borderRadius='0px 5px 5px 0px'>
+      <div className="sidebar-icon group" onClick={onClick}>
+        {icon}
+      </div>
+  </Tooltip>
 );
 
 export default SideBar;
