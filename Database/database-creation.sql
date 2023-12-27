@@ -272,3 +272,23 @@ CREATE TABLE registration
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin;
+
+CREATE TABLE exam
+(
+    `semCourseId`     int    not null,
+    `studentId`       int    not null,
+    `seatNumber`      int    not null,
+    `room`            int    not null,
+    `building`        int    not null,
+    `date`            DATE,
+    `fromTime`        float,
+    `period`          float,
+    primary key (`semCourseId`, `studentId`),
+    foreign key (`semCourseId`) references semester_course (`semCourseId`) on delete cascade on update cascade,
+    foreign key (`studentId`) references student_profile (`studentId`) on delete cascade on update cascade,
+    foreign key (`building`) references location (`building`) on delete cascade on update cascade,
+    foreign key (`room`) references location (`room`) on delete cascade on update cascade
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
