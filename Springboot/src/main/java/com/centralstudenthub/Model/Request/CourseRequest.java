@@ -1,5 +1,6 @@
 package com.centralstudenthub.Model.Request;
 
+import com.centralstudenthub.entity.student_profile.course.Course;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,13 @@ public class CourseRequest {
     private String name;
     private String description;
     private Integer creditHours;
+
+    public Course toEntity() {
+        return Course.builder()
+                .code(this.code)
+                .name(this.name)
+                .description(this.description)
+                .creditHours(this.creditHours)
+                .build();
+    }
 }

@@ -9,8 +9,6 @@ import jakarta.persistence.*;
 import java.util.List;
 
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-
 
 @Entity
 @AllArgsConstructor

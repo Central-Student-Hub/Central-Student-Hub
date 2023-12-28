@@ -9,7 +9,6 @@ import com.centralstudenthub.exception.DatabaseLogicalConstraintException;
 import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CoursePrerequisiteRepository;
 import com.centralstudenthub.repository.CourseRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,8 +58,7 @@ public class CoursePrerequisiteService {
         List<CourseResponse> coursePrerequisites = new ArrayList<>();
         for (Integer coursePrerequisiteId : coursePrerequisitesIds) {
             course = courseRepository.findById(coursePrerequisiteId);
-            if (course.isEmpty())
-                continue;
+            if (course.isEmpty()) continue;
             coursePrerequisites.add(course.get().toResponse());
         }
         return coursePrerequisites;
