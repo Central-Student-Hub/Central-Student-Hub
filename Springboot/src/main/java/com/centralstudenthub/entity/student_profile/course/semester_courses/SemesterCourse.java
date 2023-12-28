@@ -38,13 +38,13 @@ public class SemesterCourse {
 
     private Integer maxSeats;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse",fetch = FetchType.EAGER)
     private List<CourseMaterialPath> materialPaths;
 
     @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Assignment> assignments;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")

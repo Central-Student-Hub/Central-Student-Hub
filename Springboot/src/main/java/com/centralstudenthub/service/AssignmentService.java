@@ -63,6 +63,8 @@ public class AssignmentService {
     public List<StudentAssignmentRes> getAllAssignmentByCourseId(Long semCourseId) {
 
         Optional<SemesterCourse> course = semCourseRepository.findById(semCourseId);
+        if(course.isEmpty())return null;
+
         List<Assignment> assignments = course.get().getAssignments();
         return assignments.stream().map( assignment -> {
             return StudentAssignmentRes.builder()

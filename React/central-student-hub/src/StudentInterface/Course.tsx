@@ -43,11 +43,18 @@ export type AssignmentsReturn = {
   assignmentMaterialPaths:string[];
 }
 
+export type AnnouncementsReturn = {
+  announcementId:number;
+  announcementName:string;
+  description:string;
+}
+
 const Course: React.FC = () => {
   const [courses, setCourses] = useState<CourseReturn[]>([]);
   const [currentCourse,setCurrentCourse] = useState<CourseReturn>()
   const [materialPaths,setMaterialPaths] = useState<string[]>([])
   const [assignmnets,setAssignmnets] = useState<AssignmentsReturn[]>([])
+  const [announcements,setAnnouncements] = useState<AnnouncementsReturn[]>([])
 
   const btnRef = React.useRef()
   const courseApi = new CourseApi();
@@ -81,6 +88,12 @@ const Course: React.FC = () => {
       .then((Assignments) => setAssignmnets(Assignments))
       .catch((error) => console.error(error))
 
+    //Get Announecements
+
+    const fetchAnnouncements = async () => await courseApi.getAnnouncementsByCourseId(currentCourse?.semCourseId);
+    fetchAnnouncements()
+      .then((Announcements) => setAnnouncements(Announcements))
+      .catch((error) => console.error(error))
     
   }, [currentCourse]);
 
@@ -148,7 +161,7 @@ const Course: React.FC = () => {
         </TabList>
 
         <TabPanels>
-
+          
           <TabPanel>
             <Card className='StudentInfo' borderRadius='10'>
                 <CardHeader backgroundColor='#1F1F1F' color='white' borderRadius='10px 10px 0px 0px'>
@@ -212,7 +225,9 @@ const Course: React.FC = () => {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                          {materialPath}
+                          <Link color='teal.500' href={materialPath} target='blank'>
+                            Click on the Link 
+                          </Link>
                         </AccordionPanel>
                       </AccordionItem>                    
                     )
@@ -287,34 +302,27 @@ const Course: React.FC = () => {
           </TabPanel>
 
           <TabPanel>
-            <Card marginBottom={2}>
-              <CardBody>
-                <Text>it seems i caught a cold. i will need to rest. please see the lecture on this link&nbsp; 
-                <Link color='teal.500' href='https://www.youtube.com/watch?v=9r_Xd5X-QHI&t=2s' target='blank'>
-                  [FDBS] - Ch20 - Transaction Processing Concepts - YouTube
-                </Link>
-                </Text>
-              </CardBody>
-            </Card>
-            <Card marginBottom={2}>
-              <CardBody>
-                <Text>it seems i caught a cold. i will need to rest. please see the lecture on this link&nbsp; 
-                <Link color='teal.500' href='https://www.youtube.com/watch?v=9r_Xd5X-QHI&t=2s' target='blank'>
-                  [FDBS] - Ch20 - Transaction Processing Concepts - YouTube
-                </Link>
-                </Text>
-              </CardBody>
-            </Card>
-            <Card marginBottom={2}>
-              <CardBody>
-                <Text>it seems i caught a cold. i will need to rest. please see the lecture on this link&nbsp; 
-                <Link color='teal.500' href='https://www.youtube.com/watch?v=9r_Xd5X-QHI&t=2s' target='blank'>
-                  [FDBS] - Ch20 - Transaction Processing Concepts - YouTube
-                </Link>
-                </Text>
-              </CardBody>
-            </Card>
+            {announcements.length>0 &&
+            announcements.map(
+              announcement=>{
+                return(
+                  <Card marginBottom={2}>
+                    <CardBody>
+                      <Box>
+                        <Heading size='xs' textTransform='uppercase'>
+                          {announcement.announcementName}
+                        </Heading>
+                        <Text pt='2' fontSize='sm'>
+                          {announcement.description}
+                        </Text>
+                      </Box>
+                    </CardBody>
+                  </Card>
+                )
+              }
+            )}
           </TabPanel>
+
         </TabPanels>
       </Tabs>
     </Container>
