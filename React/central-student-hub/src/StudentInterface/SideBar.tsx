@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 'use client'
 import React, { useEffect, useState } from 'react';
 import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse, BsPaperclip, BsX, BsXSquare, BsCalendar2Check, BsExclamation, BsClock } from 'react-icons/bs';
@@ -8,6 +9,7 @@ import Grades from './Grades.tsx';
 import Course from './Course.tsx';
 import TeachingStaffProfile from '../UserProfileComponent/TeachingStaffProfile.tsx';
 import StudentProfile from '../UserProfileComponent/StudentProfile.tsx';
+import ExamSchedule from './ShowExamTable.tsx'; 
 import { ApiRequester } from '../Services/ApiRequester.ts';
 import AddUsers from '../AdminPages/AddUsers.tsx';
 import AddNewCourse from '../AdminPages/AddNewCourse.tsx';
@@ -57,6 +59,10 @@ const SideBar: React.FC = () => {
     {
       name: 'Exams',
       icon: <BsPaperclip size="28" />
+    },
+    {
+      name: 'Exam Schedule',
+      icon: <BsCalendar2Week size="28" />
     }
   ];
 
@@ -136,6 +142,8 @@ const SideBar: React.FC = () => {
         return <Grades />;
       case 'Course':
         return <Course />;
+      case 'examSchedule':
+        return <ExamSchedule />;
       case 'Home': 
         // return <Timeline />;
         return;

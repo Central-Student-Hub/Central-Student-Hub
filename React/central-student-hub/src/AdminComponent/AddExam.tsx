@@ -1,136 +1,89 @@
-import { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import './AddExam.css';
 
-
-enum Semester {
-    FALL = 'FALL',
-    SPRING = 'SPRING',
-    SUMMER = 'SUMMER'
+interface ExamRequest {
+  semCourseId: number;
+  date: string;
+  fromTime: number;
+  period: number;
 }
 
-interface SemesterCourse {
-    semCourseId: number;
-    code: string;
-    name: string;
-    description: string;
-    creditHours: number;
-    semester: Semester;
-    maxSeats: number;
-}
+const AddExam: React.FC = () => {
+  const [examRequests, setExamRequests] = useState<ExamRequest[]>([
+    { semCourseId: 1, date: '2023-01-01', fromTime: 9.0, period: 2.0 },
+    { semCourseId: 2, date: '2023-01-02', fromTime: 10.0, period: 1.5 },
+  ]);
 
-interface CourseExam {
-    courseId: number;
-    date: string;
-    period: number; 
-}
+  const [isEdited, setIsEdited] = useState(true);
 
+  /*
+  useEffect(() => {
+    // API
+    setExamRequests();
+  }, []);
+  */
 
-const mockCourses: SemesterCourse[] = [
-    {
-      semCourseId: 1,
-      code: 'CSE101',
-      name: 'Introduction to Computer Science',
-      description: 'An introductory course to computer science concepts.',
-      creditHours: 3,
-      semester: Semester.FALL,
-      maxSeats: 50,
-    },
-  ];
-  
-  const mockExams: CourseExam[] = [
-    {
-      courseId: 1,
-      date: '2023-05-15', 
-      period: 1.5,
-    },
-  ];
-  
-const CourseList: React.FC = () => {
-    const [courses, setCourses] = useState<SemesterCourse[]>(mockCourses);
-    const [exams, setExams] = useState<CourseExam[]>(mockExams);
-     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [submissionMessage, setSubmissionMessage] = useState('');
+  const handleEdit = (index: number, field: string, value: string | number) => {
+    const updatedRequests = [...examRequests];
+    updatedRequests[index] = { ...updatedRequests[index], [field]: value };
+    setExamRequests(updatedRequests);
+    setIsEdited(true); 
+  };
 
-    const handleSubmit = () => {
-        setIsSubmitted(true);
-        setSubmissionMessage('Submission successful!'); 
-        // Simulate backend submission, remove or replace this with actual API call
-    };
+  const handleSubmitAll = () => {
+    console.log("Submitting all changes: ", examRequests);
+    //API
+    setIsEdited(false); 
+  };
 
-    useEffect(() => {
-        // Fetch courses from backend
-        fetch('your-api-endpoint')
-            .then(response => response.json())
-            .then(data => setCourses(data));
-    }, []);
-
-    const handleDateChange = (courseId: number, date: string) => {
-        const updatedExams = exams.map(exam => 
-            exam.courseId === courseId ? { ...exam, date } : exam
-        );
-        setExams(updatedExams);
-        setIsSubmitted(false); 
-    };
-    
-    const handlePeriodChange = (courseId: number, period: number) => {
-        const updatedExams = exams.map(exam => 
-            exam.courseId === courseId ? { ...exam, period } : exam
-        );
-        setExams(updatedExams);
-        setIsSubmitted(false); 
-    };
-    
-
-    return (
-        <div className="container">
-            <div className="header">
-                <h2>Courses</h2>
-                <button 
-                    className={`button ${isSubmitted ? 'button-disabled' : ''}`} 
-                    onClick={handleSubmit} 
-                    disabled={isSubmitted}
-                >
-                    Submit
-                </button>
-            </div>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th className="th">Name</th>
-                        <th className="th">Semester</th>
-                        <th className="th">Exam Date</th>
-                        <th className="th">Exam Period</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {courses.map(course => (
-                        <tr key={course.semCourseId}>
-                            <td className="td">{course.name}</td>
-                            <td className="td">{course.semester}</td>
-                            <td className="td">
-                                <input 
-                                    className="input"
-                                    type="date" 
-                                    value={exams.find(exam => exam.courseId === course.semCourseId)?.date || ''}
-                                    onChange={(e) => handleDateChange(course.semCourseId, e.target.value)} 
-                                />
-                            </td>
-                            <td className="td">
-                                <input 
-                                    className="input"
-                                    type="number" 
-                                    step="0.1"
-                                    value={exams.find(exam => exam.courseId === course.semCourseId)?.period || 0}
-                                    onChange={(e) => handlePeriodChange(course.semCourseId, parseFloat(e.target.value))} 
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {isSubmitted && <p>{submissionMessage}</p>}
-        </div>
-    );        
+  return (
+    <div className="exam-request-container">
+      <div className="header">
+        <h1  className='exam-title'>Exams</h1>
+        <button onClick={handleSubmitAll} disabled={!isEdited}>
+          Submit 
+        </button>
+      </div>
+      <table className="exam-request-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>From Time</th>
+            <th>Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          {examRequests.map((examRequest, index) => (
+            <tr key={examRequest.semCourseId}>
+              <td>{examRequest.semCourseId}</td>
+              <td>
+                <input
+                  type="date"
+                  value={examRequest.date}
+                  onChange={(e) => handleEdit(index, 'date', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={examRequest.fromTime}
+                  onChange={(e) => handleEdit(index, 'fromTime', parseFloat(e.target.value))}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={examRequest.period}
+                  onChange={(e) => handleEdit(index, 'period', parseFloat(e.target.value))}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
-export default CourseList;
+export default AddExam;
