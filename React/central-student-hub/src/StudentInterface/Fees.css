@@ -1,0 +1,39 @@
+.fees-container {
+    padding: 20px;
+    max-width: 600px;
+    width: 300px;
+    margin: auto;
+    margin-left: 390px;
+    margin-top: 80px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fees-container h1 {
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.fees-info {
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #dedede;
+    font-weight: bold;
+}
+
+.fees-info p {
+    font-size: 18px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.exam-title {
+    font-weight: bold;
+    font-size: 1.5em;
+}

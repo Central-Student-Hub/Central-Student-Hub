@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Fees.css'; 
+import './Fees.css';
 import { RegistrationApi } from '../Services/RegistrationApi.ts';
 
 interface FeesInfo {
