@@ -41,7 +41,7 @@ public class SemesterCourse {
     @OneToMany(mappedBy = "id.semCourse")
     private List<CourseMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Assignment> assignments;
 
     @OneToMany(mappedBy = "semCourse")

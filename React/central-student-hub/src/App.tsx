@@ -21,15 +21,15 @@ function App() {
   // return (
   //   <ChakraProvider>
   //     {/* <DeleteSemesterCourse /> */}
-  //     {/* <AddSemesterCourse /> */}
+  //     <AddSemesterCourse />
   //     {/* <AddUsers /> */}
   //     {/* <RegistrationDeadline /> */}
   //     {/* <DeleteCourse /> */}
-  //     {/* <AddNewCourse /> */}
-  //     <AddStudentGrades />
+  //     <AddNewCourse />
+  //     {/* <AddStudentGrades /> */}
   //     {/* <AddStudentProfileInfo /> */}
   //   </ChakraProvider>
-  // )
+  // );
 
   return (
     <ChakraProvider>

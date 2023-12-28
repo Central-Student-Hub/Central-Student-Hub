@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ApiRequester } from '../Services/ApiRequester.ts'
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button,
     Card, CardBody, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
     DrawerFooter, DrawerHeader, DrawerOverlay, Tab, TabList, TabPanel,
@@ -27,49 +26,68 @@ export type CourseType = {
 
 export type CourseReturn = {
   semCourseId:number;
-  semCourseCode:String;
-  semCourseName:String;
-  semCourseDescription:String;
+  semCourseCode:string;
+  semCourseName:string;
+  semCourseDescription:string;
   semCourseCreditHours:number;
-  teacherFirstName:String;
-  teacherLastName:String;
+  teacherFirstName:string;
+  teacherLastName:string;
   teacherId:number;
+}
+
+export type AssignmentsReturn = {
+  assignmentId:number;
+  assignmentName:string;
+  assignmentDescription:string;
+  assignmentDueDate:Date;
+  assignmentMaterialPaths:string[];
 }
 
 const Course: React.FC = () => {
   const [courses, setCourses] = useState<CourseReturn[]>([]);
-  const apiRequester = new ApiRequester();
-  const btnRef = React.useRef()
+  const [currentCourse,setCurrentCourse] = useState<CourseReturn>()
+  const [materialPaths,setMaterialPaths] = useState<string[]>([])
+  const [assignmnets,setAssignmnets] = useState<AssignmentsReturn[]>([])
 
+  const btnRef = React.useRef()
   const courseApi = new CourseApi();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProfile = async () => await courseApi.getSemCourseByStudentId();
-    fetchProfile()
+    const fetchSemCourses = async () => await courseApi.getSemCourseByStudentId();
+    fetchSemCourses()
       .then((courseRet) => setCourses(courseRet))
       .catch((error) => console.error(error))
   }, []);
 
 
-  const handleRedirect = (paramValue) => {
-    // Use navigate to redirect to the target page with parameters
-    navigate(`/teaching-staff-profile/${paramValue}`);
-  };
-
-  // // Fetch courses from the backend
-  // useEffect(() => {
-  //   const getCourses = async () => await apiRequester.retrieveSemesterCourses();
-  //   getCourses()
-  //     .then((courses) => setCourses(courses))
-  //     .catch((error) => console.error(error));
-  // }, []);
-
-  const handleSelectCourse = () =>{
-
-  }
+  useEffect(() => {
+    if(courses.length > 0)
+      setCurrentCourse(courses[0]);
+  }, [courses]);
 
 
+  useEffect(() => {
+
+    // Get Material Paths
+    const fetchMaterialPath = async () => await courseApi.getMaterialPathByCourseId(currentCourse?.semCourseId);
+    fetchMaterialPath()
+      .then((MaterialPaths) => setMaterialPaths(MaterialPaths))
+      .catch((error) => console.error(error))
+
+    // Get Assignments
+    const fetchAssignments = async () => await courseApi.getAssignmentsByCourseId(currentCourse?.semCourseId);
+    fetchAssignments()
+      .then((Assignments) => setAssignmnets(Assignments))
+      .catch((error) => console.error(error))
+
+    
+  }, [currentCourse]);
+
+  // const handleRedirect = (paramValue) => {
+  //   // Use navigate to redirect to the target page with parameters
+  //   navigate(`/teaching-staff-profile/${paramValue}`);
+  // };
 
   function DrawerExample() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -92,21 +110,18 @@ const Course: React.FC = () => {
             <DrawerBody>
               <Box>
                 <List size="xl" variant="custom" spacing={5}>
-                  <ListItem>
-                    <Button color="gray.600" fontSize="xs" width={250}>
-                      Math
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button color="gray.600" fontSize="xs" width={250}>
-                      Data Base
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button color="gray.600" fontSize="xs" width={250}>
-                      Software
-                    </Button>
-                  </ListItem>
+
+                  {courses.map((semCourse,idx) => {
+                    return(
+                      <ListItem>
+                        <Button color="gray.600" fontSize="xs" width={250} onClick={
+                          () => setCurrentCourse(semCourse)
+                        }>
+                          {semCourse.semCourseName}
+                        </Button>
+                      </ListItem>
+                    )
+                  })}
                 </List>
               </Box>
             </DrawerBody>
@@ -133,6 +148,7 @@ const Course: React.FC = () => {
         </TabList>
 
         <TabPanels>
+
           <TabPanel>
             <Card className='StudentInfo' borderRadius='10'>
                 <CardHeader backgroundColor='#1F1F1F' color='white' borderRadius='10px 10px 0px 0px'>
@@ -146,7 +162,7 @@ const Course: React.FC = () => {
                         Course Name
                       </Heading>
                       <Text pt='2' fontSize='sm'>
-                        Math
+                        {currentCourse?.semCourseName}
                       </Text> 
                     </Box>
                     <Box>
@@ -154,8 +170,8 @@ const Course: React.FC = () => {
                         Teaching Staff
                       </Heading>
                       <Text pt='2' fontSize='sm'>
-                      <RLink to='/teaching-staff-profile/5'>
-                        Elmongi                     
+                      <RLink to={`/teaching-staff-profile/${currentCourse?.teacherId}`}>
+                        {currentCourse?.teacherFirstName} {currentCourse?.teacherLastName}                      
                       </RLink>
                       </Text>
                     </Box>
@@ -164,7 +180,7 @@ const Course: React.FC = () => {
                         Course Description
                       </Heading>
                       <Text pt='2' fontSize='sm'>
-                        hi i am a course
+                        {currentCourse?.semCourseDescription}
                       </Text>
                     </Box>
                     <Box>
@@ -172,87 +188,104 @@ const Course: React.FC = () => {
                         Credit Hours
                       </Heading>
                       <Text pt='2' fontSize='sm'>
-                        17
+                        {currentCourse?.semCourseCreditHours}
                       </Text>
                     </Box>
                   </Stack>
                 </CardBody>
               </Card>
           </TabPanel>
-          <TabPanel>
-          <Accordion defaultIndex={[0]} allowMultiple>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                      Section 1 title
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
 
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                      Section 2 title
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </TabPanel>
           <TabPanel>
             <Accordion defaultIndex={[0]} allowMultiple>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                      Section 1 title
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                      Section 2 title
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
+              { materialPaths.length>0 &&
+                materialPaths.map(
+                  (materialPath,idx) =>{
+                    return (
+                      <AccordionItem>
+                        <h2>
+                          <AccordionButton>
+                            <Box as="span" flex='1' textAlign='left'>
+                              Section {idx+1}
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                          {materialPath}
+                        </AccordionPanel>
+                      </AccordionItem>                    
+                    )
+                  }
+                )
+              }
             </Accordion>
           </TabPanel>
+
+          <TabPanel>
+            <Accordion defaultIndex={[0]} allowMultiple>
+              {assignmnets.length>0 &&
+              assignmnets.map(
+                (assignment,idx) => {
+                  return(
+                    <AccordionItem>
+                    <h2>
+                      <AccordionButton>
+                        <Box as="span" flex='1' textAlign='left'>
+                          Assignment {idx+1}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Card>
+                        <CardHeader>
+                          <Heading size='md'>{assignment.assignmentName}</Heading>
+                        </CardHeader>
+    
+                        <CardBody>
+                          <Stack divider={<StackDivider />} spacing='4'>
+                            <Box>
+                              <Heading size='xs' textTransform='uppercase'>
+                                Description
+                              </Heading>
+                              <Text pt='2' fontSize='sm'>
+                                {assignment.assignmentDescription}
+                              </Text>
+                            </Box>
+                            <Box>
+                              <Heading size='xs' textTransform='uppercase'>
+                                Due Date
+                              </Heading>
+                              <Text pt='2' fontSize='sm'>
+                                {assignment.assignmentDueDate?.toDateString()}
+                              </Text>
+                            </Box>
+                            <Box>
+                              <Heading size='xs' textTransform='uppercase'>
+                                Material Path
+                              </Heading>
+                              {assignment.assignmentMaterialPaths.map(
+                                (link,index) =>{
+                                  return(
+                                    <Link color='teal.500' href={link} target='blank'>
+                                      Link {index}
+                                    </Link>
+                                  )
+                                }
+                              )}
+                            </Box>
+                          </Stack>
+                        </CardBody>
+                      </Card>
+                    </AccordionPanel>
+                  </AccordionItem>
+                )
+                }
+              )}
+            </Accordion>
+          </TabPanel>
+
           <TabPanel>
             <Card marginBottom={2}>
               <CardBody>

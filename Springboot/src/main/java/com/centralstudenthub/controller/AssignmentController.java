@@ -3,11 +3,14 @@ package com.centralstudenthub.controller;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
+import com.centralstudenthub.Model.StudentCourseResponses.StudentAssignmentRes;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = {"Authorization"})
@@ -30,6 +33,12 @@ public class AssignmentController {
     public ResponseEntity<Assignment> getAssignment(@RequestParam Long assignmentId ){
         Assignment assignment  = assignmentService.getAssignment(assignmentId);
         return ResponseEntity.ok().body(assignment);
+    }
+
+    @GetMapping("/getAllAssignmentByCourseId")
+    public ResponseEntity<List<StudentAssignmentRes>> getAllAssignmentByCourseId(@RequestParam Long courseId ){
+        
+        return ResponseEntity.ok(assignmentService.getAllAssignmentByCourseId(courseId));
     }
 
     @PostMapping("/addAnswer")

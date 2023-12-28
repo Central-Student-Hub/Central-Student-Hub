@@ -14,4 +14,5 @@ public class CourseMaterialPath {
 
     @EmbeddedId
     private CourseMaterialPathId id;
+
 }
