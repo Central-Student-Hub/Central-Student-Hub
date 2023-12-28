@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 'use client'
 import React, { useEffect, useState } from 'react';
-import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse, BsPaperclip, BsX, BsXSquare, BsCalendar2Check, BsExclamation, BsClock } from 'react-icons/bs';
+import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse, BsPaperclip,
+   BsCalendar2Check, BsExclamation, BsClock, BsCalendar2Week, BsPencilSquare, BsPersonPlus, BsMap, BsCheck2Square } from 'react-icons/bs';
 import Registration from './Registration.tsx';
 import Schedule from './Schedule.tsx';
 import Fees from './Fees.tsx';
@@ -18,7 +18,12 @@ import AddSemesterCourse from '../AdminPages/AddSemesterCourse.tsx';
 import { DeleteSemesterCourse } from '../AdminPages/DeleteSemesterCourse.tsx';
 import { AddWarning } from '../AdminPages/AddWarning.tsx';
 import RegistrationDeadline from '../AdminPages/RegistrationDeadline.tsx';
-import { Tooltip } from '@chakra-ui/react';
+import AddExam from '../AdminComponent/AddExam.tsx';
+import AddStudentProfileInfo from '../AdminPages/AddStudentProfileInfo.tsx';
+import AddLocation from '../AdminPages/AddLocation.tsx';
+import ShowExamTable from './ShowExamTable.tsx';
+import AddStudentGrades from '../AdminPages/AddStudentGrades.tsx';
+import {Tooltip} from "@chakra-ui/react";
 
 type Component = {
   name: string;
@@ -28,10 +33,6 @@ type Component = {
 const SideBar: React.FC = () => {
 
   const studentComponents: Component[] = [
-    {
-      name: 'Home',
-      icon: <BsHouseDoor size="28" />
-    }, 
     {
       name: 'Student Profile',
       icon: <BsPerson size="28" />
@@ -58,12 +59,8 @@ const SideBar: React.FC = () => {
     }, 
     {
       name: 'Exams',
-      icon: <BsPaperclip size="28" />
-    },
-    {
-      name: 'Exam Schedule',
       icon: <BsCalendar2Week size="28" />
-    }
+    },
   ];
 
   const teacherComponents: Component[] = [
@@ -79,16 +76,12 @@ const SideBar: React.FC = () => {
       name: 'Schedule',
       icon: <BsCalendar size="28" />
     },
-    {
-      name: 'Home',
-      icon: <BsHouseDoor size="28" />
-    },
   ];
 
   const adminComponents: Component[] = [
     {
       name: 'Add User',
-      icon: <BsPerson size="28" />
+      icon: <BsPersonPlus size="28" />
     },
     {
       name: 'Admin Course',
@@ -105,12 +98,28 @@ const SideBar: React.FC = () => {
     {
       name: 'Set Registration Deadline',
       icon: <BsClock size="28" />
+    },
+    {
+      name: 'Add Exam',
+      icon: <BsPencilSquare size="28" />
+    },
+    {
+      name: 'Add Location',
+      icon: <BsMap size="28" />
+    },
+    {
+      name: 'Add Student Profile Info',
+      icon: <BsPerson size="28" />
+    },
+    {
+      name: 'Add Student Grade',
+      icon: <BsCheck2Square size="28" />
     }
   ];
 
 
   const [components, setComponents] = useState<Component[]>([]);
-  const [activeComponent, setActiveComponent] = useState<string>('Home');
+  const [activeComponent, setActiveComponent] = useState<string>('');
 
   const api = new ApiRequester();
 
@@ -122,7 +131,8 @@ const SideBar: React.FC = () => {
     const getRole = async () => {
       const response = await api.getRole();
       console.log(response);
-      setComponents(response === 'Student' ? studentComponents : response === 'Staff' ? teacherComponents : adminComponents)
+      setComponents(response === 'Student' ? studentComponents : response === 'Staff' ? teacherComponents : adminComponents);
+      setActiveComponent(response === 'Student' ? 'Student Profile' : response === 'Staff' ? 'Teacher Profile' : 'Add User');
     };
 
     getRole();
@@ -142,33 +152,40 @@ const SideBar: React.FC = () => {
         return <Grades />;
       case 'Course':
         return <Course />;
-      case 'examSchedule':
-        return <ExamSchedule />;
-      case 'Home': 
-        // return <Timeline />;
-        return;
+      case 'Exams':
+        return <ShowExamTable />
       case 'Teacher Profile':
         return <TeachingStaffProfile />;
+
+        // admin components
       case 'Add User':
-        return <AddUsers />
+        return <AddUsers /> 
       case 'Admin Course':
         return<div style={{ gap: '200px', display: 'flex', flexDirection: 'row'}}>
-        <AddNewCourse />
-        <DeleteCourse />
+        <AddNewCourse /> 
+        <DeleteCourse /> 
         </div>
       case 'Admin Semester Course':
         return (
         <div style={{display: 'flex', flexDirection: 'column'}}>
-          <AddSemesterCourse />
-          <DeleteSemesterCourse />
+          <AddSemesterCourse /> 
+          <DeleteSemesterCourse />  
         </div>
       );
-      case 'Delete Semester Course':
-        return <DeleteSemesterCourse />;
       case 'Add Warning':
-        return <AddWarning />;
+        return <AddWarning />; 
       case 'Set Registration Deadline':
-        return <RegistrationDeadline />;
+        return <RegistrationDeadline />; 
+      case 'Add Exam':
+        return <div style={{marginTop: '100px'}}>
+          <AddExam /> 
+        </div>
+      case 'Add Location':
+        return <AddLocation /> 
+      case 'Add Student Profile Info':
+        return <AddStudentProfileInfo />; 
+      case 'Add Student Grade':
+        return <AddStudentGrades />;
       default:
         return <div >Welcome to Central Student Hub</div>;
     }

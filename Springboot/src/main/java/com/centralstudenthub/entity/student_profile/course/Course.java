@@ -10,7 +10,6 @@ import java.util.List;
 
 import lombok.*;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,10 +31,10 @@ public class Course {
     private String description;
     private Integer creditHours;
 
-    @OneToMany(mappedBy = "id.course")
+    @OneToMany(mappedBy = "id.course", fetch = FetchType.EAGER)
     private List<CoursePrerequisite> prerequisites;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<SemesterCourse> semesterCourses;
 
     @OneToMany(mappedBy = "id.course")

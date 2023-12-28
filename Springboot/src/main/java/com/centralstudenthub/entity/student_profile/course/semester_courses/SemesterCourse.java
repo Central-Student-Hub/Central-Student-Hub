@@ -29,7 +29,7 @@ public class SemesterCourse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long semCourseId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
@@ -38,22 +38,22 @@ public class SemesterCourse {
 
     private Integer maxSeats;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse",fetch = FetchType.EAGER)
     private List<CourseMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Assignment> assignments;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")
     private List<Feedback> feedbacks;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse", fetch = FetchType.EAGER)
     private List<Session> sessions;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse", fetch = FetchType.EAGER)
     private List<Registration> registrations;
 
     @OneToMany(mappedBy = "semesterCourse")
@@ -61,6 +61,12 @@ public class SemesterCourse {
 
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()
+                .code(course.getCode())
+                .name(course.getName())
+                .description(course.getDescription())
+                .creditHours(course.getCreditHours())
+                .prerequisitesCodes(course.getPrerequisites().stream().map(prereq -> prereq.getId().getCourse().getCode()).toList())
+                .sessions(sessions.stream().map(Session::toResponse).toList())
                 .semCourseId(semCourseId)
                 .semester(semester)
                 .maxSeats(maxSeats)

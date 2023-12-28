@@ -37,6 +37,10 @@ export default function TeachingStaffProfile() {
 
   const [profile, setProfile] = useState<TeachingStaffProfileInfo | null>(null);
   useEffect(() => {
+    if (document.cookie === "") {
+      window.location.href = 'http://localhost:3000/login';
+    }
+
     if(id != null){
       const fetchProfile = async () => await api.getTeachingStaffProfileWithId(5);
       fetchProfile()

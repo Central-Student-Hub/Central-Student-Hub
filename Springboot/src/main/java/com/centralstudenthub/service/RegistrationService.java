@@ -153,4 +153,10 @@ public class RegistrationService {
             return profile.map(StudentProfile::modelFromStudentProfile).orElse(null);
         }).toList();
     }
+
+    public int getAvailableCreditHours(int studentId) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(studentId);
+        if (student.isEmpty()) return -1;
+        return student.get().getNoOfHours();
+    }
 }

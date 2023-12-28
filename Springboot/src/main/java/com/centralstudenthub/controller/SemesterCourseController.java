@@ -5,13 +5,13 @@ import com.centralstudenthub.Model.Request.SessionRequest;
 import com.centralstudenthub.Model.Response.sessions.LocationResponse;
 import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Response.sessions.SessionResponse;
+import com.centralstudenthub.Model.StudentCourseResponses.StdCourseRes;
 import com.centralstudenthub.exception.AlreadyExistsException;
 import com.centralstudenthub.exception.NotFoundException;
-import com.centralstudenthub.service.FeedbackService;
-import com.centralstudenthub.service.MaterialPathService;
-import com.centralstudenthub.service.SemesterCourseService;
-import com.centralstudenthub.service.SessionService;
+import com.centralstudenthub.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,14 +24,16 @@ public class SemesterCourseController {
     private final Logger logger = Logger.getLogger(CourseController.class.getName());
     private final SemesterCourseService semesterCourseService;
     private final MaterialPathService materialPathService;
+    private final JwtService jwtService;
     private final FeedbackService feedbackService;
     private final SessionService sessionService;
 
     @Autowired
-    public SemesterCourseController(SemesterCourseService semesterCourseService, MaterialPathService materialPathService,
+    public SemesterCourseController(SemesterCourseService semesterCourseService, MaterialPathService materialPathService, JwtService jwtService,
                                     FeedbackService feedbackService, SessionService sessionService) {
         this.semesterCourseService = semesterCourseService;
         this.materialPathService = materialPathService;
+        this.jwtService = jwtService;
         this.feedbackService = feedbackService;
         this.sessionService = sessionService;
     }
@@ -161,6 +163,15 @@ public class SemesterCourseController {
     public boolean deleteSession(@PathVariable("sessionId") Long sessionId) throws NotFoundException {
         logger.info("Class: SemesterCourseController, Method: deleteSession");
         return sessionService.deleteSession(sessionId);
+    }
+
+    @GetMapping("/semCourseByStudentId")
+    public ResponseEntity<List<StdCourseRes>> getSemCourseByStudentId(HttpServletRequest httpServletRequest){
+        int id = jwtService.extractId(jwtService.token(httpServletRequest));
+        List<StdCourseRes> stdCourseRes = semesterCourseService.getSemCourseIdsByStudentId(id);
+        if(stdCourseRes.isEmpty())return null;
+
+        return ResponseEntity.ok(stdCourseRes);
     }
 
     @GetMapping("/location")

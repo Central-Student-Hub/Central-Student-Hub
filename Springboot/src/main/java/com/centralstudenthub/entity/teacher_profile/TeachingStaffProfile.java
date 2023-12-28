@@ -35,7 +35,7 @@ public class TeachingStaffProfile {
     @OneToMany(mappedBy = "id.teacher")
     private List<TeachingStaffContact> contacts;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher",fetch = FetchType.EAGER)
     private List<Session> sessions;
 
     public TeachingStaffProfileModel toResponse(){

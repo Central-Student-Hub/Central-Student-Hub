@@ -21,6 +21,10 @@ export default function StudentProfile() {
     // const infoKeys = ["major","minor","level","noOfHours","gpa"]
 
     useEffect(() => {
+        if (document.cookie === "") {
+            window.location.href = 'http://localhost:3000/login';
+        }
+
         const fetchProfile = async () => await api.getStudentProfile();
         fetchProfile()
           .then((studInfo) => setStudInfo(studInfo))
