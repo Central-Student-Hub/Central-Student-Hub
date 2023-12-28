@@ -3,6 +3,7 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
+import com.centralstudenthub.Model.StudentCourseResponses.StudentAssignmentAnswerRes;
 import com.centralstudenthub.Model.StudentCourseResponses.StudentAssignmentRes;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
@@ -60,31 +61,34 @@ public class AssignmentService {
         return assignment.orElse(null);
     }
 
-    public List<StudentAssignmentRes> getAllAssignmentByCourseId(Long semCourseId) {
+    public List<StudentAssignmentRes> getAllAssignmentByCourseId(Long semCourseId,int studentId) {
 
-        Optional<SemesterCourse> course = semCourseRepository.findById(semCourseId);
-        if(course.isEmpty())return null;
+        Optional<SemesterCourse> semCourse = semCourseRepository.findById(semCourseId);
+        if(semCourse.isEmpty())return null;
 
-        List<Assignment> assignments = course.get().getAssignments();
+        List<Assignment> assignments = semCourse.get().getAssignments();
+
         return assignments.stream().map( assignment -> {
             return StudentAssignmentRes.builder()
                     .assignmentId(assignment.getAssignmentId())
                     .assignmentName(assignment.getAssignmentName())
                     .assignmentDescription(assignment.getDescription())
-                    .assignmentMaterialPaths(assignment.getMaterialPaths().stream().map(
-                            assignmentMaterialPath ->{
-                                return assignmentMaterialPath.getAssignmentMaterialPathId().getMaterialPath();
-                            }
-                    ).toList())
+                    .assignmentMaterialPaths(
+                            assignment.getMaterialPaths().stream().map(
+                                assignmentMaterialPath ->{
+                                    return assignmentMaterialPath.getAssignmentMaterialPathId().getMaterialPath();
+                                }
+                            ).toList()
+                    )
                     .assignmentDueDate(assignment.getDueDate())
                     .build();
         }).toList();
     }
 
-    public boolean addAssignmentAnswer(StudentAssignmentAnswerRequest ansRequest) {
+    public boolean addAssignmentAnswer(StudentAssignmentAnswerRequest ansRequest,int studentId) {
 
         Optional<Assignment> assignment = assignmentRepository.findById(ansRequest.getAssignmentId());
-        Optional<StudentProfile> student = studentProfileRepository.findById(ansRequest.getStudentProfileId());
+        Optional<StudentProfile> student = studentProfileRepository.findById(studentId);
         if(assignment.isPresent() && student.isPresent()){
             StudentAssignmentAnswerId studentAssignmentAnswerId = StudentAssignmentAnswerId.builder()
                     .assignment(assignment.get())
@@ -93,7 +97,7 @@ public class AssignmentService {
             StudentAssignmentAnswer studentAssignmentAnswer = StudentAssignmentAnswer.builder()
                     .studentAssignmentAnswerId(studentAssignmentAnswerId)
                     .answerPath(ansRequest.getAnswerPath())
-                    .grade(ansRequest.getGrade())
+                    .grade(0.0)
                     .build();
             studentAssignmentAnswerRepository.save(studentAssignmentAnswer);
             return true;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button,
     Card, CardBody, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
     DrawerFooter, DrawerHeader, DrawerOverlay, Tab, TabList, TabPanel,
-    TabPanels, Text,Tabs, useDisclosure, Link, Container, List, ListItem, CardHeader, Heading, Stack, StackDivider } from '@chakra-ui/react';
+    TabPanels, Text,Tabs, useDisclosure, Link, Container, List, ListItem, CardHeader, Heading, Stack, StackDivider, FormControl, FormLabel, Input, useToast } from '@chakra-ui/react';
 import {Link as RLink, useNavigate } from 'react-router-dom';
 import { CourseApi } from '../Services/CourseApi.ts';
 
@@ -49,16 +49,24 @@ export type AnnouncementsReturn = {
   description:string;
 }
 
+export type AssignmentAnswerReq ={
+  assignmentId:number;
+  answerPath:string;
+}
+
+
 const Course: React.FC = () => {
   const [courses, setCourses] = useState<CourseReturn[]>([]);
   const [currentCourse,setCurrentCourse] = useState<CourseReturn>()
   const [materialPaths,setMaterialPaths] = useState<string[]>([])
   const [assignmnets,setAssignmnets] = useState<AssignmentsReturn[]>([])
   const [announcements,setAnnouncements] = useState<AnnouncementsReturn[]>([])
+  const [assignmentsAnswer,setAssignmentsAnswer] = useState<AssignmentAnswerReq[]>([])
 
   const btnRef = React.useRef()
   const courseApi = new CourseApi();
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     const fetchSemCourses = async () => await courseApi.getSemCourseByStudentId();
@@ -88,14 +96,49 @@ const Course: React.FC = () => {
       .then((Assignments) => setAssignmnets(Assignments))
       .catch((error) => console.error(error))
 
-    //Get Announecements
 
+    //Get Announecements
     const fetchAnnouncements = async () => await courseApi.getAnnouncementsByCourseId(currentCourse?.semCourseId);
     fetchAnnouncements()
       .then((Announcements) => setAnnouncements(Announcements))
       .catch((error) => console.error(error))
     
   }, [currentCourse]);
+
+
+  const handleAnswerChange = (assignmentId,e) =>{
+    const newArr = assignmentsAnswer.filter(assignmentAnswer => assignmentAnswer.assignmentId === assignmentId)
+
+    if(newArr.length === 0)
+      setAssignmentsAnswer([...assignmentsAnswer, {assignmentId:assignmentId,answerPath:e.target.value}])
+    else
+      setAssignmentsAnswer([...assignmentsAnswer.filter(assignmentAnswer => assignmentAnswer.assignmentId !== assignmentId),
+                                 {assignmentId:assignmentId,answerPath:e.target.value}])
+  }
+
+  const handleAnswerSubmit = async (assignmentId) =>{
+    console.log(assignmentsAnswer.find((x) => x.assignmentId === assignmentId))
+    const bool = await courseApi.postAssignmentAnswer(assignmentsAnswer.find((x) => x.assignmentId === assignmentId))
+    if(bool){
+      toast({
+        title: 'Accepted!',
+        description: 'Answer Added Successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+    })
+    }
+    else{
+      toast({
+        title: 'Rejected',
+        description: 'Adding Answer Rejected',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+    })
+    }
+
+  }
 
   // const handleRedirect = (paramValue) => {
   //   // Use navigate to redirect to the target page with parameters
@@ -291,6 +334,20 @@ const Course: React.FC = () => {
                               )}
                             </Box>
                           </Stack>
+                          
+                          <form onSubmit={(e)=> { e.preventDefault(); handleAnswerSubmit(assignment.assignmentId) }}>
+                            <FormControl>
+                              <FormLabel>Enter your Answer Link:</FormLabel>
+                              <Input
+                                type="text"
+                                onChange={(e) => handleAnswerChange(assignment.assignmentId,e)}
+                              />
+                            </FormControl>
+                            <Button type="submit" mt={4} colorScheme="teal">
+                              Submit
+                            </Button>
+                          </form>
+                          
                         </CardBody>
                       </Card>
                     </AccordionPanel>
