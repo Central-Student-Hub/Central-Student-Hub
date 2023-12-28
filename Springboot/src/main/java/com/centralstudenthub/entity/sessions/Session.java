@@ -29,15 +29,15 @@ public class Session {
     @Enumerated(EnumType.STRING)
     private SessionType sessionType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacherId", nullable = false)
     private TeachingStaffProfile teacher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room", nullable = false)
     @JoinColumn(name = "building", nullable = false)
     private Location location;

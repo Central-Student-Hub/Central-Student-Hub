@@ -19,21 +19,21 @@ import AddStudentGrades from './AdminPages/AddStudentGrades.tsx';
 
 function App() {
 
-  return (
-    <ChakraProvider>
-      {/* <DeleteSemesterCourse /> */}
-      {/* <AddSemesterCourse /> */}
-      {/* <AddUsers /> */}
-      {/* <DeleteCourse /> */}
-      {/* <AddNewCourse /> */}
-      <SideBar/>
-      {/* <RegistrationDeadline /> */}
-      {/* <DeleteCourse /> */}
-      {/* <AddNewCourse /> */}
-      <AddStudentGrades />
-      {/* <AddStudentProfileInfo /> */}
-    </ChakraProvider>
-  )
+  // return (
+  //   <ChakraProvider>
+  //     {/* <DeleteSemesterCourse /> */}
+  //     {/* <AddSemesterCourse /> */}
+  //     {/* <AddUsers /> */}
+  //     {/* <DeleteCourse /> */}
+  //     {/* <AddNewCourse /> */}
+  //     <SideBar/>
+  //     {/* <RegistrationDeadline /> */}
+  //     {/* <DeleteCourse /> */}
+  //     {/* <AddNewCourse /> */}
+  //     {/* <AddStudentGrades /> */}
+  //     {/* <AddStudentProfileInfo /> */}
+  //   </ChakraProvider>
+  // )
 
   return (
     <ChakraProvider>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './ShowExamTable.css';
+import { ExamsApi } from '../Services/ExamsApi.ts';
 
-interface ExamResponse {
+export interface ExamResponse {
   courseName: string;
   building: number;
   seatNumber: number;
@@ -12,33 +13,16 @@ interface ExamResponse {
 }
 
 
-const mockData: ExamResponse[] = [
-  {
-    courseName: 'Introduction to Biology',
-    building: 1,
-    seatNumber: 24,
-    room: 101,
-    date: '2023-05-12',
-    fromTime: 9.5,
-    period: 2, 
-  },
-  {
-    courseName: 'Fundamentals of Physics',
-    building: 2,
-    seatNumber: 30,
-    room: 201,
-    date: '2023-05-13',
-    fromTime: 14, // 2:00 pm
-    period: 1.5,
-  },
-];
-
 const ShowExamTable: React.FC = () => {
   const [examResponses, setExamResponses] = useState<ExamResponse[]>([]);
+  const api = new ExamsApi();
 
   useEffect(() => {
-    //api
-    setExamResponses(mockData);
+    const getExams = async () => await api.getExams();
+
+    getExams()
+      .then((exams) => setExamResponses(exams))
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -63,9 +47,9 @@ const ShowExamTable: React.FC = () => {
               <td>{examResponse.building}</td>
               <td>{examResponse.seatNumber}</td>
               <td>{examResponse.room}</td>
-              <td>{examResponse.date}</td>
+              <td>{examResponse.date.substring(0, 10)}</td>
               <td>{formatTime(examResponse.fromTime)}</td>
-              <td>{examResponse.period}</td>
+              <td>{examResponse.period}h</td>
             </tr>
           ))}
         </tbody>

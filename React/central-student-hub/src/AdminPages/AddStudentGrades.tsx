@@ -86,7 +86,7 @@ export default function AddStudentGrades() {
                 <Select onChange={(e) => setSelectedSemesterCourse(parseInt(e.target.value))}>
                     {
                         allSemesterCourses.length > 0 &&
-                        allSemesterCourses.map((semesterCourse) => <option value={semesterCourse.semCourseId}>{ semesterCourse.name }</option>)
+                        allSemesterCourses.map((semesterCourse) => <option value={semesterCourse.semCourseId}>{ semesterCourse.name } - { semesterCourse.semester }</option>)
                     }
                 </Select>
 
@@ -101,7 +101,7 @@ export default function AddStudentGrades() {
                             <Input type="number" onChange={(e) =>
                                 setAllGrades(allGrades.map((grade, index) => {
                                     if (index == allStudents.indexOf(student)) {
-                                        return parseInt(e.target.value);
+                                        return parseFloat(e.target.value);
                                     }
                                     return grade;
                                 }))

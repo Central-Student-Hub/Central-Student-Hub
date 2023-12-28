@@ -32,7 +32,4 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Transactional
     @Query(value = "update Registration r set paymentDeadline = : date where paymentDeadline != :date")
     void setDeadlineDate(Date date);
-
-    @Query(value = "select studentId from registration as r where r.semCourseId =:semCourseId", nativeQuery = true)
-    List<Integer> findAllStudentBySemCourseId(Long semCourseId);
 }

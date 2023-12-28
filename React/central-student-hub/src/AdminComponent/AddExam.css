@@ -57,3 +57,11 @@
   width: 95%;
   box-sizing: border-box;
 }
+
+.exam-request-table input[type="date"],
+.exam-request-table input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    width: 95%;
+    box-sizing: border-box;
+}

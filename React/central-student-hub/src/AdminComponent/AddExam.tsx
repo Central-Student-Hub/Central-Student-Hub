@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AddExam.css';
+import { AdminApi } from "../Services/AdminApi.ts";
+import { SemesterCourseResponse } from "../Models/SemesterCourseResponse";
 
-interface ExamRequest {
+export interface ExamRequest {
   semCourseId: number;
   date: string;
   fromTime: number;
@@ -9,39 +11,49 @@ interface ExamRequest {
 }
 
 const AddExam: React.FC = () => {
-  const [examRequests, setExamRequests] = useState<ExamRequest[]>([
-    { semCourseId: 1, date: '2023-01-01', fromTime: 9.0, period: 2.0 },
-    { semCourseId: 2, date: '2023-01-02', fromTime: 10.0, period: 1.5 },
-  ]);
-
+  const [examRequests, setExamRequests] = useState<ExamRequest[]>([]);
   const [isEdited, setIsEdited] = useState(true);
+  const [allSemesterCourses, setAllSemesterCourses] = useState<SemesterCourseResponse[]>([]);
+  const api = new AdminApi();
 
-  /*
   useEffect(() => {
-    // API
-    setExamRequests();
+    const getSemesterCourses = async () => await api.getAllSemesterCourses();
+
+    getSemesterCourses()
+      .then((semesterCourses) => {
+        setAllSemesterCourses(semesterCourses);
+        setExamRequests(semesterCourses.map((semesterCourse) => {
+          return {
+            semCourseId: semesterCourse.semCourseId,
+            date: '',
+            fromTime: 0,
+            period: 0,
+          };
+        }))
+      })
+      .catch((err) => console.log(err));
   }, []);
-  */
+
+  const handleSubmitAll = () => {
+    console.log("Submitting all changes: ", examRequests);
+    setIsEdited(false);
+
+    examRequests.forEach(async (exam) => await api.distributeExams(exam));
+  };
 
   const handleEdit = (index: number, field: string, value: string | number) => {
     const updatedRequests = [...examRequests];
     updatedRequests[index] = { ...updatedRequests[index], [field]: value };
     setExamRequests(updatedRequests);
-    setIsEdited(true); 
-  };
-
-  const handleSubmitAll = () => {
-    console.log("Submitting all changes: ", examRequests);
-    //API
-    setIsEdited(false); 
+    setIsEdited(true);
   };
 
   return (
     <div className="exam-request-container">
       <div className="header">
-        <h1  className='exam-title'>Exams</h1>
+        <h1 className='exam-title'>Exams</h1>
         <button onClick={handleSubmitAll} disabled={!isEdited}>
-          Submit 
+          Submit
         </button>
       </div>
       <table className="exam-request-table">
@@ -56,7 +68,7 @@ const AddExam: React.FC = () => {
         <tbody>
           {examRequests.map((examRequest, index) => (
             <tr key={examRequest.semCourseId}>
-              <td>{examRequest.semCourseId}</td>
+              <td>{allSemesterCourses[index].code} - {allSemesterCourses[index].name}</td>
               <td>
                 <input
                   type="date"

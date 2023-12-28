@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import './Fees.css'; 
+import React, { useEffect, useState } from 'react';
+import './Fees.css';
+import { RegistrationApi } from '../Services/RegistrationApi.ts';
 
 interface FeesInfo {
   feeAmount: number;
   deadline: string;
 }
 
-const mockFeesInfo: FeesInfo = {
-  feeAmount: 1500.00, 
-  deadline: '2023-08-01T00:00:00Z', 
-};
-
 const Fees: React.FC = () => {
-  const [feesInfo, setFeesInfo] = useState<FeesInfo>(mockFeesInfo);
+  const [feesInfo, setFeesInfo] = useState<FeesInfo>({
+    feeAmount: 0,
+    deadline: ''
+  });
 
-  
-  // useEffect(() => {
-  // }, []);
+  const api = new RegistrationApi();
+  useEffect(() => {
+    const getFees = async () => await api.getFees();
+    getFees()
+      .then(async (fees) => {
+        const date = await api.getDeadline();
+        setFeesInfo({
+          feeAmount: fees,
+          deadline: date.toString()
+        })})
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div className="fees-container">
