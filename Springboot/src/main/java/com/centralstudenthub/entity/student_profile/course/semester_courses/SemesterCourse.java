@@ -50,10 +50,10 @@ public class SemesterCourse {
     @OneToMany(mappedBy = "semCourse")
     private List<Feedback> feedbacks;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse", fetch = FetchType.EAGER)
     private List<Session> sessions;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse", fetch = FetchType.EAGER)
     private List<Registration> registrations;
 
     @OneToMany(mappedBy = "semesterCourse")
@@ -61,6 +61,12 @@ public class SemesterCourse {
 
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()
+                .code(course.getCode())
+                .name(course.getName())
+                .description(course.getDescription())
+                .creditHours(course.getCreditHours())
+                .prerequisitesCodes(course.getPrerequisites().stream().map(prereq -> prereq.getId().getCourse().getCode()).toList())
+                .sessions(sessions.stream().map(Session::toResponse).toList())
                 .semCourseId(semCourseId)
                 .semester(semester)
                 .maxSeats(maxSeats)

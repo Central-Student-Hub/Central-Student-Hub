@@ -16,7 +16,7 @@ public interface SemesterCourseRepository extends JpaRepository<SemesterCourse,L
     @Query("select sc from SemesterCourse sc where sc.course.courseId = :courseId")
     List<SemesterCourse> findAllByCourseId(Integer courseId);
 
-    @Query(value = "select courseId from SemesterCourse as sc where sc.semCourseId = :semCourseId",nativeQuery = true)
+    @Query(value = "select courseId from semester_course as sc where sc.semCourseId = :semCourseId",nativeQuery = true)
     int findCourseIdBySemesterCourseId(Long semCourseId);
 
     @Query(value = "select c.code from semester_course as sc, course as c where c.courseId = sc.courseId and sc.semCourseId = :semCourseId", nativeQuery = true)

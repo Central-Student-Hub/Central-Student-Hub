@@ -1,10 +1,13 @@
 package com.centralstudenthub.controller;
 
 import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Response.student_profile.course.StudentCourseGradeResponse;
 import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
 import com.centralstudenthub.Model.Request.WarningRequest;
 import com.centralstudenthub.entity.teacher_profile.OfficeHour;
+import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.service.JwtService;
+import com.centralstudenthub.service.StudentCourseGradeService;
 import com.centralstudenthub.service.UserProfileService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,13 @@ import java.util.List;
 public class UserProfileController {
     private final UserProfileService userProfileService;
     private final JwtService jwtService;
+    private final StudentCourseGradeService studentCourseGradeService;
 
     @Autowired
-    public UserProfileController(UserProfileService userProfileService, JwtService jwtService) {
+    public UserProfileController(UserProfileService userProfileService, JwtService jwtService, StudentCourseGradeService studentCourseGradeService) {
         this.userProfileService = userProfileService;
         this.jwtService = jwtService;
+        this.studentCourseGradeService = studentCourseGradeService;
     }
 
     @PutMapping("/updateTeacherProfile")
@@ -77,5 +82,11 @@ public class UserProfileController {
     @GetMapping("/students")
     public List<StudentProfileRequest> getAllStudents() {
         return userProfileService.getAllStudents();
+    }
+
+    @GetMapping("/grades")
+    public List<StudentCourseGradeResponse> getGrades(HttpServletRequest request) throws NotFoundException {
+        int id = jwtService.extractId(jwtService.token(request));
+        return studentCourseGradeService.getStudentGrades(id);
     }
 }

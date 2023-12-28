@@ -37,7 +37,7 @@ public class Session {
     @JoinColumn(name = "teacherId", nullable = false)
     private TeachingStaffProfile teacher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room", nullable = false)
     @JoinColumn(name = "building", nullable = false)
     private Location location;

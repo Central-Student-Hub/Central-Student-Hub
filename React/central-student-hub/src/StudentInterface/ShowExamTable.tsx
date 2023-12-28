@@ -1,81 +1,67 @@
-import React, { useState, useEffect } from "react";
-import './ShowExamTable.css'; 
+import React, { useEffect, useState } from 'react';
+import './ShowExamTable.css';
+import { ExamsApi } from '../Services/ExamsApi.ts';
 
-
-interface Location {
-    building: number;
-    room: number;
-    capacity: number;
+export interface ExamResponse {
+  courseName: string;
+  building: number;
+  seatNumber: number;
+  room: number;
+  date: string; 
+  fromTime: number;
+  period: number;
 }
 
-interface CourseExam {
-    courseId: number;
-    date: string;
-    period: number;
-    location: Location; 
-}
-
-
-  
 
 const ShowExamTable: React.FC = () => {
-    const [exams, setExams] = useState<CourseExam[]>([]);
+  const [examResponses, setExamResponses] = useState<ExamResponse[]>([]);
+  const api = new ExamsApi();
 
-    useEffect(() => {
-        // Fetch the exams data or use mock data
-        const mockExams: CourseExam[] = [
-            {
-              courseId: 1,
-              date: '2023-05-15',
-              period: 1.5,
-              location: {
-                building: 101,
-                room: 202,
-                capacity: 50
-              }
-            },
-            {
-              courseId: 2,
-              date: '2023-05-20',
-              period: 2,
-              location: {
-                building: 102,
-                room: 203,
-                capacity: 60
-              }
-            },
-          ];
-        setExams(mockExams);
-    }, []);
+  useEffect(() => {
+    const getExams = async () => await api.getExams();
 
-    return (
-        <div className="course-details-container">
-            <h2>Exam TimeTable</h2>
-            <table className="course-details-table">
-                <thead>
-                    <tr>
-                        <th>Course ID</th>
-                        <th>Date</th>
-                        <th>Period</th>
-                        <th>Building</th>
-                        <th>Room</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {exams.map((exam) => (
-                        <tr key={exam.courseId}>
-                            <td>{exam.courseId}</td>
-                            <td>{exam.date}</td>
-                            <td>{exam.period}</td>
-                            <td>{exam.location.building}</td>
-                            <td>{exam.location.room}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-    
+    getExams()
+      .then((exams) => setExamResponses(exams))
+      .catch((err) => console.log(err));
+  }, []);
+
+  return (
+    <div className="exam-table-container">
+      <h2 className="exam-title">Exam Schedule</h2>
+      <table className="exam-table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Building</th>
+            <th>Seat Number</th>
+            <th>Room</th>
+            <th>Date</th>
+            <th>From Time</th>
+            <th>Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          {examResponses.map((examResponse, index) => (
+            <tr key={index}>
+              <td>{examResponse.courseName}</td>
+              <td>{examResponse.building}</td>
+              <td>{examResponse.seatNumber}</td>
+              <td>{examResponse.room}</td>
+              <td>{examResponse.date.substring(0, 10)}</td>
+              <td>{formatTime(examResponse.fromTime)}</td>
+              <td>{examResponse.period}h</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
+
+function formatTime(time: number): string {
+  const hours = Math.floor(time);
+  const minutes = (time - hours) * 60;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+}
 
 export default ShowExamTable;

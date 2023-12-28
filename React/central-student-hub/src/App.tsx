@@ -12,6 +12,7 @@ import AddSemesterCourse from './AdminPages/AddSemesterCourse.tsx';
 import AddUsers from './AdminPages/AddUsers.tsx';
 import DeleteCourse from './AdminPages/DeleteCourse.tsx';
 import AddNewCourse from './AdminPages/AddNewCourse.tsx';
+import AddExam from './AdminComponent/AddExam.tsx';
 import RegistrationDeadline from './AdminPages/RegistrationDeadline.tsx';
 import AddStudentProfileInfo from './AdminPages/AddStudentProfileInfo.tsx';
 import AddStudentGrades from './AdminPages/AddStudentGrades.tsx';

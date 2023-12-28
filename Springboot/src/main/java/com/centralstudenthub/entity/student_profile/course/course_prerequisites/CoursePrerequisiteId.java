@@ -13,11 +13,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CoursePrerequisiteId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "prerequisiteId", nullable = false)
     private Course prerequisite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 }

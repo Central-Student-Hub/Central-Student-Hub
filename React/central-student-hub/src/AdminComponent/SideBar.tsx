@@ -1,10 +1,10 @@
-'use client'
 import React, { useState } from 'react';
-import { BsPerson, BsBook, BsPlusSquare, BsPersonPlus, BsBoxArrowRight } from 'react-icons/bs';
+import { BsPerson, BsBook, BsPlusSquare, BsPersonPlus, BsBoxArrowRight, BsPencilSquare } from 'react-icons/bs';
 import UserProfile from './UserProfile';
 import AddSemesterCourse from './AddSemesterCourse';
 import AddCourse from './AddCourse';
 import AddNewStudent from './AddNewStudent';
+import AddExam from './AddExam'; // Import your AddExam component
 
 const SideBar: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState<string>('');
@@ -19,16 +19,16 @@ const SideBar: React.FC = () => {
         return <AddCourse />;
       case 'addNewStudent':
         return <AddNewStudent />;
+      case 'addExam':
+        return <AddExam />;
       default:
         return <div>Welcome to Admin Panel</div>;
     }
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
     console.log('Logging out...');
   };
-  
 
   return (
     <div className="flex">
@@ -37,11 +37,12 @@ const SideBar: React.FC = () => {
         <SideBarIcon icon={<BsBook size="28" />} text="Add Semester Course" onClick={() => setActiveComponent('addSemesterCourse')} />
         <SideBarIcon icon={<BsPlusSquare size="28" />} text="Add Course" onClick={() => setActiveComponent('addCourse')} />
         <SideBarIcon icon={<BsPersonPlus size="28" />} text="Add New Student" onClick={() => setActiveComponent('addNewStudent')} />
-        <div className="mt-auto"> {/* This pushes the logout icon to the bottom */}
+        <SideBarIcon icon={<BsPencilSquare size="28" />} text="Add Exam" onClick={() => setActiveComponent('addExam')} />
+        <div className="mt-auto">
           <SideBarIcon icon={<BsBoxArrowRight size="28" />} text="Logout" onClick={handleLogout} />
         </div>
       </div>
-      <div  className="main-content">
+      <div className="main-content">
         {renderComponent()}
       </div>
     </div>
