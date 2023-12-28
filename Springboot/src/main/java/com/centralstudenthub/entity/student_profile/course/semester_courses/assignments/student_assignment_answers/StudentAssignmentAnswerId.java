@@ -18,11 +18,11 @@ import java.io.Serializable;
 @Embeddable
 public class StudentAssignmentAnswerId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "studentId", nullable = false)
     private StudentProfile student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assignmentId", nullable = false)
     private Assignment assignment;
 }

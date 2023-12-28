@@ -3,6 +3,7 @@ package com.centralstudenthub.service;
 import com.centralstudenthub.Model.Request.AssignmentMaterialPathRequest;
 import com.centralstudenthub.Model.Request.AssignmentRequest;
 import com.centralstudenthub.Model.Request.StudentAssignmentAnswerRequest;
+import com.centralstudenthub.Model.StudentCourseResponses.StudentAssignmentRes;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.assignment_material_paths.AssignmentMaterialPath;
@@ -15,6 +16,7 @@ import com.centralstudenthub.repository.SemesterCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +25,7 @@ public class AssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepository;
     @Autowired
-    private SemesterCourseRepository courseRepository;
+    private SemesterCourseRepository semCourseRepository;
     @Autowired
     private StudentAssignmentAnswerRepository studentAssignmentAnswerRepository;
     @Autowired
@@ -33,7 +35,7 @@ public class AssignmentService {
 
     public boolean addAssignment(AssignmentRequest assignmentRequest){
 
-        Optional<SemesterCourse> course = courseRepository.findById(assignmentRequest.getSemCourseId());
+        Optional<SemesterCourse> course = semCourseRepository.findById(assignmentRequest.getSemCourseId());
 
         if(course.isPresent()){
             Assignment assignment = Assignment.builder()
@@ -56,6 +58,27 @@ public class AssignmentService {
         Optional<Assignment> assignment = assignmentRepository.findById(assignmentId);
 
         return assignment.orElse(null);
+    }
+
+    public List<StudentAssignmentRes> getAllAssignmentByCourseId(Long semCourseId) {
+
+        Optional<SemesterCourse> course = semCourseRepository.findById(semCourseId);
+        if(course.isEmpty())return null;
+
+        List<Assignment> assignments = course.get().getAssignments();
+        return assignments.stream().map( assignment -> {
+            return StudentAssignmentRes.builder()
+                    .assignmentId(assignment.getAssignmentId())
+                    .assignmentName(assignment.getAssignmentName())
+                    .assignmentDescription(assignment.getDescription())
+                    .assignmentMaterialPaths(assignment.getMaterialPaths().stream().map(
+                            assignmentMaterialPath ->{
+                                return assignmentMaterialPath.getAssignmentMaterialPathId().getMaterialPath();
+                            }
+                    ).toList())
+                    .assignmentDueDate(assignment.getDueDate())
+                    .build();
+        }).toList();
     }
 
     public boolean addAssignmentAnswer(StudentAssignmentAnswerRequest ansRequest) {

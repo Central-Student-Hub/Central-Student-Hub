@@ -24,28 +24,18 @@ public class CourseService {
 
     public Integer addCourse(CourseRequest course) {
         if(courseRepository.existsByCode(course.getCode())) return -1;
-        Course savedCourse = Course.builder()
-                .code(course.getCode())
-                .name(course.getName())
-                .description(course.getDescription())
-                .creditHours(course.getCreditHours())
-                .build();
-        return courseRepository.save(savedCourse).getCourseId();
+        return courseRepository.save(course.toEntity()).getCourseId();
     }
 
-    public boolean addCourses(CourseRequest[] courses) {
+    public boolean addCourses(CourseRequest[] coursesRequests) {
         int addedCoursesCount = 0;
-        for(CourseRequest course: courses) {
+        List<Course> courses = new ArrayList<>();
+        for(CourseRequest course: coursesRequests) {
             if(courseRepository.existsByCode(course.getCode())) continue;
-            Course savedCourse = Course.builder()
-                    .code(course.getCode())
-                    .name(course.getName())
-                    .description(course.getDescription())
-                    .creditHours(course.getCreditHours())
-                    .build();
-            courseRepository.save(savedCourse);
+            courses.add(course.toEntity());
             addedCoursesCount++;
         }
+        courseRepository.saveAll(courses);
         return addedCoursesCount != 0;
     }
 
@@ -68,14 +58,10 @@ public class CourseService {
         Optional<Course> courseOptional = courseRepository.findById(id);
         if(courseOptional.isEmpty()) return false;
         Course dbCourse = courseOptional.get();
-        if (courseUpdates.getCode() != null)
-            dbCourse.setCode(courseUpdates.getCode());
-        if (courseUpdates.getName() != null)
-            dbCourse.setName(courseUpdates.getName());
-        if (courseUpdates.getDescription() != null)
-            dbCourse.setDescription(courseUpdates.getDescription());
-        if (courseUpdates.getCreditHours() != null)
-            dbCourse.setCreditHours(courseUpdates.getCreditHours());
+        if (courseUpdates.getCode() != null) dbCourse.setCode(courseUpdates.getCode());
+        if (courseUpdates.getName() != null) dbCourse.setName(courseUpdates.getName());
+        if (courseUpdates.getDescription() != null) dbCourse.setDescription(courseUpdates.getDescription());
+        if (courseUpdates.getCreditHours() != null) dbCourse.setCreditHours(courseUpdates.getCreditHours());
         courseRepository.save(dbCourse);
         return true;
     }
