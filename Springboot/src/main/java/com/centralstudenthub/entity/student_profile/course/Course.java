@@ -10,7 +10,6 @@ import java.util.List;
 
 import lombok.*;
 import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 
 @Entity
@@ -37,7 +36,7 @@ public class Course {
     @OneToMany(mappedBy = "id.course", fetch = FetchType.EAGER)
     private List<CoursePrerequisite> prerequisites;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<SemesterCourse> semesterCourses;
 
     @OneToMany(mappedBy = "id.course")

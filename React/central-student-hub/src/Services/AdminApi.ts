@@ -160,15 +160,15 @@ export class AdminApi {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/Exams/batchGrade`, requestOptions);
+        const response: Response = await fetch(`http://localhost:8082/`, requestOptions);
         return response.json();
-    }
-      
+    }  
+
     async addLocation(request: Location): Promise<boolean> {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/SemesterCourse/addLocation`, requestOptions);
+        const response: Response = await fetch('http://localhost:8082/SemesterCourse/addLocation', requestOptions);
         return await response.json();
     }
 

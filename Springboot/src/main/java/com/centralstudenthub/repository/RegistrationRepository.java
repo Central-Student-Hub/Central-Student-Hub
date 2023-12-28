@@ -1,5 +1,6 @@
 package com.centralstudenthub.repository;
 
+import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.RegistrationId;
 import jakarta.transaction.Transactional;
@@ -32,4 +33,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     @Transactional
     @Query(value = "update Registration r set paymentDeadline = : date where paymentDeadline != :date")
     void setDeadlineDate(Date date);
+
+    @Query(value = "select semCourseId from registration as r where r.studentId =:studentId", nativeQuery = true)
+    List<Long> findAllSemesterCoursesIdsByStudentId(int studentId);
 }

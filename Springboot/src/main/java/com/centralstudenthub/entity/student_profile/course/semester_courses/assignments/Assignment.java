@@ -29,14 +29,14 @@ public class Assignment {
     private LocalDate dueDate;
     private LocalDate submissionDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semCourseId", nullable = false)
     private SemesterCourse semCourse;
 
-    @OneToMany(mappedBy = "assignmentMaterialPathId.assignment")
+    @OneToMany(mappedBy = "assignmentMaterialPathId.assignment",fetch = FetchType.EAGER)
     private List<AssignmentMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "studentAssignmentAnswerId.assignment")
+    @OneToMany(mappedBy = "studentAssignmentAnswerId.assignment",fetch = FetchType.EAGER)
     private List<StudentAssignmentAnswer> answers;
 
 }
