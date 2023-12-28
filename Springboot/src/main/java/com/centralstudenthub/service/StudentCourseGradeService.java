@@ -1,5 +1,6 @@
 package com.centralstudenthub.service;
 
+import com.centralstudenthub.Model.Response.student_profile.course.StudentCourseGradeResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
@@ -12,6 +13,7 @@ import com.centralstudenthub.repository.StudentProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,21 +77,14 @@ public class StudentCourseGradeService {
         return getStudentCourseGradeEntity(studentId, courseId).getStudentGrade();
     }
 
-//    public List<Pair<CourseResponse, Double>> getStudentGrades(Integer studentId) throws NotFoundException {
-//        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
-//        if (studentProfile.isEmpty())
-//            throw new NotFoundException("Student profile not found");
-//
-//        List<StudentCourseGrade> courseIdAndGradeMap = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
-//
-//        List<Pair<CourseResponse, Double>> studentCoursesGrades = new ArrayList<>();
-//        for (Object[] courseIdAndGrade : courseIdAndGradeMap) {
-//            Optional<Course> course = courseRepository.findById((Integer) courseIdAndGrade[0]);
-//            if (course.isEmpty()) continue;
-//            studentCoursesGrades.add(new Pair<>(course.get().toReqRes(), (Double) courseIdAndGrade[1]));
-//        }
-//        return studentCoursesGrades;
-//    }
+    public List<StudentCourseGradeResponse> getStudentGrades(Integer studentId) throws NotFoundException {
+        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
+        if (studentProfile.isEmpty())
+            throw new NotFoundException("Student profile not found");
+
+        return studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId).stream().map(
+                StudentCourseGrade::toResponse).toList();
+    }
 //
 //    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(Integer courseId) throws NotFoundException {
 //        Optional<Course> course = courseRepository.findById(courseId);

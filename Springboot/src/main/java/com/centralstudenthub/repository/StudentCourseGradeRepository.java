@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface StudentCourseGradeRepository extends JpaRepository<StudentCourseGrade, StudentCourseGradeId> {
 
-    @Query("SELECT scg.id.course.courseId, scg.studentGrade FROM StudentCourseGrade scg " +
+    @Query("SELECT scg FROM StudentCourseGrade scg " +
             "WHERE scg.id.student.studentId = :studentId")
     List<StudentCourseGrade> findAllStudentCoursesGradesByStudentId(Integer studentId);
 

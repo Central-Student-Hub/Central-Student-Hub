@@ -39,7 +39,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/checkOut")
-    public ResponseEntity<Boolean> checkOut(HttpServletRequest request, @RequestParam List<Long> semesterCourseIds) {
+    public ResponseEntity<Boolean> checkOut(HttpServletRequest request, @RequestBody List<Long> semesterCourseIds) {
         int studentId = jwtService.extractId(jwtService.token(request));
         boolean response = registrationService.checkOut(studentId, semesterCourseIds);
         return ResponseEntity.ok(response);
@@ -74,5 +74,11 @@ public class RegistrationController {
     @GetMapping("/getStudentsBySemesterCourse/{semesterCourseId}")
     public ResponseEntity<List<StudentProfileRequest>> getStudentsBySemesterCourse(@PathVariable Long semesterCourseId) {
         return ResponseEntity.ok(registrationService.getStudentsBySemesterCourse(semesterCourseId));
+    }
+
+    @GetMapping("/creditHours")
+    public ResponseEntity<Integer> getAvailableCreditHours(HttpServletRequest request) {
+        int studentId = jwtService.extractId(jwtService.token(request));
+        return ResponseEntity.ok(registrationService.getAvailableCreditHours(studentId));
     }
 }

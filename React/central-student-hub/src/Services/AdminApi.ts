@@ -8,6 +8,7 @@ import { StudentProfileInfo } from '../Models/StudentProfileInfo.ts';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 import { Location } from '../Models/Location.ts';
 import { AddCourseGradeRequest } from '../Models/AddCourseGradeRequest.ts';
+import { ExamRequest } from '../AdminComponent/AddExam.tsx';
 
 export class AdminApi {
 
@@ -159,13 +160,23 @@ export class AdminApi {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
-        const response: Response = await fetch(`http://localhost:8082/`, requestOptions);
+        const response: Response = await fetch(`http://localhost:8082/Exams/batchGrade`, requestOptions);
+        return response.json();
+    }
       
     async addLocation(request: Location): Promise<boolean> {
         const token = document.cookie.split("=")[1];
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
         const response: Response = await fetch(`http://localhost:8082/SemesterCourse/addLocation`, requestOptions);
+        return await response.json();
+    }
+
+    async distributeExams(request: ExamRequest): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Exams/distribute`, requestOptions);
         return await response.json();
     }
 }

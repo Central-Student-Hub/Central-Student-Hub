@@ -37,10 +37,23 @@ export default function TeachingStaffProfile() {
 
   const [profile, setProfile] = useState<TeachingStaffProfileInfo | null>(null);
   useEffect(() => {
-    const fetchProfile = async () => await api.getTeachingStaffProfile();
-    fetchProfile()
-      .then((profile) => setProfile(profile))
-      .catch((error) => console.error(error))
+
+    if (document.cookie === "") {
+      window.location.href = 'http://localhost:3000/login';
+    }
+
+    if(id != null){
+      const fetchProfile = async () => await api.getTeachingStaffProfileWithId(5);
+      fetchProfile()
+        .then((profile) => setProfile(profile))
+        .catch((error) => console.error(error))
+    }
+    else{
+      const fetchProfile = async () => await api.getTeachingStaffProfile();
+      fetchProfile()
+        .then((profile) => setProfile(profile))
+        .catch((error) => console.error(error))
+    }
   }, []);
 
   if (profile == null) {
