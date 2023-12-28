@@ -1,53 +1,61 @@
 .exam-request-container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: auto;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .header h1 {
-    margin: 0;
-    font-weight: bold;
-    font-size: 1.5em;
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 .header button {
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .header button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .header button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .exam-request-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .exam-request-table th,
 .exam-request-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    overflow: hidden;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.exam-request-table input[type="date"],
+.exam-request-table input[type="number"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  width: 95%;
+  box-sizing: border-box;
 }
 
 .exam-request-table input[type="date"],

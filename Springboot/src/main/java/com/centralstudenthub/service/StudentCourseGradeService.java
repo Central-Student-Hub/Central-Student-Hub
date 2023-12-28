@@ -115,4 +115,18 @@ public class StudentCourseGradeService {
         studentCourseGradeRepository.delete(getStudentCourseGradeEntity(studentId, courseId));
         return true;
     }
+
+    public double calculateGPA(Integer studentId) {
+        var courseGrades = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
+        double GPA = 0.0;
+        int totalHours = 0;
+        for (var courseGrade : courseGrades) {
+            double grade = courseGrade.getStudentGrade();
+            Integer creditHours = courseGrade.getId().getCourse().getCreditHours();
+            GPA += grade * creditHours;
+            totalHours += creditHours;
+        }
+        GPA /= totalHours;
+        return GPA;
+    }
 }

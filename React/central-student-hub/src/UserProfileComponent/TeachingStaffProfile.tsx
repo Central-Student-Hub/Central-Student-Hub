@@ -37,7 +37,6 @@ export default function TeachingStaffProfile() {
 
   const [profile, setProfile] = useState<TeachingStaffProfileInfo | null>(null);
   useEffect(() => {
-
     if (document.cookie === "") {
       window.location.href = 'http://localhost:3000/login';
     }
@@ -95,7 +94,7 @@ export default function TeachingStaffProfile() {
             :
             <p id="tpi-name">{ profile!.firstName } { profile!.lastName }, { profile!.department }</p>
           }
-          <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>
+          {!id && <button onClick={ handleEditClick } id="tpi-edit-profile">{ editing ? "Apply" : "Edit Profile" }</button>}
         </div>
 
         <br />

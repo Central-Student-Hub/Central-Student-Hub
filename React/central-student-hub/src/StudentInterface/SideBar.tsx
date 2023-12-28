@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 'use client'
 import React, { useEffect, useState } from 'react';
 import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse, BsPaperclip,
@@ -9,6 +10,7 @@ import Grades from './Grades.tsx';
 import Course from './Course.tsx';
 import TeachingStaffProfile from '../UserProfileComponent/TeachingStaffProfile.tsx';
 import StudentProfile from '../UserProfileComponent/StudentProfile.tsx';
+import ExamSchedule from './ShowExamTable.tsx'; 
 import { ApiRequester } from '../Services/ApiRequester.ts';
 import AddUsers from '../AdminPages/AddUsers.tsx';
 import AddNewCourse from '../AdminPages/AddNewCourse.tsx';
@@ -222,12 +224,12 @@ const SideBar: React.FC = () => {
 };
 
 const SideBarIcon: React.FC<{ icon: JSX.Element; text: string; onClick: () => void }> = ({ icon, text, onClick }) => (
-  <div className="sidebar-icon group" onClick={onClick}>
-    {icon}
-    <span className="sidebar-tooltip group-hover:scale-100">
-      {text}
-    </span>
-  </div>
+  
+  <Tooltip label={text} placement='start' borderRadius='0px 5px 5px 0px'>
+      <div className="sidebar-icon group" onClick={onClick}>
+        {icon}
+      </div>
+  </Tooltip>
 );
 
 export default SideBar;

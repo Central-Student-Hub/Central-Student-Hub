@@ -3,7 +3,6 @@ import './AddExam.css';
 import { AdminApi } from "../Services/AdminApi.ts";
 import { SemesterCourseResponse } from "../Models/SemesterCourseResponse";
 
-
 export interface ExamRequest {
   semCourseId: number;
   date: string;
