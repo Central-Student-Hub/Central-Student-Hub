@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from 'react';
 import { BsPerson, BsBook, BsCalendar, BsCashStack, BsGraphUp, BsBoxArrowRight, BsHouseDoor, BsLayoutTextSidebarReverse, BsPaperclip,
    BsCalendar2Check, BsExclamation, BsClock, BsCalendar2Week, BsPencilSquare, BsPersonPlus, BsMap, BsCheck2Square } from 'react-icons/bs';
@@ -23,7 +22,7 @@ import AddStudentProfileInfo from '../AdminPages/AddStudentProfileInfo.tsx';
 import AddLocation from '../AdminPages/AddLocation.tsx';
 import ShowExamTable from './ShowExamTable.tsx';
 import AddStudentGrades from '../AdminPages/AddStudentGrades.tsx';
-import {Tooltip} from "@chakra-ui/react";
+import { Tooltip } from '@chakra-ui/react';
 
 type Component = {
   name: string;
