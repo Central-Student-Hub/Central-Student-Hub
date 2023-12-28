@@ -13,6 +13,9 @@ import AddUsers from './AdminPages/AddUsers.tsx';
 import DeleteCourse from './AdminPages/DeleteCourse.tsx';
 import AddNewCourse from './AdminPages/AddNewCourse.tsx';
 import AddExam from './AdminComponent/AddExam.tsx';
+import RegistrationDeadline from './AdminPages/RegistrationDeadline.tsx';
+import AddStudentProfileInfo from './AdminPages/AddStudentProfileInfo.tsx';
+import AddStudentGrades from './AdminPages/AddStudentGrades.tsx';
 
 function App() {
 
@@ -24,6 +27,11 @@ function App() {
       {/* <DeleteCourse /> */}
       {/* <AddNewCourse /> */}
       <SideBar/>
+      {/* <RegistrationDeadline /> */}
+      {/* <DeleteCourse /> */}
+      {/* <AddNewCourse /> */}
+      <AddStudentGrades />
+      {/* <AddStudentProfileInfo /> */}
     </ChakraProvider>
   )
 
@@ -35,8 +43,8 @@ function App() {
           <Route path='/forgot-my-password' element={<Login />}></Route> {/* (TODO): Add forgot password component here */}
           <Route path='/' element={<SideBar />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
-          <Route path='/teaching-staff-profile/:id' element={<TeachingStaffProfile />}></Route>
-          <Route path='/teaching-staff-profile/:id' element={<StudentProfile/>}></Route>
+          <Route path='/teaching-staff-profile/:id' element={<TeachingStaffProfile/>}></Route>
+          <Route path='/StudentProfile/:id' element={<StudentProfile/>}></Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

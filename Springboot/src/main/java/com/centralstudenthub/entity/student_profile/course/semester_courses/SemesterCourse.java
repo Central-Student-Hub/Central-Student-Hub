@@ -2,6 +2,7 @@ package com.centralstudenthub.entity.student_profile.course.semester_courses;
 
 import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Semester;
+import com.centralstudenthub.entity.exam.Exam;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.course_material_paths.CourseMaterialPath;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
@@ -54,6 +55,9 @@ public class SemesterCourse {
 
     @OneToMany(mappedBy = "id.semCourse")
     private List<Registration> registrations;
+
+    @OneToMany(mappedBy = "semesterCourse")
+    private List<Exam> exams;
 
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()

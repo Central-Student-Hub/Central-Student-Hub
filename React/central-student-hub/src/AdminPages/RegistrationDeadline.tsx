@@ -31,6 +31,8 @@ export default function RegistrationDeadline() {
             });
             return;
         }
+
+        console.log(d);
         
         const response = await api.setDeadline(d);
         if (response) {

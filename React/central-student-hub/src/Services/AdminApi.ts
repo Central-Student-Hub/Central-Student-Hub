@@ -1,4 +1,4 @@
-import { WarningRequest } from '../AdminPages/AddWarning.tsx';
+import { WarningRequest } from '../Models/WarningRequest.ts';
 import { AdminAddCourseRequest } from '../Models/AdminAddCourseRequest.ts';
 import { AdminAddSemesterCourseRequest } from '../Models/AdminAddSemesterCourseRequest.ts';
 import { AdminAddSessionRequest } from '../Models/AdminAddSessionRequest.ts';
@@ -7,6 +7,7 @@ import { SemesterCourseResponse } from '../Models/SemesterCourseResponse.ts';
 import { StudentProfileInfo } from '../Models/StudentProfileInfo.ts';
 import { TeachingStaffProfileInfo } from '../Models/TeachingStaffProfileInfo.ts';
 import { Location } from '../Models/Location.ts';
+import { AddCourseGradeRequest } from '../Models/AddCourseGradeRequest.ts';
 
 export class AdminApi {
 
@@ -135,6 +136,36 @@ export class AdminApi {
         const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
         const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
         const response: Response = await fetch(`http://localhost:8082/SemesterCourse/location`, requestOptions);
+        return await response.json();
+    }
+
+    async updateStudentProfile(profile: StudentProfileInfo): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(profile), method: "put", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Profile/updateStudentProfile/${profile.id}`, requestOptions);
+        return await response.json();
+    }
+
+    async getStudentsBySemesterCourse(semCourseId: number): Promise<StudentProfileInfo[]> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, method: "get", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Register/getStudentsBySemesterCourse/${semCourseId}`, requestOptions);
+        return await response.json();
+    }
+
+    async updateStudentGrades(request: AddCourseGradeRequest): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/`, requestOptions);
+      
+    async addLocation(request: Location): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body: JSON.stringify(request), method: "post", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/SemesterCourse/addLocation`, requestOptions);
         return await response.json();
     }
 }

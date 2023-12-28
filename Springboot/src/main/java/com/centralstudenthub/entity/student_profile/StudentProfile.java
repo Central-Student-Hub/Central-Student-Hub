@@ -52,7 +52,6 @@ public class StudentProfile {
 
     public StudentProfileRequest modelFromStudentProfile() {
         return StudentProfileRequest.builder()
-                .id(studentId)
                 .firstName(firstName)
                 .lastName(lastName)
                 .biography(biography)
