@@ -29,7 +29,7 @@ public class SemesterCourse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long semCourseId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 

@@ -5,6 +5,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
     DrawerFooter, DrawerHeader, DrawerOverlay, Tab, TabList, TabPanel,
     TabPanels, Text,Tabs, useDisclosure, Link, Container, List, ListItem, CardHeader, Heading, Stack, StackDivider } from '@chakra-ui/react';
 import {Link as RLink, useNavigate } from 'react-router-dom';
+import { CourseApi } from '../Services/CourseApi.ts';
 
     
 // Enum for semesters
@@ -24,14 +25,32 @@ export type CourseType = {
   maxSeats: number;
 };
 
+export type CourseReturn = {
+  semCourseId:number;
+  semCourseCode:String;
+  semCourseName:String;
+  semCourseDescription:String;
+  semCourseCreditHours:number;
+  teacherFirstName:String;
+  teacherLastName:String;
+  teacherId:number;
+}
 
 const Course: React.FC = () => {
-  const [courses, setCourses] = useState<CourseType[]>([]);
+  const [courses, setCourses] = useState<CourseReturn[]>([]);
   const apiRequester = new ApiRequester();
   const btnRef = React.useRef()
 
-
+  const courseApi = new CourseApi();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProfile = async () => await courseApi.getSemCourseByStudentId();
+    fetchProfile()
+      .then((courseRet) => setCourses(courseRet))
+      .catch((error) => console.error(error))
+  }, []);
+
 
   const handleRedirect = (paramValue) => {
     // Use navigate to redirect to the target page with parameters
