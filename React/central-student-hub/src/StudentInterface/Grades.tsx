@@ -1,12 +1,13 @@
-import {Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import React from 'react';
+import { Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import './Grades.css';
-import {c} from '../Models/Grade.ts'
+import { Grade } from '../Models/Grade.ts'
+import { UserProfileApi } from '../Services/UserProfileApi.ts';
 
-function MyTable({semesterGrades}){
+function MyTable({ semesterGrades }) {
 
-    return(
-        <TableContainer  className='gradesTable'>
+    return (
+        <TableContainer className='gradesTable'>
             <Table variant='unstyled'>
                 <TableCaption placement='top' fontSize={20} backgroundColor='#1F1F1F'
                     fontWeight={'bold'} color={'White'}>
@@ -30,21 +31,29 @@ function MyTable({semesterGrades}){
 
 const Grades: React.FC = () => {
 
-    const semesters = c.map(semesterArray =>
-        
-        semesterArray.map(course => 
-            <Tr>
-                <Td>{course.courseCode}</Td>
-                <Td>{course.courseName}</Td>
-                <Td>{course.numberOfHours}</Td>
-                <Td>{course.grade}</Td>
-            </Tr>
-        )
+    const [grades, setGrades] = useState<Grade[]>([]);
+    const api = new UserProfileApi();
+
+    useEffect(() => {
+        const getGrades = async () => await api.getStudentGrades();
+
+        getGrades()
+            .then((grades) => setGrades(grades))
+            .catch((err) => console.log(err));
+    }, []);
+
+    const semesters = grades.map(course =>
+        <Tr>
+            <Td>{course.courseCode}</Td>
+            <Td>{course.courseName}</Td>
+            <Td>{course.noOfHours}</Td>
+            <Td>{course.grade}</Td>
+        </Tr>
     )
 
-  return (
+    return (
         <div>
-            {semesters.map(sem => <MyTable semesterGrades={sem}/>)}
+            {semesters.map(sem => <MyTable semesterGrades={sem} />)}
         </div>
     );
 };

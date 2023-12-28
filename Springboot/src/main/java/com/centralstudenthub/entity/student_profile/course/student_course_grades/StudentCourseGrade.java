@@ -22,6 +22,8 @@ public class StudentCourseGrade {
     public StudentCourseGradeResponse toResponse() {
         return StudentCourseGradeResponse.builder()
                 .courseName(id.getCourse().getName())
+                .courseCode(id.getCourse().getCode())
+                .noOfHours(id.getCourse().getCreditHours())
                 .grade(studentGrade)
                 .build();
     }

@@ -38,9 +38,9 @@ public class ExamService {
         List<ExamResponse> ret = new ArrayList<>();
         List<Exam> exams = examRepository.findAllByStudentId(id);
         for (var exam : exams) {
-            var semesterCourse = semesterCourseRepository.findAllByCourseId(Math.toIntExact(exam.getId().getSemCourseId()));
+            var semesterCourse = semesterCourseRepository.findById(exam.getId().getSemCourseId());
             ExamResponse response = ExamResponse.builder()
-                    .courseName(semesterCourseService.getSemesterCourseResponse(semesterCourse.get(0)).getName())
+                    .courseName(semesterCourseService.getSemesterCourseResponse(semesterCourse.get()).getName())
                     .seatNumber(exam.getSeatNumber())
                     .building(exam.getLocationId().getBuilding())
                     .room(exam.getLocationId().getRoom())
