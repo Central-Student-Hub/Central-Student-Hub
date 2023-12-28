@@ -1,3 +1,4 @@
+import { json } from 'react-router-dom';
 import { AnnouncementsReturn, AssignmentsReturn, CourseReturn } from '../StudentInterface/Course.tsx';
 
 export class CourseApi {
@@ -34,4 +35,11 @@ export class CourseApi {
         return await response.json();
     }
 
+    async postAssignmentAnswer(AssignmentAnswerReq): Promise<boolean> {
+        const token = document.cookie.split("=")[1];
+        const headers: HeadersInit = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+        const requestOptions: RequestInit = { mode: 'cors', headers: headers, body:JSON.stringify(AssignmentAnswerReq) ,method: "post", credentials: "include" };
+        const response: Response = await fetch(`http://localhost:8082/Assignment/addAnswer`, requestOptions);
+        return await response.json();
+    }
 }
