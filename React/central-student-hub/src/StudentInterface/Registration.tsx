@@ -1,89 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ApiRequester } from '../Services/ApiRequester.ts';
 import { Course } from '../Models/Course.ts';
 import { RegistrationApi } from '../Services/RegistrationApi.ts';
 import { useToast } from '@chakra-ui/react';
 
 const Registration: React.FC = () => {
-  const [courses, setCourses] = useState<Course[]>([
-    {
-      semCourseId: 3,
-      code: "CSE-333",
-      name: "AI",
-      description: "AI description!",
-      creditHours: 3,
-      prerequisitesCodes: [],
-      maxSeats: 13,
-      semester: "FALL",
-      remainingSeats: 49,
-      sessions: [
-        {
-          id: 1,
-          weekday: "Monday",
-          period: 1,
-          sessionType: "LECTURE",
-          teacherName: "Teacher 1",
-          location: {
-            building: 1,
-            room: 1,
-            capacity: 50
-          }
-        },
-        {
-          id: 2,
-          weekday: "Wednesday",
-          period: 2,
-          sessionType: "TUTORIAL",
-          teacherName: "Teacher 2",
-          location: {
-            building: 2,
-            room: 2,
-            capacity: 50
-          }
-        }
-      ]
-    },
-    {
-      semCourseId: 4,
-      code: "CSE-335",
-      name: "SWE",
-      description: "SWE description!",
-      creditHours: 3,
-      prerequisitesCodes: [],
-      maxSeats: 13,
-      remainingSeats: 49,
-      semester: "FALL",
-      sessions: [
-        {
-          id: 1,
-          weekday: "Monday",
-          period: 1,
-          sessionType: "LECTURE",
-          teacherName: "Teacher 1",
-          location: {
-            building: 1,
-            room: 1,
-            capacity: 50
-          }
-        },
-        {
-          id: 2,
-          weekday: "Wednesday",
-          period: 2,
-          sessionType: "LECTURE",
-          teacherName: "Teacher 2",
-          location: {
-            building: 2,
-            room: 2,
-            capacity: 50
-          }
-        }
-      ]
-    }
-  ]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const [availableHours, setAvailableHours] = useState<number>(0);
-  const [selectedCourses, setSelectedCourses] = useState<Course[]>([courses[0]]);
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [detailedCourse, setDetailedCourse] = useState<Course | null>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -114,20 +38,16 @@ const Registration: React.FC = () => {
   }, [debouncedTerm]);
 
   useEffect(() => {
-    async function fetchCourses() {
-      const response = await fetch('/api/courses'); // Replace with your endpoint
-      const data = await response.json();
-      setCourses(data);
-    }
+    const getSemesterCourses = async () => await api.retrieveSemesterCourses('');
+    const getAvailableHours = async () => await api.retrieveAvailableCreditHours();
 
-    async function fetchAvailableHours() {
-      const response = await fetch('/api/available-hours'); // Replace with your endpoint
-      const data = await response.json();
-      setAvailableHours(data.availableHours);
-    }
+    getSemesterCourses()
+      .then((courses) => setCourses(courses))
+      .catch((error) => console.error(error));
 
-    fetchCourses();
-    fetchAvailableHours();
+    getAvailableHours()
+      .then((hours) => setAvailableHours(hours))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,7 +99,16 @@ const Registration: React.FC = () => {
 
   // Function to handle checkout - sending the list of selected courses to the backend
   const handleCheckout = async () => {
-    console.log('Selected Courses for Checkout:', selectedCourses);
+    if (selectedCourses.length === 0) {
+      toast({
+        title: 'No courses selected!',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+      return;
+    }
+
     const response = await api.checkout(selectedCourses.map(course => course.semCourseId));
 
     if (response) {
@@ -189,6 +118,10 @@ const Registration: React.FC = () => {
         duration: 3000,
         isClosable: true,
       })
+
+      setTimeout(() => {
+        document.location.href = 'http://localhost:3000';
+      }, 1000);
     } else {
       toast({
         title: 'Registration Failed!',
@@ -206,13 +139,14 @@ const Registration: React.FC = () => {
           <th className="px-20 py-2 border-2 border-gray-500">Code</th>
           <th className="px-20 py-2 border-2 border-gray-500">Name</th>
           <th className="px-20 py-2 border-2 border-gray-500">Credit Hours</th>
-          <th className="px-20 py-2 border-2 border-gray-500">Remaining Seats</th>
+          <th className="px-20 py-2 border-2 border-gray-500">Max Seats</th>
           <th className="px-20 py-2 border-2 border-gray-500">Sessions</th>
           <th className="px-5 py-2 border-2 border-gray-500">Select</th>
         </tr>
       </thead>
       <tbody>
         {
+          courses.length > 0 &&
           courses.map(course => (
             <tr key={course.semCourseId}>
               <td className="border-2 px-2 py-2 border-gray-500">{course.code}</td>
@@ -222,9 +156,10 @@ const Registration: React.FC = () => {
                 </button>
               </td>
               <td className="border-2 px-2 py-2 border-gray-500">{course.creditHours}</td>
-              <td className="border-2 px-2 py-2 border-gray-500">{course.remainingSeats}</td>
+              <td className="border-2 px-2 py-2 border-gray-500">{course.maxSeats}</td>
               <td className="border-2 px-2 py-2 border-gray-500">
                 {
+                  course.sessions && course.sessions.length > 0 &&
                   course.sessions.map((session, index) => (
                     <div key={index}>
                       <p>Building: {session.location.building}, Room: {session.location.room}</p>

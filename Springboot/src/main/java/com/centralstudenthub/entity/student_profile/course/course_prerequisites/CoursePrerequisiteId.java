@@ -7,18 +7,17 @@ import lombok.*;
 import java.io.Serializable;
 
 @Embeddable
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoursePrerequisiteId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "prerequisiteId", nullable = false)
     private Course prerequisite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 }

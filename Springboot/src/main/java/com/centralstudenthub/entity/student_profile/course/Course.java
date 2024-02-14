@@ -1,6 +1,6 @@
 package com.centralstudenthub.entity.student_profile.course;
 
-import com.centralstudenthub.Model.Response.CourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.CourseResponse;
 import com.centralstudenthub.entity.student_profile.course.course_prerequisites.CoursePrerequisite;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.SemesterCourse;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import java.util.List;
 
 import lombok.*;
-
 
 @Entity
 @AllArgsConstructor
@@ -32,10 +31,10 @@ public class Course {
     private String description;
     private Integer creditHours;
 
-    @OneToMany(mappedBy = "id.course")
+    @OneToMany(mappedBy = "id.course", fetch = FetchType.EAGER)
     private List<CoursePrerequisite> prerequisites;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<SemesterCourse> semesterCourses;
 
     @OneToMany(mappedBy = "id.course")

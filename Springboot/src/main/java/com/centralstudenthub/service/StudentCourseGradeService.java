@@ -1,8 +1,6 @@
 package com.centralstudenthub.service;
 
-import com.centralstudenthub.Model.Request.StudentCourseGradeModel;
-import com.centralstudenthub.Model.Response.CourseResponse;
-import com.centralstudenthub.Model.Response.StudentProfileResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.StudentCourseGradeResponse;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import com.centralstudenthub.entity.student_profile.course.student_course_grades.StudentCourseGrade;
@@ -12,11 +10,9 @@ import com.centralstudenthub.exception.NotFoundException;
 import com.centralstudenthub.repository.CourseRepository;
 import com.centralstudenthub.repository.StudentCourseGradeRepository;
 import com.centralstudenthub.repository.StudentProfileRepository;
-import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,21 +77,14 @@ public class StudentCourseGradeService {
         return getStudentCourseGradeEntity(studentId, courseId).getStudentGrade();
     }
 
-//    public List<Pair<CourseResponse, Double>> getStudentGrades(Integer studentId) throws NotFoundException {
-//        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
-//        if (studentProfile.isEmpty())
-//            throw new NotFoundException("Student profile not found");
-//
-//        List<StudentCourseGrade> courseIdAndGradeMap = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
-//
-//        List<Pair<CourseResponse, Double>> studentCoursesGrades = new ArrayList<>();
-//        for (Object[] courseIdAndGrade : courseIdAndGradeMap) {
-//            Optional<Course> course = courseRepository.findById((Integer) courseIdAndGrade[0]);
-//            if (course.isEmpty()) continue;
-//            studentCoursesGrades.add(new Pair<>(course.get().toResponse(), (Double) courseIdAndGrade[1]));
-//        }
-//        return studentCoursesGrades;
-//    }
+    public List<StudentCourseGradeResponse> getStudentGrades(Integer studentId) throws NotFoundException {
+        Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
+        if (studentProfile.isEmpty())
+            throw new NotFoundException("Student profile not found");
+
+        return studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId).stream().map(
+                StudentCourseGrade::toResponse).toList();
+    }
 //
 //    public List<Pair<StudentProfileResponse, Double>> getCourseGrades(Integer courseId) throws NotFoundException {
 //        Optional<Course> course = courseRepository.findById(courseId);
@@ -108,7 +97,7 @@ public class StudentCourseGradeService {
 //        for (Object[] studentIdAndGrade : studentIdAndGradeMap) {
 //            Optional<StudentProfile> studentProfile = studentProfileRepository.findById((Integer) studentIdAndGrade[0]);
 //            if (studentProfile.isEmpty()) continue;
-//            courseStudentsGrades.add(new Pair<>(studentProfile.get().toResponse(),
+//            courseStudentsGrades.add(new Pair<>(studentProfile.get().toReqRes(),
 //                    (Double) studentIdAndGrade[1]));
 //        }
 //        return courseStudentsGrades;
@@ -125,5 +114,19 @@ public class StudentCourseGradeService {
     public boolean deleteCourseGrade(Integer studentId, Integer courseId) throws NotFoundException {
         studentCourseGradeRepository.delete(getStudentCourseGradeEntity(studentId, courseId));
         return true;
+    }
+
+    public double calculateGPA(Integer studentId) {
+        var courseGrades = studentCourseGradeRepository.findAllStudentCoursesGradesByStudentId(studentId);
+        double GPA = 0.0;
+        int totalHours = 0;
+        for (var courseGrade : courseGrades) {
+            double grade = courseGrade.getStudentGrade();
+            Integer creditHours = courseGrade.getId().getCourse().getCreditHours();
+            GPA += grade * creditHours;
+            totalHours += creditHours;
+        }
+        GPA /= totalHours;
+        return GPA;
     }
 }

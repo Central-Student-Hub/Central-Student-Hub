@@ -7,8 +7,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Embeddable
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +16,7 @@ public class AssignmentMaterialPathId implements Serializable {
     @Column(nullable = false, updatable = false)
     private String materialPath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assignmentId", nullable = false)
     private Assignment assignment;
 }

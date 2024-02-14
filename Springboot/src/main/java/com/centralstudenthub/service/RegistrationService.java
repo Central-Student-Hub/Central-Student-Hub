@@ -1,8 +1,10 @@
 package com.centralstudenthub.service;
 
 import com.centralstudenthub.Model.Request.AddCourseToCartRequest;
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
-import com.centralstudenthub.Model.SessionModel;
+import com.centralstudenthub.Model.Request.StudentProfileRequest;
+import com.centralstudenthub.Model.Response.student_profile.StudentProfileResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
+import com.centralstudenthub.Model.Response.sessions.SessionResponse;
 import com.centralstudenthub.Validator.RegistrationValidator;
 import com.centralstudenthub.entity.student_profile.StudentProfile;
 import com.centralstudenthub.entity.student_profile.course.Course;
@@ -58,8 +60,8 @@ public class RegistrationService {
         boolean creditHoursSatisfied = registrationValidator.validateCreditHoursLimit(studentProfile.get(), course, request.getCreditHours());
         boolean seatsAvailable = registrationValidator.validateSeatsAvailable(semesterCourse.get());
         boolean nonConflictingSessionTimes = registrationValidator.validateSessionTimes(
-                request.getSessions().stream().map(SessionModel::toSession).toList(),
-                request.getNewSessions().stream().map(SessionModel::toSession).toList()
+                request.getSessions().stream().map(SessionResponse::toEntity).toList(),
+                request.getNewSessions().stream().map(SessionResponse::toEntity).toList()
         );
 
         return creditHoursSatisfied && seatsAvailable && nonConflictingSessionTimes;
@@ -138,5 +140,23 @@ public class RegistrationService {
         Optional<StudentProfile> studentProfile = studentProfileRepository.findById(studentId);
         if (studentProfile.isEmpty()) return new Date();
         return registrationRepository.findPaymentDeadlineByStudentID(studentId);
+    }
+
+    public boolean setPaymentDeadLine(Date date) {
+        registrationRepository.setDeadlineDate(date);
+        return true;
+    }
+
+    public List<StudentProfileRequest> getStudentsBySemesterCourse(Long semesterCourseId) {
+        return registrationRepository.findAllStudentBySemCourseId(semesterCourseId).stream().map((studentId) -> {
+            Optional<StudentProfile> profile = studentProfileRepository.findById(studentId);
+            return profile.map(StudentProfile::modelFromStudentProfile).orElse(null);
+        }).toList();
+    }
+
+    public int getAvailableCreditHours(int studentId) {
+        Optional<StudentProfile> student = studentProfileRepository.findById(studentId);
+        if (student.isEmpty()) return -1;
+        return student.get().getNoOfHours();
     }
 }

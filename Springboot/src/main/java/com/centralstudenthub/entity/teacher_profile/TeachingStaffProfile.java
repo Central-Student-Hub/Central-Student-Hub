@@ -1,12 +1,12 @@
 package com.centralstudenthub.entity.teacher_profile;
 
-import com.centralstudenthub.Model.Request.TeachingStaffProfileReqAndRes;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
-import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
-import jakarta.persistence.*;
-
 import java.util.List;
 
+import com.centralstudenthub.Model.Response.teacher_profile.TeachingStaffProfileModel;
+import com.centralstudenthub.entity.sessions.Session;
+import com.centralstudenthub.entity.teacher_profile.teaching_staff_contacts.TeachingStaffContact;
+
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -35,16 +35,19 @@ public class TeachingStaffProfile {
     @OneToMany(mappedBy = "id.teacher")
     private List<TeachingStaffContact> contacts;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher",fetch = FetchType.EAGER)
     private List<Session> sessions;
 
-    public TeachingStaffProfileReqAndRes toResponse(){
-        return TeachingStaffProfileReqAndRes.builder()
+    public TeachingStaffProfileModel toResponse(){
+        return TeachingStaffProfileModel.builder()
+                .id(teacherId)
                 .biography(biography)
                 .department(department)
                 .firstName(firstName)
                 .lastName(lastName)
+                .biography(biography)
                 .profilePictureUrl(profilePictureUrl)
+                .department(department)
                 .build();
     }
 

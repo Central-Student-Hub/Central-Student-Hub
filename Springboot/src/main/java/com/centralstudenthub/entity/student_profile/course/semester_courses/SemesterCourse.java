@@ -1,11 +1,12 @@
 package com.centralstudenthub.entity.student_profile.course.semester_courses;
 
-import com.centralstudenthub.Model.Response.SemesterCourseResponse;
+import com.centralstudenthub.Model.Response.student_profile.course.semester_courses.SemesterCourseResponse;
 import com.centralstudenthub.Model.Semester;
+import com.centralstudenthub.entity.exam.Exam;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.Assignment;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.course_material_paths.CourseMaterialPath;
 import com.centralstudenthub.entity.student_profile.course.semester_courses.registrations.Registration;
-import com.centralstudenthub.entity.student_profile.course.semester_courses.sessions.Session;
+import com.centralstudenthub.entity.sessions.Session;
 import com.centralstudenthub.entity.student_profile.course.Course;
 import jakarta.persistence.*;
 
@@ -28,7 +29,7 @@ public class SemesterCourse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long semCourseId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
@@ -37,34 +38,38 @@ public class SemesterCourse {
 
     private Integer maxSeats;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse",fetch = FetchType.EAGER)
     private List<CourseMaterialPath> materialPaths;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Assignment> assignments;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse",fetch = FetchType.EAGER)
     private List<Announcement> announcements;
 
     @OneToMany(mappedBy = "semCourse")
     private List<Feedback> feedbacks;
 
-    @OneToMany(mappedBy = "semCourse")
+    @OneToMany(mappedBy = "semCourse", fetch = FetchType.EAGER)
     private List<Session> sessions;
 
-    @OneToMany(mappedBy = "id.semCourse")
+    @OneToMany(mappedBy = "id.semCourse", fetch = FetchType.EAGER)
     private List<Registration> registrations;
+
+    @OneToMany(mappedBy = "semesterCourse")
+    private List<Exam> exams;
 
     public SemesterCourseResponse toResponse() {
         return SemesterCourseResponse.builder()
-                .semCourseId(semCourseId)
                 .code(course.getCode())
                 .name(course.getName())
                 .description(course.getDescription())
                 .creditHours(course.getCreditHours())
+                .prerequisitesCodes(course.getPrerequisites().stream().map(prereq -> prereq.getId().getCourse().getCode()).toList())
+                .sessions(sessions.stream().map(Session::toResponse).toList())
+                .semCourseId(semCourseId)
                 .semester(semester)
                 .maxSeats(maxSeats)
-                .sessions(sessions.stream().map(Session::toModel).toList())
                 .build();
     }
 }

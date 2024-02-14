@@ -7,22 +7,21 @@ import com.centralstudenthub.Model.Request.SignUpRequest;
 import com.centralstudenthub.Model.Response.SignUpResponse;
 import com.centralstudenthub.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 public class AuthenticationController {
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/signUp")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest){
@@ -41,6 +40,11 @@ public class AuthenticationController {
         else{
             return ResponseEntity.ok(new LoginResponse("no token",false));
         }
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<Boolean> addUser(@RequestParam String ssn) {
+        return ResponseEntity.ok(authenticationService.addUser(ssn));
     }
 
     //@GetMapping("/google/{gmail}")

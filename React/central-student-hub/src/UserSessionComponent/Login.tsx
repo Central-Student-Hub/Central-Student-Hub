@@ -41,7 +41,7 @@ export default function Login() {
                     <h1 className="login-label">login</h1>
 
                     <div className="input-container email-container" email-icon='&#128232;'>
-                        <input className="email" ref={emailInput} type="email" id="email" placeholder=" email" />
+                        <input className="email" ref={emailInput} type="email" id="email" placeholder="email" />
                     </div>
 
                     <div className="input-container password-container" password-icon='&#x1F510;'>

@@ -2,6 +2,7 @@ import { ContactInfo } from "./ContactInfo.ts"
 import { Warning } from "./Warning.ts"
 
 export type StudentProfileInfo = {
+    id: number,
     firstName: string,
     lastName: string,
     biography: string,
@@ -16,7 +17,7 @@ export type StudentProfileInfo = {
 }
 
 export const s: StudentProfileInfo = {
-  
+    id: 1,
     firstName: "John",
     lastName: "Doe",
     biography: "I am a student",
@@ -25,7 +26,7 @@ export const s: StudentProfileInfo = {
     level: 3,
     noOfHours: 12,
     gpa: 3.5,
-    profilePictureUrl: "https://i.imgur.com/5N5J7bP.png",
+    profilePictureUrl: "https://res.cloudinary.com/dwux7kkey/image/upload/t_Maro/v1703602589/CentralStudentHub/Maro_galy1w.jpg",
     contacts: [
         {
             label: "Email",

@@ -1,4 +1,5 @@
 package com.centralstudenthub.entity.student_profile.course.semester_courses.assignments.student_assignment_answers;
+import com.centralstudenthub.Model.StudentCourseResponses.StudentAssignmentAnswerRes;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,5 +17,6 @@ public class StudentAssignmentAnswer {
 
     private String answerPath;
     private Double grade;
+
 }
 

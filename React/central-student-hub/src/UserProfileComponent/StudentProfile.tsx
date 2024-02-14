@@ -11,7 +11,7 @@ import { UserProfileApi } from '../Services/UserProfileApi.ts';
 export default function StudentProfile() {
 
     const[studInfo,setStudInfo] = useState(s)
-    const[oldstudInfo,setOldStudInfo] = useState(s)
+    const[oldStudInfo,setOldStudInfo] = useState(s)
     const[editing,setEditing] = useState(false)
     const[updatePhoto,setUpdatePhoto] = useState(false)
 
@@ -21,6 +21,10 @@ export default function StudentProfile() {
     // const infoKeys = ["major","minor","level","noOfHours","gpa"]
 
     useEffect(() => {
+        if (document.cookie === "") {
+            window.location.href = 'http://localhost:3000/login';
+        }
+
         const fetchProfile = async () => await api.getStudentProfile();
         fetchProfile()
           .then((studInfo) => setStudInfo(studInfo))
@@ -108,7 +112,7 @@ export default function StudentProfile() {
     }
 
     const handleCancelChanges = () => {
-        setStudInfo(oldstudInfo)
+        setStudInfo(oldStudInfo)
         setEditing(!editing)
     }
 
