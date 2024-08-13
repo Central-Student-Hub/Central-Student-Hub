@@ -169,6 +169,8 @@ public class SemesterCourseController {
     public ResponseEntity<List<StdCourseRes>> getSemCourseByStudentId(HttpServletRequest httpServletRequest){
         int id = jwtService.extractId(jwtService.token(httpServletRequest));
         List<StdCourseRes> stdCourseRes = semesterCourseService.getSemCourseIdsByStudentId(id);
+        if (stdCourseRes == null)
+            return null;
         if(stdCourseRes.isEmpty())return null;
 
         return ResponseEntity.ok(stdCourseRes);

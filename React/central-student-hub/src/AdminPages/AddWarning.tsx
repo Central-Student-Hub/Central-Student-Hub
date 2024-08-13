@@ -54,16 +54,6 @@ export function AddWarning() {
             }
         });
 
-        if (d < new Date()) {
-            toast({
-                title: "Invalid Date!",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-
         setWarning((old) => { return {...old, date: d}; });
         const response = await api.addWarning(warning);
         if (response) {
